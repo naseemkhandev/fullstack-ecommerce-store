@@ -23,6 +23,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "colors": "^1.4.0",
     "nodemon": "^3.1.4"
   }
 }
