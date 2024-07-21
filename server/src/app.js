@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 
 import { config } from "./config/config.js";
+import errorHandler from "./middlewares/errorHandler.js";
 import authRoutes from "./routes/authRoutes.js";
 
 const app = express();
@@ -26,5 +27,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1/auth", authRoutes);
+
+// Error handler
+app.use(errorHandler);
 
 export default app;
