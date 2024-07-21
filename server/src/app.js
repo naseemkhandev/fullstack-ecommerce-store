@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 
 import { config } from "./config/config.js";
+import authRoutes from "./routes/authRoutes.js";
 
 const app = express();
 
@@ -23,5 +24,7 @@ app.use(
 app.get("/", (req, res) => {
   res.send("<h1>Server is running...</h1>");
 });
+
+app.use("/api/v1/auth", authRoutes);
 
 export default app;
