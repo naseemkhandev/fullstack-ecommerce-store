@@ -42,7 +42,7 @@ const AuthPage = () => {
       navigate("/");
       dispatch(addUser(res.user));
       toast({
-        title: `Welcome ${user.name}`,
+        title: res.message,
       });
     } catch (error) {
       throw new Error(error);

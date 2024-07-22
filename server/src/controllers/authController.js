@@ -22,7 +22,27 @@ export const register = async (req, res, next) => {
     const { password: userPassword, ...user } = newUser._doc;
     generateToken(newUser, res);
 
-    res.status(201).json({ message: "User registered successfully!", user });
+    res.status(201).json({ message: "Welcome to Shopwave", user });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) return next(createError(404, "Wrong email or password!"));
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid)
+      return next(createError(404, "Wrong email or password!"));
+
+    const { password: userPassword, ...userInfo } = user._doc;
+    generateToken(user, res);
+
+    res.status(200).json({ message: "Welcome back!", userInfo });
   } catch (error) {
     next(error);
   }

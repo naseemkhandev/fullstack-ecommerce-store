@@ -22,4 +22,19 @@ const registerSchema = z.object({
     .trim(),
 });
 
-export { registerSchema };
+const loginSchema = z.object({
+  email: z
+    .string({ required_error: "Email is required" })
+    .nonempty({ message: "Email is required" })
+    .email("Invalid email address")
+    .trim(),
+
+  password: z
+    .string({ required_error: "Password is required" })
+    .nonempty({ message: "Password is required" })
+    .min(6, { message: "Password must be at least 6 characters long" })
+    .max(20, { message: "Password must be at most 20 characters long" })
+    .trim(),
+});
+
+export { registerSchema, loginSchema };
