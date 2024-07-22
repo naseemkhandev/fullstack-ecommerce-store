@@ -45,6 +45,30 @@ const router = createBrowserRouter([
         index: true,
         element: <DashboardPage />,
       },
+      {
+        path: "orders",
+        element: <div>Orders</div>,
+      },
+      {
+        path: "products",
+        element: <div>Products</div>,
+      },
+      {
+        path: "customers",
+        element: <div>Customers</div>,
+      },
+      {
+        path: "analytics",
+        element: <div>Analytics</div>,
+      },
+      {
+        path: "settings",
+        element: <div>Settings</div>,
+      },
+      {
+        path: "profile",
+        element: <div>Profile</div>,
+      },
     ],
   },
 ]);
