@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
@@ -51,9 +50,9 @@ const AdminLayout = () => {
                   key={link.id}
                   to={`/admin${link.path}`}
                   className={cn(
-                    "flex items-center gap-3 rounded-lg px-4 py-3.5 text-base text-muted-foreground transition-all hover:text-primary hover:bg-muted cursor-pointer",
+                    "flex items-center gap-3 rounded-lg px-4 py-3.5 text-base text-muted-foreground transition-all hover:text-primary hover:bg-primary/20 cursor-pointer",
                     {
-                      "bg-muted text-primary":
+                      "bg-primary hover:bg-primary hover:text-white text-white":
                         location.pathname === `/admin${link.path}`,
                     }
                   )}
@@ -95,9 +94,9 @@ const AdminLayout = () => {
                     key={link.id}
                     to={`/admin${link.path}`}
                     className={cn(
-                      "flex items-center gap-3 rounded-lg px-4 py-4 text-[.95rem] text-muted-foreground transition-all hover:text-primary hover:bg-muted cursor-pointer",
+                      "flex items-center gap-3 rounded-lg px-4 py-4 text-[.95rem] text-muted-foreground transition-all hover:text-primary hover:bg-primary/20 cursor-pointer",
                       {
-                        "bg-muted text-primary":
+                        "bg-primary hover:bg-primary hover:text-white text-white":
                           location.pathname === `/admin${link.path}`,
                       }
                     )}
@@ -117,7 +116,7 @@ const AdminLayout = () => {
                 <Input
                   type="search"
                   placeholder="Search products..."
-                  className="w-full appearance-none bg-background pl-10 shadow-none md:w-2/3 lg:w-1/3"
+                  className="w-full appearance-none bg-background pl-10 py-3.5 shadow-none md:w-2/3 lg:w-1/3"
                 />
               </div>
             </form>
@@ -141,8 +140,8 @@ const AdminLayout = () => {
           </DropdownMenu>
         </header>
 
-        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-          <div className="flex items-center capitalize">
+        <main className="flex flex-1 flex-col gap-4 lg:gap-6">
+          <div className="flex items-center capitalize pl-4 lg:pl-6 mt-5">
             <Breadcrumb>
               <BreadcrumbList>
                 {pathnames.map((name, index) => {
@@ -152,14 +151,13 @@ const AdminLayout = () => {
                     <React.Fragment key={name}>
                       <BreadcrumbItem>
                         {isLast ? (
-                          <BreadcrumbPage>{name}</BreadcrumbPage>
-                        ) : (
-                          <BreadcrumbLink
-                            to={routeTo}
-                            style={{ color: "primaryColor" }}
-                          >
+                          <BreadcrumbPage className="text-muted-foreground opacity-80">
                             {name}
-                          </BreadcrumbLink>
+                          </BreadcrumbPage>
+                        ) : (
+                          <Link to={routeTo} className="text-primary">
+                            {name}
+                          </Link>
                         )}
                       </BreadcrumbItem>
                       {!isLast && <BreadcrumbSeparator />}
@@ -170,12 +168,7 @@ const AdminLayout = () => {
             </Breadcrumb>
           </div>
 
-          <div
-            className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm"
-            // x-chunk="dashboard-02-chunk-1"
-          >
-            <Outlet />
-          </div>
+          <Outlet />
         </main>
       </div>
     </div>

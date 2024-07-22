@@ -7,6 +7,7 @@ import HomePage from "./pages/home";
 import AuthPage from "./pages/auth/authPage";
 import AdminLayout from "./layouts/adminLayout";
 import DashboardPage from "./pages/admin/dashboard";
+import ProductsPage from "./pages/admin/products";
 
 const router = createBrowserRouter([
   {
@@ -51,7 +52,7 @@ const router = createBrowserRouter([
       },
       {
         path: "products",
-        element: <div>Products</div>,
+        element: <ProductsPage />,
       },
       {
         path: "customers",

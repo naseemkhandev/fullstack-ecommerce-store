@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,6 +23,10 @@ const AuthPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const authUser = useSelector((state) => state.auth.user);
+
+  console.log(authUser);
+
   const [handleAuth, { isError, error, isLoading }] = useAuthMutation();
 
   const handleChange = (e) => {
@@ -42,8 +46,10 @@ const AuthPage = () => {
       navigate("/");
       dispatch(addUser(res.user));
       toast({
-        title: res.message,
+        title: res?.message,
       });
+
+      console.log(res);
     } catch (error) {
       throw new Error(error);
     }
@@ -120,7 +126,7 @@ const AuthPage = () => {
 
             {isError && (
               <p className="text-red-500 text-sm -my-2 font-medium">
-                {error.data.message}
+                {error?.data?.message}
               </p>
             )}
 

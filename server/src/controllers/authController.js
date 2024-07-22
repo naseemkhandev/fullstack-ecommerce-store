@@ -32,17 +32,17 @@ export const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
-    if (!user) return next(createError(404, "Wrong email or password!"));
+    const userExists = await User.findOne({ email });
+    if (!userExists) return next(createError(404, "Wrong email or password!"));
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = await bcrypt.compare(password, userExists.password);
     if (!isPasswordValid)
       return next(createError(404, "Wrong email or password!"));
 
-    const { password: userPassword, ...userInfo } = user._doc;
+    const { password: userPassword, ...user } = userExists._doc;
     generateToken(user, res);
 
-    res.status(200).json({ message: "Welcome back!", userInfo });
+    res.status(200).json({ message: "Welcome back!", user });
   } catch (error) {
     next(error);
   }
