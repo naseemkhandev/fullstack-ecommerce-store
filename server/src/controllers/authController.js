@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 
 import createError from "../helpers/createError.js";
 import User from "../models/userModel.js";
+import generateToken from "../helpers/generateToken.js";
 
 export const register = async (req, res, next) => {
   try {
@@ -19,6 +20,7 @@ export const register = async (req, res, next) => {
     });
 
     const { password: userPassword, ...user } = newUser._doc;
+    generateToken(newUser, res);
 
     res.status(201).json({ message: "User registered successfully!", user });
   } catch (error) {
