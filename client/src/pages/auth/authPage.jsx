@@ -1,14 +1,53 @@
-import { Link, useLocation } from "react-router-dom";
+import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { useAuthMutation } from "../../store/api/authApiSlice";
+import { useToast } from "@/components/ui/use-toast";
+import { addUser } from "../../store/slices/authSlice";
 
 const AuthPage = () => {
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
   const { pathname } = useLocation();
   const path = pathname.split("/").pop();
-  console.log(pathname, path);
+  const { toast } = useToast();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [handleAuth, { isError, error }] = useAuthMutation();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUser((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await handleAuth({
+        path,
+        user,
+      }).unwrap();
+
+      navigate("/");
+      dispatch(addUser(res.user));
+      toast({
+        title: `Welcome ${user.name}`,
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
 
   return (
     <div className="w-full lg:grid min-h-screen lg:min-h-dvh lg:grid-cols-2">
@@ -31,8 +70,11 @@ const AuthPage = () => {
                 <Input
                   id="name"
                   type="name"
+                  name="name"
                   placeholder="Enter your name"
                   required
+                  value={user.name}
+                  onChange={handleChange}
                 />
               </div>
             )}
@@ -42,8 +84,11 @@ const AuthPage = () => {
               <Input
                 id="email"
                 type="email"
+                name="email"
                 placeholder="Enter your email"
                 required
+                value={user.email}
+                onChange={handleChange}
               />
             </div>
 
@@ -54,7 +99,10 @@ const AuthPage = () => {
                 id="password"
                 placeholder="••••••••"
                 type="password"
+                name="password"
                 required
+                value={user.password}
+                onChange={handleChange}
               />
 
               {path !== "register" && (
@@ -67,7 +115,13 @@ const AuthPage = () => {
               )}
             </div>
 
-            <Button type="submit" className="w-full">
+            {isError && (
+              <p className="text-red-500 text-sm -my-2 font-medium">
+                {error.data.message}
+              </p>
+            )}
+
+            <Button onClick={handleSubmit} type="submit" className="w-full">
               {path === "register" ? "Register" : "Login"}
             </Button>
 
