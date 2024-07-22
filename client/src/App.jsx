@@ -5,6 +5,8 @@ import AuthLayout from "./layouts/authLayout";
 
 import HomePage from "./pages/home";
 import AuthPage from "./pages/auth/authPage";
+import AdminLayout from "./layouts/adminLayout";
+import DashboardPage from "./pages/admin/dashboard";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +32,18 @@ const router = createBrowserRouter([
       {
         path: "register",
         element: <AuthPage />,
+      },
+    ],
+  },
+
+  // Admin routes
+  {
+    path: "/admin",
+    element: <AdminLayout />,
+    children: [
+      {
+        index: true,
+        element: <DashboardPage />,
       },
     ],
   },
