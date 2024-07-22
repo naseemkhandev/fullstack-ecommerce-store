@@ -1,7 +1,10 @@
-import { Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Navigate, Outlet } from "react-router-dom";
 
 const AuthLayout = () => {
-  return <Outlet />;
+  const authUser = useSelector((state) => state.auth.user);
+
+  return authUser ? <Navigate to="/" /> : <Outlet />;
 };
 
 export default AuthLayout;
