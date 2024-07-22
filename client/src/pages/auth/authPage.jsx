@@ -23,7 +23,7 @@ const AuthPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [handleAuth, { isError, error }] = useAuthMutation();
+  const [handleAuth, { isError, error, isLoading }] = useAuthMutation();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -71,6 +71,7 @@ const AuthPage = () => {
                   id="name"
                   type="name"
                   name="name"
+                  disabled={isLoading}
                   placeholder="Enter your name"
                   required
                   value={user.name}
@@ -85,6 +86,7 @@ const AuthPage = () => {
                 id="email"
                 type="email"
                 name="email"
+                disabled={isLoading}
                 placeholder="Enter your email"
                 required
                 value={user.email}
@@ -100,6 +102,7 @@ const AuthPage = () => {
                 placeholder="••••••••"
                 type="password"
                 name="password"
+                disabled={isLoading}
                 required
                 value={user.password}
                 onChange={handleChange}
@@ -121,7 +124,18 @@ const AuthPage = () => {
               </p>
             )}
 
-            <Button onClick={handleSubmit} type="submit" className="w-full">
+            <Button
+              disabled={
+                !user.email ||
+                !user.password ||
+                (path === "register" && !user.name) ||
+                isLoading
+              }
+              isLoading={isLoading}
+              onClick={handleSubmit}
+              type="submit"
+              className="w-full"
+            >
               {path === "register" ? "Register" : "Login"}
             </Button>
 
