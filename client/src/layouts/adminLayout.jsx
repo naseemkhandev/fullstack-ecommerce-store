@@ -1,9 +1,8 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 import { LogOut, Menu, Package2, Search } from "lucide-react";
-// import { FiLogOut } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
 import {
@@ -18,12 +17,35 @@ import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 
+import { useToast } from "../components/ui/use-toast";
 import { adminLinks } from "../constants/adminLinks";
+import { useLogoutMutation } from "../store/api/authApiSlice";
+import { removeUser } from "../store/slices/authSlice";
 
 const AdminLayout = () => {
   const authUser = useSelector((state) => state.auth.user);
+  const { toast } = useToast();
   const location = useLocation();
+  const dispatch = useDispatch();
   const pathnames = location.pathname.split("/").filter((x) => x);
+
+  const [logoutMutation] = useLogoutMutation();
+
+  const handleLogout = async () => {
+    try {
+      await logoutMutation().unwrap();
+      dispatch(removeUser());
+      toast({
+        title: "Logged out successfully!",
+        type: "success",
+      });
+    } catch (error) {
+      toast({
+        title: "Something went wrong!",
+        type: "error",
+      });
+    }
+  };
 
   return authUser && !authUser?.isAdmin ? (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
@@ -60,6 +82,7 @@ const AdminLayout = () => {
           <div className="px-2 pb-5">
             <Button
               variant="ghost"
+              onClick={handleLogout}
               className={cn(
                 "flex items-center justify-start gap-3 rounded-lg px-4 py-4 text-[.95rem] text-muted-foreground transition-all hover:text-primary hover:bg-primary/20 cursor-pointer w-full"
               )}
@@ -114,6 +137,7 @@ const AdminLayout = () => {
 
               <Button
                 variant="ghost"
+                onClick={handleLogout}
                 className={cn(
                   "flex items-center justify-start mt-auto gap-3 rounded-lg px-4 py-4 text-[.95rem] text-muted-foreground transition-all hover:text-primary hover:bg-primary/20 cursor-pointer"
                 )}

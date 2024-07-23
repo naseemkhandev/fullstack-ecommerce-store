@@ -1,13 +1,13 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { useAuthMutation } from "../../store/api/authApiSlice";
 import { useToast } from "@/components/ui/use-toast";
+import { useAuthMutation } from "../../store/api/authApiSlice";
 import { addUser } from "../../store/slices/authSlice";
 
 const AuthPage = () => {
@@ -22,11 +22,6 @@ const AuthPage = () => {
   const { toast } = useToast();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const authUser = useSelector((state) => state.auth.user);
-
-  console.log(authUser);
-
   const [handleAuth, { isError, error, isLoading }] = useAuthMutation();
 
   const handleChange = (e) => {
