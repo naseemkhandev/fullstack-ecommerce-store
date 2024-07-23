@@ -47,3 +47,14 @@ export const login = async (req, res, next) => {
     next(error);
   }
 };
+
+export const logout = async (req, res, next) => {
+  try {
+    res
+      .clearCookie("token")
+      .status(200)
+      .json({ message: "Logged out successfully!" });
+  } catch (error) {
+    next(error);
+  }
+};

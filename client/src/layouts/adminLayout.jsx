@@ -2,7 +2,8 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 
-import { CircleUser, Menu, Package2, Search } from "lucide-react";
+import { LogOut, Menu, Package2, Search } from "lucide-react";
+// import { FiLogOut } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
 import {
@@ -13,14 +14,6 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
@@ -32,7 +25,7 @@ const AdminLayout = () => {
   const location = useLocation();
   const pathnames = location.pathname.split("/").filter((x) => x);
 
-  return authUser && authUser?.isAdmin ? (
+  return authUser && !authUser?.isAdmin ? (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-muted/40 md:block">
         <div className="flex h-full max-h-screen flex-col gap-2">
@@ -43,7 +36,7 @@ const AdminLayout = () => {
             </Link>
           </div>
 
-          <div className="flex-1 mt-5">
+          <div className="flex-1 mt-5 h-full">
             <nav className="grid items-start px-2 text-sm lg:px-4 gap-2">
               {adminLinks.map((link) => (
                 <Link
@@ -62,6 +55,18 @@ const AdminLayout = () => {
                 </Link>
               ))}
             </nav>
+          </div>
+
+          <div className="px-2 pb-5">
+            <Button
+              variant="ghost"
+              className={cn(
+                "flex items-center justify-start gap-3 rounded-lg px-4 py-4 text-[.95rem] text-muted-foreground transition-all hover:text-primary hover:bg-primary/20 cursor-pointer w-full"
+              )}
+            >
+              <LogOut className="size-[1.2rem] rotate-180" />
+              Logout
+            </Button>
           </div>
         </div>
       </div>
@@ -106,6 +111,16 @@ const AdminLayout = () => {
                   </Link>
                 ))}
               </nav>
+
+              <Button
+                variant="ghost"
+                className={cn(
+                  "flex items-center justify-start mt-auto gap-3 rounded-lg px-4 py-4 text-[.95rem] text-muted-foreground transition-all hover:text-primary hover:bg-primary/20 cursor-pointer"
+                )}
+              >
+                <LogOut className="size-[1.2rem] rotate-180" />
+                Logout
+              </Button>
             </SheetContent>
           </Sheet>
 
@@ -122,7 +137,7 @@ const AdminLayout = () => {
             </form>
           </div>
 
-          <DropdownMenu>
+          {/* <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="secondary" size="icon" className="rounded-full">
                 <CircleUser className="h-5 w-5" />
@@ -137,7 +152,7 @@ const AdminLayout = () => {
               <DropdownMenuSeparator />
               <DropdownMenuItem>Logout</DropdownMenuItem>
             </DropdownMenuContent>
-          </DropdownMenu>
+          </DropdownMenu> */}
         </header>
 
         <main className="flex flex-1 flex-col gap-4 lg:gap-6">
