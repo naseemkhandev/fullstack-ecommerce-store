@@ -34,12 +34,35 @@ import {
   UserRound,
 } from "lucide-react";
 
-import { useGetAllUsersQuery } from "../../../store/api/userApiSlice";
 import TablesSkeleton from "../../../components/skeletons/admin/tablesSkeleton";
+import { useToast } from "@/components/ui/use-toast";
+import {
+  useDeleteUserMutation,
+  useGetAllUsersQuery,
+} from "../../../store/api/userApiSlice";
 
 const UsersPage = () => {
+  const { toast } = useToast();
+
   const { data: { users } = {}, isLoading: isUsersLoading } =
     useGetAllUsersQuery();
+
+  const [deleteUser, { isLoading: isUserDeleting }] = useDeleteUserMutation();
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteUser(id).unwrap();
+      toast({
+        title: "User deleted successfully",
+        type: "success",
+      });
+    } catch (error) {
+      toast({
+        title: error?.data?.message || "An error occurred",
+        type: "error",
+      });
+    }
+  };
 
   return (
     <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 h-full">
@@ -197,7 +220,17 @@ const UsersPage = () => {
                             <DropdownMenuContent align="end">
                               <DropdownMenuLabel>Actions</DropdownMenuLabel>
                               <DropdownMenuItem>Edit</DropdownMenuItem>
-                              <DropdownMenuItem>Delete</DropdownMenuItem>
+                              <Button
+                                onClick={() => handleDelete(user?._id)}
+                                size="sm"
+                                variant="ghost"
+                                className="w-full pl-0"
+                                isLoading={isUserDeleting}
+                              >
+                                <DropdownMenuItem className="w-full">
+                                  Delete
+                                </DropdownMenuItem>
+                              </Button>
                             </DropdownMenuContent>
                           </DropdownMenu>
                         </TableCell>
