@@ -8,6 +8,7 @@ import AuthPage from "./pages/auth/authPage";
 import AdminLayout from "./layouts/adminLayout";
 import DashboardPage from "./pages/admin/dashboard";
 import ProductsPage from "./pages/admin/products";
+import UsersPage from "./pages/admin/users";
 
 const router = createBrowserRouter([
   {
@@ -55,8 +56,8 @@ const router = createBrowserRouter([
         element: <ProductsPage />,
       },
       {
-        path: "customers",
-        element: <div>Customers</div>,
+        path: "users",
+        element: <UsersPage />,
       },
       {
         path: "analytics",

@@ -207,7 +207,9 @@ const AdminLayout = () => {
             </Breadcrumb>
           </div>
 
-          <Outlet />
+          <div className="max-h-[calc(100vh-130px)] h-full overflow-auto">
+            <Outlet />
+          </div>
         </main>
       </div>
     </div>

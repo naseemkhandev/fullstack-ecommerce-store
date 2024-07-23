@@ -29,9 +29,9 @@ export const adminLinks = [
   },
   {
     id: 4,
-    title: "Customers",
+    title: "Users",
     icon: Users,
-    path: "/customers",
+    path: "/users",
   },
   {
     id: 5,
