@@ -1,4 +1,5 @@
 import User from "../models/userModel.js";
+import createError from "../helpers/createError.js";
 
 export const getAllUsers = async (req, res, next) => {
   try {
@@ -11,6 +12,20 @@ export const getAllUsers = async (req, res, next) => {
       message: "All users fetched successfully",
       users: users,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    if (!user) return next(createError(404, "User not found"));
+
+    await user.deleteOne();
+
+    res.status(200).json({ message: "User deleted successfully" });
   } catch (error) {
     next(error);
   }
