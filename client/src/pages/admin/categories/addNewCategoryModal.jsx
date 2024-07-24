@@ -59,7 +59,7 @@ const AddNewCategoryModal = ({ categoryToUpdate }) => {
   }, [category]);
 
   return (
-    <DialogContent className="sm:max-w-lg">
+    <DialogContent className="sm:max-w-[34rem]">
       <DialogHeader>
         <DialogTitle>Add New Category</DialogTitle>
         <DialogDescription>
@@ -90,14 +90,20 @@ const AddNewCategoryModal = ({ categoryToUpdate }) => {
 
       <DialogFooter>
         <DialogClose asChild>
-          <Button
-            type="submit"
-            isLoading={isAddingCategory || isUpdatingCategory}
-            onClick={handleAddNewCategory}
-            className="py-3.5"
-          >
-            Add New Category
-          </Button>
+          <div className="flex gap-3">
+            <Button className="py-3.5 px-6" variant="outline">
+              Cancel
+            </Button>
+
+            <Button
+              type="submit"
+              isLoading={isAddingCategory || isUpdatingCategory}
+              onClick={handleAddNewCategory}
+              className="py-3.5"
+            >
+              Add Category
+            </Button>
+          </div>
         </DialogClose>
       </DialogFooter>
     </DialogContent>

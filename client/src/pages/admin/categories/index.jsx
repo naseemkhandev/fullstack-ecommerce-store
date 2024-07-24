@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Edit, PlusCircle, Trash2Icon } from "lucide-react";
+import { Edit, Loader, Loader2, PlusCircle, Trash2Icon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
@@ -21,12 +21,30 @@ import {
 } from "@/components/ui/table";
 
 import AddNewCategoryModal from "./addNewCategoryModal";
-import { useGetAllCategoriesQuery } from "../../../store/api/categoryApiSlice";
+import {
+  useDeleteCategoryMutation,
+  useGetAllCategoriesQuery,
+} from "../../../store/api/categoryApiSlice";
 import TablesSkeleton from "../../../components/skeletons/admin/tablesSkeleton";
 import convertDate from "../../../utils/convertDate";
+import toast from "react-hot-toast";
 
 const CategoriesPage = () => {
   const { data: { categories } = [], isLoading } = useGetAllCategoriesQuery();
+  const [deleteCategory, { isLoading: isCategoryDeleting }] =
+    useDeleteCategoryMutation();
+
+  const handleDeleteCategory = async (id) => {
+    const loading = toast.loading("Deleting category...");
+    try {
+      await deleteCategory(id).unwrap();
+      toast.success("Category deleted successfully");
+    } catch (error) {
+      toast.error(error?.data?.message || "An error occurred");
+    } finally {
+      toast.dismiss(loading);
+    }
+  };
 
   return (
     <div className="grid gap-6 overflow-auto">
@@ -113,9 +131,15 @@ const CategoriesPage = () => {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="text-primary hover:text-primary hover:bg-primary/10 rounded-full"
+                        onClick={() => handleDeleteCategory(category?._id)}
+                        disabled={isCategoryDeleting}
+                        className="text-primary hover:text-primary disabled:cursor-not-allowed hover:bg-primary/10 rounded-full"
                       >
-                        <Trash2Icon className="size-5" />
+                        {isCategoryDeleting ? (
+                          <Loader2 className="size-5 animate-spin opacity-80 cursor-not-allowed" />
+                        ) : (
+                          <Trash2Icon className="size-5" />
+                        )}
                       </Button>
                     </TableCell>
                   </TableRow>

@@ -4,6 +4,7 @@ import {
   addNewCategory,
   getAllCategories,
   updateCategory,
+  deleteCategory,
 } from "../controllers/categoryController.js";
 import { verifyAdmin } from "../middlewares/verifyToken.js";
 import validateSchema from "../middlewares/validateSchema.js";
@@ -19,5 +20,6 @@ router.post(
   validateSchema(categorySchema),
   updateCategory
 );
+router.delete("/:id", verifyAdmin, deleteCategory);
 
 export default router;
