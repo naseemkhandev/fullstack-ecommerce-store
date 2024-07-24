@@ -14,7 +14,7 @@ const AuthPage = () => {
   const [user, setUser] = useState({
     name: "" || "Demo User",
     email: "" || "demo@gmail.com",
-    password: "" || "123456", 
+    password: "" || "123456",
   });
 
   const { pathname } = useLocation();
@@ -124,8 +124,8 @@ const AuthPage = () => {
 
             <Button
               disabled={
-                !user.email ||
-                !user.password ||
+                !user.email > 3 ||
+                !user.password > 6 ||
                 (path === "register" && !user.name) ||
                 isLoading
               }

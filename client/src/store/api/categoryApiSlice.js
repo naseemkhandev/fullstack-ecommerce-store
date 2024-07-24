@@ -10,13 +10,23 @@ export const authApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Category"],
     }),
-
     getAllCategories: builder.query({
       query: () => "categories",
       providesTags: ["Category"],
     }),
+    updateCategory: builder.mutation({
+      query: (data) => ({
+        url: `categories/${data?.id}`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Category"],
+    }),
   }),
 });
 
-export const { useAddNewCategoryMutation, useGetAllCategoriesQuery } =
-  authApiSlice;
+export const {
+  useAddNewCategoryMutation,
+  useGetAllCategoriesQuery,
+  useUpdateCategoryMutation,
+} = authApiSlice;

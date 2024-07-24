@@ -14,17 +14,31 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 
-import { useAddNewCategoryMutation } from "../../../store/api/categoryApiSlice";
+import {
+  useAddNewCategoryMutation,
+  useUpdateCategoryMutation,
+} from "../../../store/api/categoryApiSlice";
 
-const AddNewCategoryModal = () => {
-  const [category, setCategory] = useState("");
+const AddNewCategoryModal = ({ categoryToUpdate }) => {
+  const [category, setCategory] = useState("" || categoryToUpdate?.name);
   const [slug, setSlug] = useState("");
 
-  const [addNewCategory, { isLoading }] = useAddNewCategoryMutation();
+  const [addNewCategory, { isLoading: isAddingCategory }] =
+    useAddNewCategoryMutation();
+  const [updateCategory, { isLoading: isUpdatingCategory }] =
+    useUpdateCategoryMutation();
 
   const handleAddNewCategory = async (e) => {
     e.preventDefault();
     try {
+      if (categoryToUpdate) {
+        await updateCategory({
+          id: categoryToUpdate._id,
+          name: category,
+        }).unwrap();
+        toast.success("Category updated successfully");
+        return;
+      }
       await addNewCategory({ name: category }).unwrap();
       toast.success("Category added successfully");
       setCategory("");
@@ -36,9 +50,9 @@ const AddNewCategoryModal = () => {
   useEffect(() => {
     const generateSlug = (name) => {
       return name
-        .toLowerCase()
-        .replace(/ /g, "-")
-        .replace(/[^\w-]+/g, "");
+        ?.toLowerCase()
+        ?.replace(/ /g, "-")
+        ?.replace(/[^\w-]+/g, "");
     };
 
     setSlug(generateSlug(category));
@@ -78,7 +92,7 @@ const AddNewCategoryModal = () => {
         <DialogClose asChild>
           <Button
             type="submit"
-            disabled={isLoading}
+            isLoading={isAddingCategory || isUpdatingCategory}
             onClick={handleAddNewCategory}
             className="py-3.5"
           >

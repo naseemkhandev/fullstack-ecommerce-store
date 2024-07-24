@@ -96,13 +96,20 @@ const CategoriesPage = () => {
                     </TableCell>
 
                     <TableCell className="mr-auto flex items-center justify-center gap-0">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="text-green-500 hover:text-green-500 hover:bg-green-500/10 rounded-full"
-                      >
-                        <Edit className="size-5" />
-                      </Button>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="text-green-500 hover:text-green-500 hover:bg-green-500/10 rounded-full"
+                          >
+                            <Edit className="size-5" />
+                          </Button>
+                        </DialogTrigger>
+
+                        <AddNewCategoryModal categoryToUpdate={category} />
+                      </Dialog>
+
                       <Button
                         variant="ghost"
                         size="icon"

@@ -45,3 +45,31 @@ export const getAllCategories = async (req, res, next) => {
     next(error);
   }
 };
+
+export const updateCategory = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { name } = req.body;
+
+    const category = await Category.findById(id);
+    if (!category) return next(createError(404, "Category not found"));
+
+    const isCategoryExist = await Category.findOne({ name });
+    if (isCategoryExist)
+      return next(createError(400, "Category already exists"));
+
+    category.name = name;
+    category.slug = slugify(name, {
+      lower: true,
+      trim: true,
+      strict: true,
+    });
+    await category.save();
+
+    res
+      .status(200)
+      .json({ message: "Category updated successfully", category });
+  } catch (error) {
+    next(error);
+  }
+};
