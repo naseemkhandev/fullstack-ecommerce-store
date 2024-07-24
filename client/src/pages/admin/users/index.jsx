@@ -69,7 +69,7 @@ const UsersPage = () => {
       {isUsersLoading ? (
         <TablesSkeleton />
       ) : (
-        <Tabs defaultValue="all" className="h-full">
+        <Tabs defaultValue="all" className="h-full overflow-auto whitespace-nowrap">
           <div className="flex items-center">
             <TabsList>
               <TabsTrigger value="all" className="px-4">
@@ -140,7 +140,9 @@ const UsersPage = () => {
                       <TableHead className="hidden md:table-cell">
                         Email
                       </TableHead>
-                      <TableHead>Role</TableHead>
+                      <TableHead className="hidden sm:table-cell">
+                        Role
+                      </TableHead>
                       <TableHead className="hidden md:table-cell">
                         Total Sales
                       </TableHead>
@@ -175,7 +177,7 @@ const UsersPage = () => {
                             </div>
                           )}
                         </TableCell>
-                        <TableCell className="font-medium capitalize">
+                        <TableCell className="font-medium capitalize whitespace-nowrap">
                           {user?.name}
                         </TableCell>
                         <TableCell className="hidden md:table-cell">
