@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Edit, PlusCircle, Trash2Icon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -53,8 +54,11 @@ const CategoriesPage = () => {
           <Table>
             <TableHeader>
               <TableRow>
+                <TableHead>Sr.#</TableHead>
                 <TableHead>Name</TableHead>
-                <TableHead className="text-end">Actions</TableHead>
+                <TableHead>Slug</TableHead>
+                <TableHead>Created At</TableHead>
+                <TableHead className="text-center">Actions</TableHead>
               </TableRow>
             </TableHeader>
 
@@ -67,13 +71,23 @@ const CategoriesPage = () => {
                 </TableRow>
               )}
 
-              {categories.map((user) => (
-                <TableRow key={user?._id}>
+              {categories.map((category, index) => (
+                <TableRow key={category}>
+                  <TableCell className="table-cell">{index + 1}</TableCell>
+
                   <TableCell className="font-medium capitalize whitespace-nowrap">
                     Category Name
                   </TableCell>
 
-                  <TableCell className="mr-auto flex items-center justify-end gap-0">
+                  <TableCell className="whitespace-nowrap text-gray-500">
+                    <Link href="/category-name">category-name</Link>
+                  </TableCell>
+
+                  <TableCell className="whitespace-nowrap opacity-50 font-medium">
+                    23 July, 2021
+                  </TableCell>
+
+                  <TableCell className="mr-auto flex items-center justify-center gap-0">
                     <Button
                       variant="ghost"
                       size="icon"

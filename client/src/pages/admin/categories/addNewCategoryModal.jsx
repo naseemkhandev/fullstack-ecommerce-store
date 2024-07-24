@@ -1,18 +1,48 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
 import {
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogClose,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+
+import { useAddNewCategoryMutation } from "../../../store/api/categoryApiSlice";
 
 const AddNewCategoryModal = () => {
   const [category, setCategory] = useState("");
+  const [slug, setSlug] = useState("");
+
+  const [addNewCategory, { isLoading }] = useAddNewCategoryMutation();
+
+  const handleAddNewCategory = async (e) => {
+    e.preventDefault();
+    try {
+      await addNewCategory({ name: category }).unwrap();
+      toast.success("Category added successfully");
+      setCategory("");
+    } catch (error) {
+      toast.error(error?.data?.message || "An error occurred");
+    }
+  };
+
+  useEffect(() => {
+    const generateSlug = (name) => {
+      return name
+        .toLowerCase()
+        .replace(/ /g, "-")
+        .replace(/[^\w-]+/g, "");
+    };
+
+    setSlug(generateSlug(category));
+  }, [category]);
 
   return (
     <DialogContent className="sm:max-w-lg">
@@ -33,10 +63,28 @@ const AddNewCategoryModal = () => {
         />
       </div>
 
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="slug">Slug</Label>
+        <Input
+          id="slug"
+          value={slug}
+          placeholder="Category slug"
+          disabled
+          className="disabled:bg-muted-foreground/20"
+        />
+      </div>
+
       <DialogFooter>
-        <Button type="submit" className="py-3.5">
-          Add New Category
-        </Button>
+        <DialogClose asChild>
+          <Button
+            type="submit"
+            disabled={isLoading}
+            onClick={handleAddNewCategory}
+            className="py-3.5"
+          >
+            Add New Category
+          </Button>
+        </DialogClose>
       </DialogFooter>
     </DialogContent>
   );
