@@ -12,9 +12,9 @@ import toast from "react-hot-toast";
 
 const AuthPage = () => {
   const [user, setUser] = useState({
-    name: "",
-    email: "",
-    password: "",
+    name: "" || "Demo User",
+    email: "" || "demo@gmail.com",
+    password: "" || "123456", 
   });
 
   const { pathname } = useLocation();

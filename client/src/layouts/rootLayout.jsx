@@ -1,20 +1,17 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
-import Navbar from "../components/navbar";
 import Footer from "../components/footer";
-import { useSelector } from "react-redux";
+import Navbar from "../components/navbar";
 
 const RootLayout = () => {
-  const authUser = useSelector((state) => state.auth.user);
-
-  return authUser ? (
-    <div>
+  return (
+    <div className="min-h-dvh flex flex-col">
       <Navbar />
-      <Outlet />
+      <div className="flex-grow">
+        <Outlet />
+      </div>
       <Footer />
     </div>
-  ) : (
-    <Navigate to="/auth/login" />
   );
 };
 
