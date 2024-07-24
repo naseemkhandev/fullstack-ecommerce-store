@@ -10,6 +10,7 @@ import DashboardPage from "./pages/admin/dashboard";
 import ProductsPage from "./pages/admin/products";
 import UsersPage from "./pages/admin/users";
 import CategoriesPage from "./pages/admin/categories";
+import AnalyticsPage from "./pages/admin/analytics";
 
 const router = createBrowserRouter([
   {
@@ -98,7 +99,7 @@ const router = createBrowserRouter([
       },
       {
         path: "analytics",
-        element: <div>Analytics</div>,
+        element: <AnalyticsPage />,
       },
       {
         path: "settings",

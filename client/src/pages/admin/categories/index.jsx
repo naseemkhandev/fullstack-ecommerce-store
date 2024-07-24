@@ -1,8 +1,7 @@
+import { Edit, Loader2, PlusCircle, Trash2Icon } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Edit, Loader, Loader2, PlusCircle, Trash2Icon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {
   Card,
   CardContent,
@@ -11,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {
   Table,
   TableBody,
@@ -20,14 +20,14 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import AddNewCategoryModal from "./addNewCategoryModal";
+import toast from "react-hot-toast";
+import TablesSkeleton from "../../../components/skeletons/admin/tablesSkeleton";
 import {
   useDeleteCategoryMutation,
   useGetAllCategoriesQuery,
 } from "../../../store/api/categoryApiSlice";
-import TablesSkeleton from "../../../components/skeletons/admin/tablesSkeleton";
 import convertDate from "../../../utils/convertDate";
-import toast from "react-hot-toast";
+import AddNewCategoryModal from "./addNewCategoryModal";
 
 const CategoriesPage = () => {
   const { data: { categories } = [], isLoading } = useGetAllCategoriesQuery();
