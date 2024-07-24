@@ -9,6 +9,7 @@ import AdminLayout from "./layouts/adminLayout";
 import DashboardPage from "./pages/admin/dashboard";
 import ProductsPage from "./pages/admin/products";
 import UsersPage from "./pages/admin/users";
+import CategoriesPage from "./pages/admin/categories";
 
 const router = createBrowserRouter([
   {
@@ -86,6 +87,10 @@ const router = createBrowserRouter([
       {
         path: "products",
         element: <ProductsPage />,
+      },
+      {
+        path: "categories",
+        element: <CategoriesPage />,
       },
       {
         path: "users",

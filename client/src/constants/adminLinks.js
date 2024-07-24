@@ -6,6 +6,7 @@ import {
   Users,
   Settings,
   User2,
+  Layers,
 } from "lucide-react";
 
 export const adminLinks = [
@@ -26,6 +27,12 @@ export const adminLinks = [
     title: "Products",
     icon: Package,
     path: "/products",
+  },
+  {
+    id: 8,
+    title: "Categories",
+    icon: Layers,
+    path: "/categories",
   },
   {
     id: 4,

@@ -142,23 +142,6 @@ const AdminLayout = () => {
               </div>
             </form>
           </div>
-
-          {/* <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="secondary" size="icon" className="rounded-full">
-                <CircleUser className="h-5 w-5" />
-                <span className="sr-only">Toggle user menu</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem>Support</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu> */}
         </header>
 
         <main className="flex flex-1 flex-col gap-4 lg:gap-6">
@@ -189,7 +172,7 @@ const AdminLayout = () => {
             </Breadcrumb>
           </div>
 
-          <div className="max-h-[calc(100vh-130px)] h-full overflow-auto">
+          <div className="max-h-[calc(100vh-130px)] h-full overflow-auto px-5">
             <Outlet />
           </div>
         </main>
