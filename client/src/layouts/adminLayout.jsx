@@ -1,10 +1,9 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 import { LogOut, Menu, Package2, Search } from "lucide-react";
 import { Link } from "react-router-dom";
-import toast from "react-hot-toast";
 
 import {
   Breadcrumb,
@@ -19,28 +18,16 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 
 import { adminLinks } from "../constants/adminLinks";
-import { useLogoutMutation } from "../store/api/authApiSlice";
-import { removeUser } from "../store/slices/authSlice";
+import useLogout from "../hooks/useLogout";
 
 const AdminLayout = () => {
   const authUser = useSelector((state) => state.auth.user);
   const location = useLocation();
-  const dispatch = useDispatch();
   const pathnames = location.pathname.split("/").filter((x) => x);
 
-  const [logoutMutation] = useLogoutMutation();
+  const { handleLogout, isLogouting } = useLogout();
 
-  const handleLogout = async () => {
-    try {
-      await logoutMutation().unwrap();
-      dispatch(removeUser());
-      toast.success("Logged out successfully");
-    } catch (error) {
-      toast.error(error?.data?.message || "An error occurred");
-    }
-  };
-
-  return authUser && !authUser?.isAdmin ? (
+  return authUser && authUser?.isAdmin ? (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-muted/40 md:block">
         <div className="flex h-full max-h-screen flex-col gap-2">
@@ -76,6 +63,7 @@ const AdminLayout = () => {
             <Button
               variant="ghost"
               onClick={handleLogout}
+              isLoading={isLogouting}
               className={cn(
                 "flex items-center justify-start gap-3 rounded-lg px-4 py-4 text-[.95rem] text-muted-foreground transition-all hover:text-primary hover:bg-primary/20 cursor-pointer w-full"
               )}
@@ -131,6 +119,7 @@ const AdminLayout = () => {
               <Button
                 variant="ghost"
                 onClick={handleLogout}
+                isLoading={isLogouting}
                 className={cn(
                   "flex items-center justify-start mt-auto gap-3 rounded-lg px-4 py-4 text-[.95rem] text-muted-foreground transition-all hover:text-primary hover:bg-primary/20 cursor-pointer"
                 )}

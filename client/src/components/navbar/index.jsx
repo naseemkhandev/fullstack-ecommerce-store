@@ -12,8 +12,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { navLinks } from "../../constants/navLinks";
+import { useSelector } from "react-redux";
+import useLogout from "../../hooks/useLogout";
 
 const Navbar = () => {
+  const { handleLogout, isLogouting } = useLogout();
+  const authUser = useSelector((state) => state.auth.user);
+
   return (
     <div className="flex min-h-screen w-full flex-col">
       <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
@@ -74,31 +79,49 @@ const Navbar = () => {
             <Button variant="ghost" size="icon" className="rounded-full">
               <Heart className="h-5 w-5" />
             </Button>
-
             <Button variant="ghost" size="icon" className="rounded-full">
               <ShoppingCart className="h-5 w-5" />
             </Button>
-
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="secondary"
-                  size="icon"
-                  className="rounded-full"
-                >
-                  <CircleUser className="h-5 w-5" />
-                  <span className="sr-only">Toggle user menu</span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>Dashboard</DropdownMenuItem>
-                <DropdownMenuItem>Support</DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>Logout</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            {authUser ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="secondary"
+                    size="icon"
+                    className="rounded-full"
+                  >
+                    <CircleUser className="h-5 w-5" />
+                    <span className="sr-only">Toggle user menu</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  {authUser?.isAdmin && (
+                    <Link to="/admin">
+                      <DropdownMenuItem>Dashboard</DropdownMenuItem>
+                    </Link>
+                  )}
+                  <DropdownMenuItem>Support</DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <Button
+                    onClick={handleLogout}
+                    size="sm"
+                    variant="ghost"
+                    className="w-full pl-0"
+                    isLoading={isLogouting}
+                  >
+                    <DropdownMenuItem className="w-full">
+                      Logout
+                    </DropdownMenuItem>
+                  </Button>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link to="/auth/login">
+                <Button variant="secondary">Login</Button>
+              </Link>
+            )}
           </div>
         </div>
       </header>
