@@ -36,7 +36,7 @@ const chartConfig = {
 
 const ProductsCategoryRatio = () => {
   return (
-    <Card>
+    <Card className="border-none shadow-lg rounded-2xl shadow-black/5">
       <CardHeader>
         <CardTitle>Area Chart - Stacked</CardTitle>
         <CardDescription>

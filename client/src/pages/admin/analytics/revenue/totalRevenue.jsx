@@ -37,7 +37,7 @@ const chartConfig = {
 
 const TotalRevenue = () => {
   return (
-    <Card>
+    <Card className="border-none shadow-lg rounded-2xl shadow-black/5">
       <CardHeader>
         <CardTitle>Bar Chart - Multiple</CardTitle>
         <CardDescription>January - June 2024</CardDescription>

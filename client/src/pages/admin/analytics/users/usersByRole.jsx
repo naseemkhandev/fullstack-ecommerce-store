@@ -38,7 +38,7 @@ const UsersByRole = () => {
   }, []);
 
   return (
-    <Card className="flex flex-col">
+    <Card className="border-none shadow-lg rounded-2xl shadow-black/5 flex flex-col">
       <CardHeader className="items-center pb-0">
         <CardTitle>Users by Role</CardTitle>
         <CardDescription>January - June 2024</CardDescription>

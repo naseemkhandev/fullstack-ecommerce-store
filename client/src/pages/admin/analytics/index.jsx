@@ -5,7 +5,7 @@ import UsersByRole from "./users/usersByRole";
 
 const AnalyticsPage = () => {
   return (
-    <div className="flex flex-col gap-5 h-full">
+    <div className="flex flex-col gap-5 h-full pb-10 bg-neutral-50">
       <div className="grid grid-cols-2 gap-5">
         <TotalRevenue />
         <TotalRevenue />
@@ -17,6 +17,7 @@ const AnalyticsPage = () => {
         <ProductsCategoryRatio />
         <ProductsCategoryRatio />
       </div>
+
       <div className="grid grid-cols-3 gap-5">
         <UsersByRole />
         <UsersByRole />
