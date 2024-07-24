@@ -1,3 +1,5 @@
+import toast from "react-hot-toast";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -35,15 +37,12 @@ import {
 } from "lucide-react";
 
 import TablesSkeleton from "../../../components/skeletons/admin/tablesSkeleton";
-import { useToast } from "@/components/ui/use-toast";
 import {
   useDeleteUserMutation,
   useGetAllUsersQuery,
 } from "../../../store/api/userApiSlice";
 
 const UsersPage = () => {
-  const { toast } = useToast();
-
   const { data: { users } = {}, isLoading: isUsersLoading } =
     useGetAllUsersQuery();
 
@@ -52,15 +51,9 @@ const UsersPage = () => {
   const handleDelete = async (id) => {
     try {
       await deleteUser(id).unwrap();
-      toast({
-        title: "User deleted successfully",
-        type: "success",
-      });
+      toast.success("User deleted successfully");
     } catch (error) {
-      toast({
-        title: error?.data?.message || "An error occurred",
-        type: "error",
-      });
+      toast.error(error?.data?.message || "An error occurred");
     }
   };
 
@@ -69,7 +62,10 @@ const UsersPage = () => {
       {isUsersLoading ? (
         <TablesSkeleton />
       ) : (
-        <Tabs defaultValue="all" className="h-full overflow-auto whitespace-nowrap">
+        <Tabs
+          defaultValue="all"
+          className="h-full overflow-auto whitespace-nowrap"
+        >
           <div className="flex items-center">
             <TabsList>
               <TabsTrigger value="all" className="px-4">
@@ -121,8 +117,8 @@ const UsersPage = () => {
                   </CardDescription>
                 </CardHeader>
 
-                <Button className="gap-2 px-4 mr-5 mb-2 py-3.5">
-                  <PlusCircle className="size-[1.2rem]" />
+                <Button className="gap-2 px-3 mr-5 mb-2 py-3">
+                  <PlusCircle className="size-[1rem]" />
                   <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                     Add User
                   </span>

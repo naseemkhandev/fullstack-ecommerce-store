@@ -4,6 +4,7 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 import { LogOut, Menu, Package2, Search } from "lucide-react";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 import {
   Breadcrumb,
@@ -17,14 +18,12 @@ import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 
-import { useToast } from "../components/ui/use-toast";
 import { adminLinks } from "../constants/adminLinks";
 import { useLogoutMutation } from "../store/api/authApiSlice";
 import { removeUser } from "../store/slices/authSlice";
 
 const AdminLayout = () => {
   const authUser = useSelector((state) => state.auth.user);
-  const { toast } = useToast();
   const location = useLocation();
   const dispatch = useDispatch();
   const pathnames = location.pathname.split("/").filter((x) => x);
@@ -35,15 +34,9 @@ const AdminLayout = () => {
     try {
       await logoutMutation().unwrap();
       dispatch(removeUser());
-      toast({
-        title: "Logged out successfully!",
-        type: "success",
-      });
+      toast.success("Logged out successfully");
     } catch (error) {
-      toast({
-        title: "Something went wrong!",
-        type: "error",
-      });
+      toast.error(error?.data?.message || "An error occurred");
     }
   };
 

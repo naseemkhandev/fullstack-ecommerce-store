@@ -6,9 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { useToast } from "@/components/ui/use-toast";
 import { useAuthMutation } from "../../store/api/authApiSlice";
 import { addUser } from "../../store/slices/authSlice";
+import toast from "react-hot-toast";
 
 const AuthPage = () => {
   const [user, setUser] = useState({
@@ -19,7 +19,6 @@ const AuthPage = () => {
 
   const { pathname } = useLocation();
   const path = pathname.split("/").pop();
-  const { toast } = useToast();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [handleAuth, { isError, error, isLoading }] = useAuthMutation();
@@ -40,9 +39,7 @@ const AuthPage = () => {
 
       navigate("/");
       dispatch(addUser(res.user));
-      toast({
-        title: res?.message,
-      });
+      toast.success(res?.message);
 
       console.log(res);
     } catch (error) {
