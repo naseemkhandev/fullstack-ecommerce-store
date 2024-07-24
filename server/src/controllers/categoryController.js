@@ -3,7 +3,7 @@ import slugify from "slugify";
 import createError from "../helpers/createError.js";
 import Category from "../models/categoryModel.js";
 
-export const addNewCategory = async (req, res) => {
+export const addNewCategory = async (req, res, next) => {
   try {
     const { name } = req.body;
 
@@ -22,6 +22,25 @@ export const addNewCategory = async (req, res) => {
     });
 
     res.status(200).json({ message: "Category added successfully", category });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getAllCategories = async (req, res, next) => {
+  try {
+    const categories = await Category.find();
+
+    if (!categories)
+      return res
+        .status(404)
+        .json({ message: "No categories found", categories: [] });
+
+    res.status(200).json({
+      message: "Categories found successfully",
+      totalCategories: categories.length,
+      categories,
+    });
   } catch (error) {
     next(error);
   }
