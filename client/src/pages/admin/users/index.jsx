@@ -125,7 +125,7 @@ const UsersPage = () => {
                 </Button>
               </div>
 
-              <CardContent className="h-full">
+              <CardContent>
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -133,18 +133,10 @@ const UsersPage = () => {
                         Profile
                       </TableHead>
                       <TableHead>Name</TableHead>
-                      <TableHead className="hidden md:table-cell">
-                        Email
-                      </TableHead>
-                      <TableHead className="hidden sm:table-cell">
-                        Role
-                      </TableHead>
-                      <TableHead className="hidden md:table-cell">
-                        Total Sales
-                      </TableHead>
-                      <TableHead className="hidden md:table-cell">
-                        Status
-                      </TableHead>
+                      <TableHead className="table-cell">Email</TableHead>
+                      <TableHead className="table-cell">Role</TableHead>
+                      <TableHead className="table-cell">Total Sales</TableHead>
+                      <TableHead className="table-cell">Status</TableHead>
                       <TableHead>Actions</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -160,7 +152,7 @@ const UsersPage = () => {
 
                     {users.map((user) => (
                       <TableRow key={user?._id}>
-                        <TableCell className="hidden sm:table-cell">
+                        <TableCell className="table-cell">
                           {user?.profilePic ? (
                             <img
                               src="/images/auth.jpg"
@@ -176,7 +168,7 @@ const UsersPage = () => {
                         <TableCell className="font-medium capitalize whitespace-nowrap">
                           {user?.name}
                         </TableCell>
-                        <TableCell className="hidden md:table-cell">
+                        <TableCell className="table-cell">
                           {user?.email}
                         </TableCell>
 
@@ -186,11 +178,9 @@ const UsersPage = () => {
                           </Badge>
                         </TableCell>
 
-                        <TableCell className="hidden md:table-cell">
-                          25
-                        </TableCell>
+                        <TableCell className="table-cell">25</TableCell>
 
-                        <TableCell className="hidden md:table-cell">
+                        <TableCell className="table-cell">
                           <Badge
                             variant="outline"
                             className={
