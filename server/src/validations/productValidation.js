@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 const productSchema = z.object({
-  name: z
+  title: z
     .string({ required_error: "Product Name is required" })
     .nonempty({ message: "Product Name is required" })
     .min(3, { message: "Product Name must be at least 3 characters long" })
@@ -26,7 +26,6 @@ const productSchema = z.object({
     .string({ required_error: "Product Category is required" })
     .nonempty({ message: "Product Category is required" })
     .min(3, { message: "Product Category must be at least 3 characters long" })
-    .max(20, { message: "Product Category must be at most 20 characters long" })
     .trim(),
   stock: z
     .number({ required_error: "Product Stock is required" })

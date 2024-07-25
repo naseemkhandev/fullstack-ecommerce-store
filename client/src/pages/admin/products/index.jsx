@@ -31,10 +31,11 @@ import { ImageOff, ListFilter, MoreHorizontal, PlusCircle } from "lucide-react";
 
 import TablesSkeleton from "../../../components/skeletons/admin/tablesSkeleton";
 import convertDate from "../../../utils/convertDate";
+import { useGetAllProductsQuery } from "../../../store/api/productApiSlice";
 
 const ProductsPage = () => {
-  const products = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  const isProductsLoading = false;
+  const { data: { products } = [], isLoading: isProductsLoading } =
+    useGetAllProductsQuery();
 
   return (
     <main className="grid flex-1 items-start gap-4 md:gap-8 h-full">

@@ -1,9 +1,30 @@
+import Product from "../models/productModel.js";
+
 export const addNewProduct = async (req, res, next) => {
   try {
     const { _id } = req.user;
-    console.log(_id);
 
-    res.status(201).json({ message: "Product added successfully" });
+    const product = await Product.create({ ...req.body, user: _id });
+
+    res.status(201).json({ message: "Product added successfully", product });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getAllProducts = async (req, res, next) => {
+  try {
+    const products = await Product.find();
+
+    if (!products)
+      return res
+        .status(404)
+        .json({ message: "No products found", products: [] });
+
+    res.status(200).json({
+      message: "All products fetched successfully",
+      products,
+    });
   } catch (error) {
     next(error);
   }
