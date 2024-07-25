@@ -35,11 +35,12 @@ const AddNewCategoryModal = ({ categoryToUpdate }) => {
         await updateCategory({
           id: categoryToUpdate._id,
           name: category,
+          slug,
         }).unwrap();
         toast.success("Category updated successfully");
         return;
       }
-      await addNewCategory({ name: category }).unwrap();
+      await addNewCategory({ name: category, slug }).unwrap();
       toast.success("Category added successfully");
       setCategory("");
     } catch (error) {

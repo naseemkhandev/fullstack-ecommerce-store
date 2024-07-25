@@ -43,7 +43,7 @@ import {
 } from "../../../store/api/userApiSlice";
 
 const UsersPage = () => {
-  const { data: { users } = {}, isLoading: isUsersLoading } =
+  const { data: { users } = [], isLoading: isUsersLoading } =
     useGetAllUsersQuery();
 
   const [deleteUser, { isLoading: isUserDeleting }] = useDeleteUserMutation();
@@ -142,7 +142,7 @@ const UsersPage = () => {
                   </TableHeader>
 
                   <TableBody>
-                    {users.length === 0 && (
+                    {users?.length === 0 && (
                       <TableRow>
                         <TableCell colSpan={7} className="text-center">
                           No users found
@@ -150,7 +150,7 @@ const UsersPage = () => {
                       </TableRow>
                     )}
 
-                    {users.map((user) => (
+                    {users?.map((user) => (
                       <TableRow key={user?._id}>
                         <TableCell className="table-cell">
                           {user?.profilePic ? (

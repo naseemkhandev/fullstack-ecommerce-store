@@ -1,11 +1,9 @@
-import slugify from "slugify";
-
 import createError from "../helpers/createError.js";
 import Category from "../models/categoryModel.js";
 
 export const addNewCategory = async (req, res, next) => {
   try {
-    const { name } = req.body;
+    const { name, slug } = req.body;
 
     const isCategoryExist = await Category.findOne({ name });
 
@@ -14,11 +12,7 @@ export const addNewCategory = async (req, res, next) => {
 
     const category = await Category.create({
       name,
-      slug: slugify("some string", {
-        lower: true,
-        trim: true,
-        strict: true,
-      }),
+      slug,
     });
 
     res.status(200).json({ message: "Category added successfully", category });
@@ -49,7 +43,7 @@ export const getAllCategories = async (req, res, next) => {
 export const updateCategory = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { name } = req.body;
+    const { name, slug } = req.body;
 
     const category = await Category.findById(id);
     if (!category) return next(createError(404, "Category not found"));
@@ -59,11 +53,7 @@ export const updateCategory = async (req, res, next) => {
       return next(createError(400, "Category already exists"));
 
     category.name = name;
-    category.slug = slugify(name, {
-      lower: true,
-      trim: true,
-      strict: true,
-    });
+    category.slug = slug;
     await category.save();
 
     res

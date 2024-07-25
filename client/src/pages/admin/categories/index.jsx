@@ -89,7 +89,7 @@ const CategoriesPage = () => {
               </TableHeader>
 
               <TableBody>
-                {categories.length === 0 && (
+                {categories?.length === 0 && (
                   <TableRow>
                     <TableCell colSpan={7} className="text-center">
                       No Categories Found
@@ -97,7 +97,7 @@ const CategoriesPage = () => {
                   </TableRow>
                 )}
 
-                {categories.map((category, index) => (
+                {categories?.map((category, index) => (
                   <TableRow key={category?._id}>
                     <TableCell className="table-cell">{index + 1}</TableCell>
 
@@ -106,7 +106,7 @@ const CategoriesPage = () => {
                     </TableCell>
 
                     <TableCell className="whitespace-nowrap text-gray-500">
-                      <Link href="/category-name">{category?.slug}</Link>
+                      <Link to={"#"}>{category?.slug}</Link>
                     </TableCell>
 
                     <TableCell className="whitespace-nowrap opacity-50 font-medium">

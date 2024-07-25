@@ -19,7 +19,6 @@ const productSchema = z.object({
     .trim(),
   price: z
     .number({ required_error: "Product Price is required" })
-    .nonempty({ message: "Product Price is required" })
     .min(1, { message: "Product Price must be at least 1" })
     .max(100000, { message: "Product Price must be at most 100000" })
     .positive({ message: "Product Price must be greater than 0" }),
@@ -31,20 +30,18 @@ const productSchema = z.object({
     .trim(),
   stock: z
     .number({ required_error: "Product Stock is required" })
-    .nonempty({ message: "Product Stock is required" })
     .min(1, { message: "Product Stock must be at least 1" })
     .max(1000, { message: "Product Stock must be at most 1000" })
     .positive({ message: "Product Stock must be greater than 0" }),
   sold: z
     .number({ required_error: "Product Sold is required" })
-    .nonempty({ message: "Product Sold is required" })
     .min(0, { message: "Product Sold must be at least 0" })
     .max(1000, { message: "Product Sold must be at most 1000" })
     .positive({ message: "Product Sold must be greater than 0" }),
-  images: z
-    .array(z.string({ required_error: "Product Images are required" }))
-    .nonempty({ message: "Product Images are required" })
-    .min(1, { message: "Product Images must be at least 1" }),
+  // images: z
+  //   .array(z.string({ required_error: "Product Images are required" }))
+  //   .nonempty({ message: "Product Images are required" })
+  //   .min(1, { message: "Product Images must be at least 1" }),
 });
 
 export default productSchema;
