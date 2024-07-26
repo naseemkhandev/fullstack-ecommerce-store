@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 import {
-  Select,
+Select,
   SelectContent,
   SelectGroup,
   SelectItem,
@@ -29,6 +29,8 @@ const AddNewUserPage = () => {
     role: "" || "user",
     isVerified: "" || false,
   });
+
+  console.log(userData);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -59,9 +61,7 @@ const AddNewUserPage = () => {
   return (
     <div className="overflow-auto h-full flex flex-col gap-5">
       <div className="flex flex-col gap-3">
-        <Label className="font-medium text-gray-500">
-          profilePic <span className="text-red-500">*</span>
-        </Label>
+        <Label className="font-medium text-gray-500">Profile Picture</Label>
 
         {userData.profilePic ? (
           <div className="w-full h-[18rem] relative">
@@ -140,11 +140,9 @@ const AddNewUserPage = () => {
 
       <div className="grid sm:grid-cols-2 gap-3">
         <div className="flex flex-col gap-3">
-          <Label className="font-medium text-gray-500">
-            Role <span className="text-red-500">*</span>
-          </Label>
+          <Label className="font-medium text-gray-500">Role</Label>
 
-          <Select>
+          <Select value={userData.role} onChange={handleChange}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select role" value={userData.role} />
             </SelectTrigger>
@@ -167,7 +165,7 @@ const AddNewUserPage = () => {
         <div className="flex flex-col gap-3">
           <Label className="font-medium text-gray-500">Status</Label>
 
-          <Select>
+          <Select value={userData.isVerified} onChange={handleChange}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select status" />
             </SelectTrigger>
@@ -197,6 +195,12 @@ const AddNewUserPage = () => {
         <Button
           onClick={handleAddNewUser}
           isLoading={isAddingUser}
+          disabled={
+            isAddingUser ||
+            !userData.name ||
+            !userData.email ||
+            !userData.password
+          }
           className={cn("bg-primary text-white px-7 py-3.5", {
             "px-5": isAddingUser,
           })}
