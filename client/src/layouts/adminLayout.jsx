@@ -148,26 +148,30 @@ const AdminLayout = () => {
           <div className="flex items-center capitalize pl-4 lg:pl-6 mt-5">
             <Breadcrumb>
               <BreadcrumbList>
-                {pathnames.map((name, index) => {
-                  const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
-                  const isLast = index === pathnames.length - 1;
-                  return (
-                    <React.Fragment key={name}>
-                      <BreadcrumbItem>
-                        {isLast ? (
-                          <BreadcrumbPage className="text-muted-foreground opacity-80">
-                            {name}
-                          </BreadcrumbPage>
-                        ) : (
-                          <Link to={routeTo} className="text-primary">
-                            {name}
-                          </Link>
-                        )}
-                      </BreadcrumbItem>
-                      {!isLast && <BreadcrumbSeparator />}
-                    </React.Fragment>
-                  );
-                })}
+                {pathnames
+                  .filter((name) => !/\d+/.test(name)) // Step 2: Filter out pathnames with ids
+                  .map((name, index, filteredPathnames) => {
+                    const routeTo = `/${filteredPathnames
+                      .slice(0, index + 1)
+                      .join("/")}`;
+                    const isLast = index === filteredPathnames.length - 1;
+                    return (
+                      <React.Fragment key={name}>
+                        <BreadcrumbItem>
+                          {isLast ? (
+                            <BreadcrumbPage className="text-muted-foreground opacity-80">
+                              {name}
+                            </BreadcrumbPage>
+                          ) : (
+                            <Link to={routeTo} className="text-primary">
+                              {name}
+                            </Link>
+                          )}
+                        </BreadcrumbItem>
+                        {!isLast && <BreadcrumbSeparator />}
+                      </React.Fragment>
+                    );
+                  })}
               </BreadcrumbList>
             </Breadcrumb>
           </div>

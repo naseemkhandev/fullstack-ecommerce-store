@@ -1,7 +1,7 @@
 import { Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SlCloudUpload } from "react-icons/sl";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import { Button } from "@/components/ui/button";
@@ -9,18 +9,27 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 import {
-Select,
+  Select,
   SelectContent,
   SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useAddNewUserMutation } from "../../../store/api/userApiSlice";
+import {
+  useAddNewUserMutation,
+  useGetUserByIdQuery,
+} from "../../../store/api/userApiSlice";
 import { cn } from "@/lib/utils";
 
 const AddNewUserPage = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
+  const { pathname } = useLocation();
+  const { data: { user: userToUpdate } = {}, isLoading: isFetchingUser } =
+    useGetUserByIdQuery(id);
+  const [addNewUser, { isLoading: isAddingUser }] = useAddNewUserMutation();
+
   const [userData, setUserData] = useState({
     profilePic: "",
     name: "",
@@ -30,7 +39,19 @@ const AddNewUserPage = () => {
     isVerified: "" || false,
   });
 
-  console.log(userData);
+  useEffect(() => {
+    if (pathname.includes("update") && userToUpdate) {
+      setUserData({
+        ...userData,
+        name: userToUpdate.name,
+        email: userToUpdate.email,
+        role: userToUpdate.role,
+        isVerified: userToUpdate.isVerified,
+        password: ".......",
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userToUpdate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,17 +61,36 @@ const AddNewUserPage = () => {
     });
   };
 
-  const [addNewUser, { isLoading: isAddingUser }] = useAddNewUserMutation();
-
-  const handleAddNewUser = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const loading = toast.loading("Adding user...");
+    const loading = toast.loading(
+      !pathname.includes("update") ? "Updating User..." : "Adding User..."
+    );
     try {
-      const res = await addNewUser(userData).unwrap();
+      if (
+        pathname.includes("add") &&
+        !userToUpdate &&
+        !id &&
+        !pathname.includes("update")
+      ) {
+        const res = await addNewUser(userData).unwrap();
 
-      navigate("/admin/users");
-      toast.success(res?.message);
+        navigate("/admin/users");
+        toast.success(res?.message);
+      } else {
+        if (
+          userData.name !== userToUpdate.name ||
+          userData.email !== userToUpdate.email
+        ) {
+          const res = await addNewUser(userData).unwrap();
+
+          navigate("/admin/users");
+          toast.success(res?.message);
+        } else {
+          navigate("/admin/users");
+        }
+      }
     } catch (error) {
       toast.error(error.data.message);
     } finally {
@@ -124,19 +164,21 @@ const AddNewUserPage = () => {
         />
       </div>
 
-      <div className="flex flex-col gap-3">
-        <Label className="font-medium text-gray-500">
-          Password <span className="text-red-500">*</span>
-        </Label>
+      {!pathname.includes("update") && (
+        <div className="flex flex-col gap-3">
+          <Label className="font-medium text-gray-500">
+            Password <span className="text-red-500">*</span>
+          </Label>
 
-        <Input
-          placeholder="Enter password"
-          type="password"
-          name="password"
-          value={userData.password}
-          onChange={handleChange}
-        />
-      </div>
+          <Input
+            placeholder="Enter password"
+            type="password"
+            name="password"
+            value={userData.password}
+            onChange={handleChange}
+          />
+        </div>
+      )}
 
       <div className="grid sm:grid-cols-2 gap-3">
         <div className="flex flex-col gap-3">
@@ -193,19 +235,13 @@ const AddNewUserPage = () => {
         </Link>
 
         <Button
-          onClick={handleAddNewUser}
-          isLoading={isAddingUser}
-          disabled={
-            isAddingUser ||
-            !userData.name ||
-            !userData.email ||
-            !userData.password
-          }
-          className={cn("bg-primary text-white px-7 py-3.5", {
+          onClick={handleSubmit}
+          isLoading={isAddingUser || isFetchingUser}
+          className={cn("bg-primary text-white px-6 py-3.5", {
             "px-5": isAddingUser,
           })}
         >
-          Add User
+          {pathname.includes("update") ? "Update" : "Add New"} User
         </Button>
       </div>
     </div>

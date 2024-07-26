@@ -54,3 +54,40 @@ export const addNewUser = async (req, res, next) => {
     next(error);
   }
 };
+
+export const updateUser = async (req, res, next) => {
+  try {
+    const { name, email } = req.body;
+
+    const user = await User.findById(req.params.id);
+    if (!user) return next(createError(404, "User not found"));
+
+    if (user.email === email)
+      return next(createError(400, "You entered the same email"));
+
+    const userWithSameEmail = await User.find({ email }).select("email");
+    if (userWithSameEmail.length > 0)
+      return next(createError(400, "User with this email already exists"));
+
+    user.name = name;
+    user.email = email;
+
+    await user.save();
+
+    res.status(200).json({ message: "User updated successfully", user });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getUserById = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id).select("-password");
+
+    if (!user) return next(createError(404, "User not found"));
+
+    res.status(200).json({ message: "User fetched successfully", user });
+  } catch (error) {
+    next(error);
+  }
+};

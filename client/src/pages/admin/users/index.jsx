@@ -210,7 +210,9 @@ const UsersPage = () => {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
                               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                              <DropdownMenuItem>Edit</DropdownMenuItem>
+                              <Link to={`/admin/users/update/${user?._id}`}>
+                                <DropdownMenuItem>Edit</DropdownMenuItem>
+                              </Link>
                               <Button
                                 onClick={() => handleDelete(user?._id)}
                                 size="sm"

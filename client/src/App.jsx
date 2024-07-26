@@ -108,6 +108,10 @@ const router = createBrowserRouter([
         element: <AddNewUserPage />,
       },
       {
+        path: "users/update/:id",
+        element: <AddNewUserPage />,
+      },
+      {
         path: "analytics",
         element: <AnalyticsPage />,
       },
