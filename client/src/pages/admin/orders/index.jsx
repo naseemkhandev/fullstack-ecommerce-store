@@ -34,8 +34,6 @@ import TablesSkeleton from "../../../components/skeletons/admin/tablesSkeleton";
 import convertDate from "../../../utils/convertDate";
 
 const OrdersPage = () => {
-  //   const { data: { products: orders } = [], isLoading: isOrdersLoading } =
-  //     useGetAllProductssQuery();
   const isOrdersLoading = false;
   const orders = [
     {

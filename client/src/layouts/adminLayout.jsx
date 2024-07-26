@@ -144,8 +144,8 @@ const AdminLayout = () => {
           </div>
         </header>
 
-        <main className="flex flex-1 flex-col gap-4 lg:gap-6">
-          <div className="flex items-center capitalize pl-4 lg:pl-6 mt-5">
+        <main className="flex flex-1 flex-col gap-4">
+          <div className="flex items-center capitalize pl-6 mt-4">
             <Breadcrumb>
               <BreadcrumbList>
                 {pathnames
@@ -176,7 +176,7 @@ const AdminLayout = () => {
             </Breadcrumb>
           </div>
 
-          <div className="max-h-[calc(100vh-130px)] h-full overflow-auto px-5">
+          <div className="max-h-[calc(100vh-130px)] bg-neutral-50 pt-3 md:pt-5 h-full overflow-auto px-3 md:px-5">
             <Outlet />
           </div>
         </main>
