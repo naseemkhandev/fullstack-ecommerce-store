@@ -40,8 +40,6 @@ const AuthPage = () => {
       navigate("/");
       dispatch(addUser(res.user));
       toast.success(res?.message);
-
-      console.log(res);
     } catch (error) {
       throw new Error(error);
     }

@@ -116,7 +116,7 @@ const AddNewProductPage = () => {
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid sm:grid-cols-2 gap-3">
         <div className="flex flex-col gap-3">
           <Label className="font-medium text-gray-500">
             Price <span className="text-red-500">*</span>

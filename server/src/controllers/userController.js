@@ -30,3 +30,27 @@ export const deleteUser = async (req, res, next) => {
     next(error);
   }
 };
+
+export const addNewUser = async (req, res, next) => {
+  try {
+    const { name, email, password } = req.body;
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser)
+      return next(createError(400, "User with this email already registered"));
+
+    const user = new User({
+      name,
+      email,
+      password,
+      isAdmin: false,
+      isVerified: false,
+    });
+
+    await user.save();
+
+    res.status(201).json({ message: "User added successfully", user });
+  } catch (error) {
+    next(error);
+  }
+};

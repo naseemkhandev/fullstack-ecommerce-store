@@ -1,6 +1,8 @@
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
 import { SlCloudUpload } from "react-icons/sl";
+import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,8 +16,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useAddNewUserMutation } from "../../../store/api/userApiSlice";
+import { cn } from "@/lib/utils";
 
 const AddNewUserPage = () => {
+  const navigate = useNavigate();
   const [userData, setUserData] = useState({
     profilePic: "",
     name: "",
@@ -31,6 +36,24 @@ const AddNewUserPage = () => {
       ...userData,
       [name]: value,
     });
+  };
+
+  const [addNewUser, { isLoading: isAddingUser }] = useAddNewUserMutation();
+
+  const handleAddNewUser = async (e) => {
+    e.preventDefault();
+
+    const loading = toast.loading("Adding user...");
+    try {
+      const res = await addNewUser(userData).unwrap();
+
+      navigate("/admin/users");
+      toast.success(res?.message);
+    } catch (error) {
+      toast.error(error.data.message);
+    } finally {
+      toast.dismiss(loading);
+    }
   };
 
   return (
@@ -115,7 +138,7 @@ const AddNewUserPage = () => {
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid sm:grid-cols-2 gap-3">
         <div className="flex flex-col gap-3">
           <Label className="font-medium text-gray-500">
             Role <span className="text-red-500">*</span>
@@ -165,10 +188,19 @@ const AddNewUserPage = () => {
       </div>
 
       <div className="flex items-center justify-end gap-3 pb-3">
-        <Button variant="outline" className="px-7 py-3.5">
-          Cancel
-        </Button>
-        <Button className="bg-primary text-white px-7 py-3.5">
+        <Link to="/admin/users">
+          <Button variant="outline" className="px-7 py-3.5">
+            Cancel
+          </Button>
+        </Link>
+
+        <Button
+          onClick={handleAddNewUser}
+          isLoading={isAddingUser}
+          className={cn("bg-primary text-white px-7 py-3.5", {
+            "px-5": isAddingUser,
+          })}
+        >
           Add User
         </Button>
       </div>
