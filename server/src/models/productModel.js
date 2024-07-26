@@ -5,7 +5,7 @@ const productSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,  
+      required: true,
     },
     title: {
       type: String,
@@ -38,6 +38,11 @@ const productSchema = new mongoose.Schema(
     images: {
       type: Array,
       required: true,
+    },
+    status: {
+      type: String,
+      default: "active",
+      enum: ["active", "draft"],
     },
   },
   { timestamps: true }

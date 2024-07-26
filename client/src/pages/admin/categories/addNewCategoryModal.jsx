@@ -18,6 +18,7 @@ import {
   useAddNewCategoryMutation,
   useUpdateCategoryMutation,
 } from "../../../store/api/categoryApiSlice";
+import generateSlug from "../../../utils/generateSlug";
 
 const AddNewCategoryModal = ({ categoryToUpdate }) => {
   const [category, setCategory] = useState("" || categoryToUpdate?.name);
@@ -49,13 +50,6 @@ const AddNewCategoryModal = ({ categoryToUpdate }) => {
   };
 
   useEffect(() => {
-    const generateSlug = (name) => {
-      return name
-        ?.toLowerCase()
-        ?.replace(/ /g, "-")
-        ?.replace(/[^\w-]+/g, "");
-    };
-
     setSlug(generateSlug(category));
   }, [category]);
 

@@ -41,6 +41,7 @@ import {
   useDeleteUserMutation,
   useGetAllUsersQuery,
 } from "../../../store/api/userApiSlice";
+import { Link } from "react-router-dom";
 
 const UsersPage = () => {
   const { data: { users } = [], isLoading: isUsersLoading } =
@@ -117,12 +118,14 @@ const UsersPage = () => {
                   </CardDescription>
                 </CardHeader>
 
-                <Button className="gap-2 px-3 mr-5 mb-2 py-3">
-                  <PlusCircle className="size-[1rem]" />
-                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                    Add User
-                  </span>
-                </Button>
+                <Link to="/admin/users/add">
+                  <Button className="gap-2 px-3 mr-5 mb-2 py-3.5">
+                    <PlusCircle className="size-[1rem]" />
+                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                      Add New User
+                    </span>
+                  </Button>
+                </Link>
               </div>
 
               <CardContent>

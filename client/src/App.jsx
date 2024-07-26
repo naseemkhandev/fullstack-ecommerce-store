@@ -11,6 +11,8 @@ import ProductsPage from "./pages/admin/products";
 import UsersPage from "./pages/admin/users";
 import CategoriesPage from "./pages/admin/categories";
 import AnalyticsPage from "./pages/admin/analytics";
+import AddNewProductPage from "./pages/admin/products/addNewProduct";
+import AddNewUserPage from "./pages/admin/users/addNewUser";
 
 const router = createBrowserRouter([
   {
@@ -90,12 +92,20 @@ const router = createBrowserRouter([
         element: <ProductsPage />,
       },
       {
+        path: "products/add",
+        element: <AddNewProductPage />,
+      },
+      {
         path: "categories",
         element: <CategoriesPage />,
       },
       {
         path: "users",
         element: <UsersPage />,
+      },
+      {
+        path: "users/add",
+        element: <AddNewUserPage />,
       },
       {
         path: "analytics",

@@ -29,9 +29,10 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ImageOff, ListFilter, MoreHorizontal, PlusCircle } from "lucide-react";
 
+import { Link } from "react-router-dom";
 import TablesSkeleton from "../../../components/skeletons/admin/tablesSkeleton";
-import convertDate from "../../../utils/convertDate";
 import { useGetAllProductsQuery } from "../../../store/api/productApiSlice";
+import convertDate from "../../../utils/convertDate";
 
 const ProductsPage = () => {
   const { data: { products } = [], isLoading: isProductsLoading } =
@@ -95,12 +96,14 @@ const ProductsPage = () => {
                   </CardDescription>
                 </CardHeader>
 
-                <Button className="gap-2 px-3 mr-5 mb-2 py-3">
-                  <PlusCircle className="size-[1rem]" />
-                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                    Add Product
-                  </span>
-                </Button>
+                <Link to="/admin/products/add">
+                  <Button className="gap-2 px-3 mr-5 mb-2 py-3.5">
+                    <PlusCircle className="size-[1rem]" />
+                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                      Add New Product
+                    </span>
+                  </Button>
+                </Link>
               </div>
 
               <CardContent>
@@ -120,7 +123,7 @@ const ProductsPage = () => {
                   </TableHeader>
 
                   <TableBody>
-                    {products.length === 0 && (
+                    {products?.length === 0 && (
                       <TableRow>
                         <TableCell colSpan={7} className="text-center">
                           No products found
@@ -128,7 +131,7 @@ const ProductsPage = () => {
                       </TableRow>
                     )}
 
-                    {products.map((product) => (
+                    {products?.map((product) => (
                       <TableRow key={product?._id}>
                         <TableCell className="table-cell">
                           {product?.profilePic ? (
@@ -145,11 +148,13 @@ const ProductsPage = () => {
                         </TableCell>
 
                         <TableCell className="font-medium capitalize whitespace-nowrap">
-                          Laser Lemonade Machine
+                          {product?.title?.length > 20
+                            ? product?.title?.slice(0, 20) + "..."
+                            : product?.title}
                         </TableCell>
 
                         <TableCell className="table-cell">
-                          <Badge variant="outline">Draft</Badge>
+                          <Badge variant="outline">{product?.status}</Badge>
                         </TableCell>
 
                         <TableCell className="table-cell">$499.99</TableCell>
