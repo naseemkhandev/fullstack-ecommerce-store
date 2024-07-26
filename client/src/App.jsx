@@ -13,6 +13,7 @@ import CategoriesPage from "./pages/admin/categories";
 import AnalyticsPage from "./pages/admin/analytics";
 import AddNewProductPage from "./pages/admin/products/addNewProduct";
 import AddNewUserPage from "./pages/admin/users/addNewUser";
+import OrdersPage from "./pages/admin/orders";
 
 const router = createBrowserRouter([
   {
@@ -85,7 +86,7 @@ const router = createBrowserRouter([
       },
       {
         path: "orders",
-        element: <div>Orders</div>,
+        element: <OrdersPage />,
       },
       {
         path: "products",
