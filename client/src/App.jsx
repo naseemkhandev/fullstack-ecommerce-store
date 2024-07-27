@@ -14,6 +14,8 @@ import AnalyticsPage from "./pages/admin/analytics";
 import AddNewProductPage from "./pages/admin/products/addNewProduct";
 import AddNewUserPage from "./pages/admin/users/addNewUser";
 import OrdersPage from "./pages/admin/orders";
+import ProfilePage from "./pages/admin/profile";
+import SettingsPage from "./pages/admin/settings";
 
 const router = createBrowserRouter([
   {
@@ -118,11 +120,11 @@ const router = createBrowserRouter([
       },
       {
         path: "settings",
-        element: <div>Settings</div>,
+        element: <SettingsPage />,
       },
       {
         path: "profile",
-        element: <div>Profile</div>,
+        element: <ProfilePage />,
       },
     ],
   },
