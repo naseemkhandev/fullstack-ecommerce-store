@@ -73,3 +73,7 @@
     @apply flex items-center justify-between;
   }
 }
+
+::-webkit-scrollbar {
+  width: 0px;
+}
