@@ -35,6 +35,13 @@ const ProfilePage = () => {
 
   return (
     <div className="overflow-auto h-full flex flex-col gap-5">
+      <div className="mb-5">
+        <h2 className="text-2xl font-semibold">Manage Profile</h2>
+        <p className="text-gray-500 text-sm xl:text-base">
+          Manage your profile and view your account details.
+        </p>
+      </div>
+
       <div className="w-full">
         <div className="w-fit mx-auto relative cursor-pointer group">
           {userData.profilePic ? (

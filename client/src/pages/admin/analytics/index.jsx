@@ -6,6 +6,13 @@ import UsersByRole from "./users/usersByRole";
 const AnalyticsPage = () => {
   return (
     <div className="flex flex-col gap-5 h-full pb-10 bg-neutral-50">
+      <div className="mb-5">
+        <h2 className="text-2xl font-semibold">Store Analytics</h2>
+        <p className="text-gray-500 text-sm xl:text-base">
+          View your store analytics here to make better decisions.
+        </p>
+      </div>
+
       <div className="grid sm:grid-cols-2 gap-5">
         <TotalRevenue />
         <TotalRevenue />

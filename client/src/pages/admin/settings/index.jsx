@@ -21,6 +21,13 @@ const SettingsPage = () => {
 
   return (
     <div className="flex flex-col gap-5 max-w-lg">
+      <div className="mb-5">
+        <h2 className="text-2xl font-semibold">Settings</h2>
+        <p className="text-gray-500 text-sm xl:text-base">
+          Manage your account settings here to keep your account secure.
+        </p>
+      </div>
+
       <div className="flex flex-col gap-2">
         <Label htmlFor="oldPassword">
           Old Password <span className="text-red-500">*</span>
@@ -49,9 +56,7 @@ const SettingsPage = () => {
         />
       </div>
 
-      <Button type="submit">
-        Update Password
-      </Button>
+      <Button type="submit">Update Password</Button>
     </div>
   );
 };
