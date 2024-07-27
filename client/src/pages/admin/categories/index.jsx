@@ -48,7 +48,7 @@ const CategoriesPage = () => {
 
   return (
     <div className="grid gap-6 overflow-auto">
-      {isLoading ? (
+      {!isLoading ? (
         <div className="grid w-full gap-6 overflow-auto">
           <TablesSkeleton />
         </div>
