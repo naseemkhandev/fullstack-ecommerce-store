@@ -29,7 +29,7 @@ const DashboardCard = () => {
     <div>
       <Card
         x-chunk="dashboard-01-chunk-0"
-        className="rounded-xl border-none shadow-md shadow-black/5 h-40 overflow-hidden"
+        className="rounded-xl border-none shadow-md shadow-black/5"
       >
         <CardContent className="p-3 pb-0 flex items-center gap-3">
           <div className="bg-orange-500 w-12 aspect-square text-white flex-center rounded-full">
@@ -48,10 +48,12 @@ const DashboardCard = () => {
         </CardContent>
 
         <CardContent className="p-0 pt-2">
-          <ChartContainer config={chartConfig}>
+          <ChartContainer
+            config={chartConfig}
+            className="aspect-auto h-[90px] w-full"
+          >
             <AreaChart
               accessibilityLayer
-              height={50}
               data={chartData}
               margin={{
                 top: 5,
@@ -79,6 +81,7 @@ const DashboardCard = () => {
                 fill="url(#fillMobile)"
                 fillOpacity={0.3}
                 stroke="hsl(var(--primary))"
+                strokeWidth={4}
               />
             </AreaChart>
           </ChartContainer>
