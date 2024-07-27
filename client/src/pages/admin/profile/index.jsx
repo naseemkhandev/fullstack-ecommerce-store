@@ -48,11 +48,11 @@ const ProfilePage = () => {
             <img
               src={userData.profilePic || "/images/auth.jpg"}
               alt="profilePic"
-              className="w-52 aspect-square object-cover object-cYour rounded-full"
+              className="w-44 aspect-square object-cover object-cYour rounded-full"
             />
           ) : (
-            <div className="w-52 aspect-square bg-muted-foreground/50 rounded-full flex-center">
-              <UserRound className="size-52 text-muted stroke-[.9px]" />
+            <div className="w-44 aspect-square bg-muted-foreground/50 rounded-full flex-center">
+              <UserRound className="size-32 text-muted stroke-[.9px]" />
             </div>
           )}
 

@@ -37,4 +37,27 @@ const loginSchema = z.object({
     .trim(),
 });
 
-export { registerSchema, loginSchema };
+const changePasswordSchema = z.object({
+  currentPassword: z
+    .string({ required_error: "Current password is required" })
+    .nonempty({ message: "Current password is required" })
+    .min(6, { message: "Password must be at least 6 characters long" })
+    .max(20, { message: "Password must be at most 20 characters long" })
+    .trim(),
+
+  newPassword: z
+    .string({ required_error: "New password is required" })
+    .nonempty({ message: "New password is required" })
+    .min(6, { message: "Password must be at least 6 characters long" })
+    .max(20, { message: "Password must be at most 20 characters long" })
+    .trim(),
+
+  confirmPassword: z
+    .string({ required_error: "Confirm password is required" })
+    .nonempty({ message: "Confirm password is required" })
+    .min(6, { message: "Password must be at least 6 characters long" })
+    .max(20, { message: "Password must be at most 20 characters long" })
+    .trim(),
+});
+
+export { registerSchema, loginSchema, changePasswordSchema };

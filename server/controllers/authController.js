@@ -58,3 +58,32 @@ export const logout = async (req, res, next) => {
     next(error);
   }
 };
+
+export const changePassword = async (req, res, next) => {
+  try {
+    const { currentPassword, newPassword, confirmPassword } = req.body;
+
+    if (newPassword !== confirmPassword)
+      return next(createError(400, "Passwords do not match!"));
+
+    if (currentPassword === newPassword)
+      return next(createError(400, "New password must be different!"));
+
+    const isPasswordValid = await bcrypt.compare(
+      currentPassword,
+      req.user.password
+    );
+
+    if (!isPasswordValid)
+      return next(createError(400, "Current password is incorrect!"));
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    console.log(hashedPassword);
+
+    await User.findByIdAndUpdate(req.user._id, { password: hashedPassword });
+
+    res.status(200).json({ message: "Password changed successfully!" });
+  } catch (error) {
+    next(error);
+  }
+};

@@ -12,7 +12,7 @@ const verifyToken = (req, res, next) => {
     jwt.verify(token, config.jwtSecret, async (err, user) => {
       if (err) next(createError(403, "Token is not valid"));
 
-      req.user = await User.findById(user.userId).select("-password");
+      req.user = await User.findById(user.userId);
       next();
     });
   } catch (error) {
