@@ -12,12 +12,6 @@ const userSchema = z.object({
     .nonempty({ message: "Email is required" })
     .email({ message: "Email is invalid" })
     .trim(),
-  password: z
-    .string({ required_error: "Password is required" })
-    .nonempty({ message: "Password is required" })
-    .min(6, { message: "Password must be at least 6 characters long" })
-    .max(20, { message: "Password must be at most 20 characters long" })
-    .trim(),
 });
 
 export default userSchema;

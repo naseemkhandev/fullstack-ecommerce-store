@@ -91,3 +91,15 @@ export const getUserById = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getAuthUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user._id).select("-password");
+
+    if (!user) return next(createError(404, "User not found"));
+
+    res.status(200).json({ message: "User fetched successfully", user });
+  } catch (error) {
+    next(error);
+  }
+};

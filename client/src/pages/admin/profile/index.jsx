@@ -1,5 +1,7 @@
 import { CameraIcon, UserRound } from "lucide-react";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-hot-toast";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,15 +16,20 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { useUpdateUserMutation } from "../../../store/api/userApiSlice";
+import { addUser } from "../../../store/slices/authSlice";
 
 const ProfilePage = () => {
+  const authUser = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
   const [userData, setUserData] = useState({
-    profilePic: "",
-    name: "",
-    email: "",
-    bio: "",
-    role: "" || "user",
-    isVerified: "" || false,
+    _id: "" || authUser?._id,
+    profilePic: "" || authUser?.profilePic,
+    name: "" || authUser?.name,
+    email: "" || authUser?.email,
+    bio: "" || authUser?.bio,
+    role: "" || "user" || authUser?.isAdmin,
+    isVerified: "" || false || authUser?.isVerified,
   });
 
   const handleChange = (e) => {
@@ -31,6 +38,22 @@ const ProfilePage = () => {
       ...userData,
       [name]: value,
     });
+  };
+
+  const [updateUser, { isLoading: isUpdatingUser }] = useUpdateUserMutation();
+
+  const handleUpdateUser = async () => {
+    const loading = toast.loading("Updating profile...");
+    try {
+      const res = await updateUser(userData).unwrap();
+
+      dispatch(addUser(res.user));
+      toast.success("Profile updated successfully");
+    } catch (error) {
+      toast.error(error?.data?.message || "An error occurred");
+    } finally {
+      toast.dismiss(loading);
+    }
   };
 
   return (
@@ -46,7 +69,7 @@ const ProfilePage = () => {
         <div className="w-fit mx-auto relative cursor-pointer group">
           {userData.profilePic ? (
             <img
-              src={userData.profilePic || "/images/auth.jpg"}
+              src={userData.profilePic}
               alt="profilePic"
               className="w-44 aspect-square object-cover object-cYour rounded-full"
             />
@@ -154,7 +177,12 @@ const ProfilePage = () => {
         </div>
       </div>
 
-      <Button className={cn("bg-primary text-white px-6 w-fit ml-auto")}>
+      <Button
+        disabled={isUpdatingUser}
+        isLoading={isUpdatingUser}
+        onClick={handleUpdateUser}
+        className={cn("bg-primary text-white px-6 w-fit ml-auto")}
+      >
         Update Profile
       </Button>
     </div>
