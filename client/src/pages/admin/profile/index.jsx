@@ -25,7 +25,7 @@ const ProfilePage = () => {
 
   const [userData, setUserData] = useState({
     _id: "" || authUser?._id,
-    profilePic: "" || authUser?.profilePic,
+    profilePic: "" || authUser?.profilePic?.secure_url,
     name: "" || authUser?.name,
     email: "" || authUser?.email,
     bio: "" || authUser?.bio,
@@ -39,6 +39,20 @@ const ProfilePage = () => {
       ...userData,
       [name]: value,
     });
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUserData({
+          ...userData,
+          profilePic: reader.result,
+        });
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const [updateUser, { isLoading: isUpdatingUser }] = useUpdateUserMutation();
@@ -72,7 +86,7 @@ const ProfilePage = () => {
             <img
               src={userData.profilePic}
               alt="profilePic"
-              className="w-44 aspect-square object-cover object-cYour rounded-full"
+              className="w-44 bg-muted aspect-square object-cover object-center rounded-full"
             />
           ) : (
             <div className="w-44 aspect-square bg-muted-foreground/50 rounded-full flex-center">
@@ -81,6 +95,11 @@ const ProfilePage = () => {
           )}
 
           <div className="bg-black/50 text-muted w-full h-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-1.5 rounded-full flex-center text-center flex-col text-sm gap-2 group-hover:opacity-100 opacity-0 transition-all select-none">
+            <input
+              type="file"
+              className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer rounded-full"
+              onChange={handleImageChange}
+            />
             <CameraIcon className="size-10 stroke-[.9px]" />
 
             <p>

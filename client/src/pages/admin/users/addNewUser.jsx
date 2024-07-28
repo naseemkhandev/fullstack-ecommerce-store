@@ -52,6 +52,7 @@ const AddNewUserPage = () => {
         email: userToUpdate.email,
         role: userToUpdate.role,
         isVerified: userToUpdate.isVerified,
+        profilePic: userToUpdate.profilePic.secure_url,
       });
     }
   }, [userToUpdate, id, pathname]);
@@ -106,10 +107,10 @@ const AddNewUserPage = () => {
       <div className="flex flex-col gap-3">
         <Label className="font-medium text-gray-500">Profile Picture</Label>
 
-        {userData.profilePic ? (
+        {userData?.profilePic?.secure_url ? (
           <div className="w-full h-[18rem] relative">
             <img
-              src={userData.profilePic}
+              src={userData.profilePic?.secure_url}
               alt="profilePic"
               className="w-full h-full object-cover object-center rounded-lg"
             />

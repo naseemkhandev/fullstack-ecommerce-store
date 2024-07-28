@@ -1,5 +1,8 @@
+import { v2 as cloudinary } from "cloudinary";
+
 import User from "../models/userModel.js";
 import createError from "../helpers/createError.js";
+import uploadImageToCloudinary from "../helpers/cloudinary.js";
 
 export const getAllUsers = async (req, res, next) => {
   try {
@@ -56,16 +59,14 @@ export const addNewUser = async (req, res, next) => {
 
 export const updateUser = async (req, res, next) => {
   try {
-    const { name, email } = req.body;
+    const { name, email, bio } = req.body;
+    const imagePath = req?.file?.path;
 
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id).select("-password");
     if (!user) return next(createError(404, "User not found"));
 
     if (!name || !email)
       return next(createError(400, "Name and email are required"));
-
-    // if (user.email === email)
-    //   return next(createError(400, "You entered the same email"));
 
     const userWithSameEmail = await User.find({
       email,
@@ -74,8 +75,25 @@ export const updateUser = async (req, res, next) => {
     if (userWithSameEmail.length > 0)
       return next(createError(400, "Email already exists"));
 
+    if (req.file && imagePath) {
+      const { secure_url, public_id } = await uploadImageToCloudinary(
+        imagePath,
+        "users"
+      );
+
+      if (user.profilePic && user.profilePic.public_id) {
+        const publicId = user.profilePic.public_id;
+        await cloudinary.uploader.destroy(publicId);
+      }
+
+      if (!secure_url) return next(createError(500, "Failed to upload image"));
+
+      user.profilePic = { secure_url, public_id };
+    }
+
     user.name = name;
     user.email = email;
+    user.bio = bio;
     await user.save();
 
     res.status(200).json({ message: "User updated successfully", user });

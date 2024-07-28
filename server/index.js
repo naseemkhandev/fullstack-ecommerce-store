@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import colors from "colors";
 import helmet from "helmet";
+import { v2 as cloudinary } from "cloudinary";
 
 import { config } from "./config/config.js";
 import connectToDB from "./config/db.js";
@@ -28,6 +29,13 @@ app.use(
 );
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
+
+// Cloudinary configuration
+cloudinary.config({
+  cloud_name: config.cloudinaryCloudName,
+  api_key: config.cloudinaryApiKey,
+  api_secret: config.cloudinaryApiSecret,
+});
 
 // Routes
 app.get("/", (req, res) => {

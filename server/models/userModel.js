@@ -26,8 +26,14 @@ const userSchema = new mongoose.Schema(
       default: false,
     },
     profilePic: {
-      type: String,
-      default: "",
+      public_id: {
+        type: String,
+        default: "",
+      },
+      secure_url: {
+        type: String,
+        default: "",
+      },
     },
     isVerified: {
       type: Boolean,

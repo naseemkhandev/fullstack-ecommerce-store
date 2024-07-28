@@ -9,15 +9,16 @@ import {
   updateUser,
 } from "../controllers/userController.js";
 import validateSchema from "../middlewares/validateSchema.js";
-import { verifyAdmin } from "../middlewares/verifyToken.js";
+import { verifyAdmin, verifyUser } from "../middlewares/verifyToken.js";
 import userSchema from "../validations/userValidation.js";
+import uploadImage from "../middlewares/uploadImage.js";
 
 const router = express.Router();
 
 router.get("/", verifyAdmin, getAllUsers);
 router.delete("/:id", verifyAdmin, deleteUser);
 router.post("/", verifyAdmin, validateSchema(userSchema), addNewUser);
-router.put("/:id", verifyAdmin, updateUser);
+router.put("/:id", verifyUser, uploadImage.single("profilePic"), updateUser);
 router.get("/:id", verifyAdmin, getUserById);
 router.get("/users-by-role", verifyAdmin, getUsersByRole);
 
