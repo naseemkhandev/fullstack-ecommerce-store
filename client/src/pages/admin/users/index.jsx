@@ -60,7 +60,7 @@ const UsersPage = () => {
 
   return (
     <main className="grid flex-1 items-start gap-4 md:gap-8 h-full">
-      {!isUsersLoading ? (
+      {isUsersLoading ? (
         <TablesSkeleton />
       ) : (
         <Tabs
@@ -156,9 +156,9 @@ const UsersPage = () => {
                     {users?.map((user) => (
                       <TableRow key={user?._id}>
                         <TableCell className="table-cell">
-                          {user?.profilePic ? (
+                          {user?.profilePic?.secure_url ? (
                             <img
-                              src="/images/auth.jpg"
+                              src={user?.profilePic?.secure_url}
                               alt="product img"
                               className="w-[4.5rem] aspect-square rounded-md object-cover object-center"
                             />

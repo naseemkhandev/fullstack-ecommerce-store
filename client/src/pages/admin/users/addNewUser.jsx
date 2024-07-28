@@ -43,6 +43,8 @@ const AddNewUserPage = () => {
     isVerified: "" || false,
   });
 
+  console.log(userData);
+
   useEffect(() => {
     if (pathname.includes("update") && userToUpdate) {
       setUserData({
@@ -52,7 +54,7 @@ const AddNewUserPage = () => {
         email: userToUpdate.email,
         role: userToUpdate.role,
         isVerified: userToUpdate.isVerified,
-        profilePic: userToUpdate.profilePic.secure_url,
+        profilePic: userToUpdate.profilePic,
       });
     }
   }, [userToUpdate, id, pathname]);
@@ -85,7 +87,10 @@ const AddNewUserPage = () => {
     try {
       if (
         userData.name !== userToUpdate.name ||
-        userData.email !== userToUpdate.email
+        userData.email !== userToUpdate.email ||
+        userData.role !== userToUpdate.role ||
+        userData.isVerified !== userToUpdate.isVerified ||
+        userData.profilePic !== userToUpdate.profilePic
       ) {
         const res = await updateUser(userData).unwrap();
 
@@ -103,41 +108,56 @@ const AddNewUserPage = () => {
   };
 
   return (
-    <div className="overflow-auto h-full flex flex-col gap-5">
+    <form
+      encType="multipart/form-data"
+      className="overflow-auto h-full flex flex-col gap-5"
+    >
       <div className="flex flex-col gap-3">
         <Label className="font-medium text-gray-500">Profile Picture</Label>
 
-        {userData?.profilePic?.secure_url ? (
-          <div className="w-full h-[18rem] relative">
-            <img
-              src={userData.profilePic?.secure_url}
-              alt="profilePic"
-              className="w-full h-full object-cover object-center rounded-lg"
-            />
-            <button className="bg-white text-primary absolute top-3 right-3 p-1.5 rounded-md">
-              <Trash2 className="w-5" />
-            </button>
-          </div>
-        ) : (
-          <div className="relative w-full h-[18rem] text-center flex flex-col items-center justify-center gap-1 rounded-lg border-gray-200 px-10 lg:px-7 xl:px-10 border-dashed border-2 hover:border-primary/50 hover:bg-primary/5 group">
-            <input
-              type="file"
-              id="profilePic"
-              name="profilePic"
-              accept="image/png, image/jpg, image/jpeg"
-              className="absolute w-full z-10 h-full opacity-0 top-0 left-0 cursor-pointer"
-              //   onChange={handleprofilePicChange}
-            />
-            <SlCloudUpload className="size-14 stroke-[0.01px] text-gray-300 mb-3 group-hover:text-primary/80" />
-            <h4 className="font-medium text-lg text-gray-500">
-              Drag & drop files or{" "}
-              <span className="text-primary underline">Browse</span>
-            </h4>
-            <p className="text-primary text-sm">
-              Supported formates: JPEG, PNG, JPEG
-            </p>
-          </div>
-        )}
+        <div className="relative">
+          <input
+            type="file"
+            className="absolute top-0 z-10 left-0 w-full h-full opacity-0 cursor-pointer"
+            name="profilePic"
+            id="profilePic"
+            onChange={(e) => {
+              handleChange({
+                target: {
+                  name: "profilePic",
+                  value: e.target.files[0],
+                },
+              });
+            }}
+          />
+
+          {userData?.profilePic?.secure_url ? (
+            <div className="w-full h-[18rem] relative">
+              <img
+                src={userData.profilePic?.secure_url}
+                alt="profilePic"
+                className="w-full h-full object-cover object-top rounded-lg"
+              />
+              <button
+                onClick={() => setUserData({ ...userData, profilePic: "" })}
+                className="bg-white text-primary absolute top-3 right-3 p-1.5 rounded-md"
+              >
+                <Trash2 className="w-5" />
+              </button>
+            </div>
+          ) : (
+            <div className="relative w-full h-[18rem] text-center flex flex-col items-center justify-center gap-1 rounded-lg border-gray-200 px-10 lg:px-7 xl:px-10 border-dashed border-2 hover:border-primary/50 hover:bg-primary/5 group">
+              <SlCloudUpload className="size-14 stroke-[0.01px] text-gray-300 mb-3 group-hover:text-primary/80" />
+              <h4 className="font-medium text-lg text-gray-500">
+                Drag & drop files or{" "}
+                <span className="text-primary underline">Browse</span>
+              </h4>
+              <p className="text-primary text-sm">
+                Supported formates: JPEG, PNG, JPEG
+              </p>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="flex flex-col gap-3">
@@ -261,7 +281,7 @@ const AddNewUserPage = () => {
           </Button>
         )}
       </div>
-    </div>
+    </form>
   );
 };
 
