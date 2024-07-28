@@ -25,11 +25,18 @@ export const userApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ["User"],
     }),
     updateUser: builder.mutation({
-      query: (user) => ({
-        url: `users/${user._id}`,
-        method: "PUT",
-        body: user,
-      }),
+      query: (user) => {
+        const formData = new FormData();
+        for (const key in user) {
+          formData.append(key, user[key]);
+        }
+
+        return {
+          url: `users/${user._id}`,
+          method: "PUT",
+          body: formData,
+        };
+      },
       invalidatesTags: ["User"],
     }),
     getUserById: builder.query({

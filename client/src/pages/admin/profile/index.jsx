@@ -41,23 +41,10 @@ const ProfilePage = () => {
     });
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setUserData({
-          ...userData,
-          profilePic: reader.result,
-        });
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   const [updateUser, { isLoading: isUpdatingUser }] = useUpdateUserMutation();
 
-  const handleUpdateUser = async () => {
+  const handleUpdateUser = async (e) => {
+    e.preventDefault();
     const loading = toast.loading("Updating profile...");
     try {
       const res = await updateUser(userData).unwrap();
@@ -72,7 +59,11 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="overflow-auto h-full flex flex-col gap-5">
+    <form
+      encType="multipart/form-data"
+      onSubmit={handleUpdateUser}
+      className="overflow-auto h-full flex flex-col gap-5"
+    >
       <div className="mb-5">
         <h2 className="text-2xl font-semibold">Manage Profile</h2>
         <p className="text-gray-500 text-sm xl:text-base">
@@ -85,7 +76,7 @@ const ProfilePage = () => {
           {userData.profilePic ? (
             <img
               src={userData.profilePic}
-              alt="profilePic"
+              // alt="profilePic"
               className="w-44 bg-muted aspect-square object-cover object-center rounded-full"
             />
           ) : (
@@ -98,8 +89,18 @@ const ProfilePage = () => {
             <input
               type="file"
               className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer rounded-full"
-              onChange={handleImageChange}
+              name="profilePic"
+              id="profilePic"
+              onChange={(e) => {
+                handleChange({
+                  target: {
+                    name: "profilePic",
+                    value: e.target.files[0],
+                  },
+                });
+              }}
             />
+
             <CameraIcon className="size-10 stroke-[.9px]" />
 
             <p>
@@ -200,12 +201,11 @@ const ProfilePage = () => {
       <Button
         disabled={isUpdatingUser}
         isLoading={isUpdatingUser}
-        onClick={handleUpdateUser}
         className={cn("bg-primary text-white px-6 w-fit ml-auto")}
       >
         Update Profile
       </Button>
-    </div>
+    </form>
   );
 };
 
