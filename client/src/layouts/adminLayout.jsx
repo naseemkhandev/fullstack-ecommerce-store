@@ -29,7 +29,7 @@ const AdminLayout = () => {
 
   return authUser && authUser?.isAdmin ? (
     <div className="grid min-h-screen w-full md:grid-cols-[280px_1fr]">
-      <div className="hidden border-r bg-muted/40 md:block">
+      <div className="hidden border-r border-muted md:block bg-white">
         <div className="flex h-full max-h-screen flex-col gap-2 border-none shadow-lg rounded-2xl shadow-black/5">
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <Link to="/" className="flex items-center gap-2 font-semibold">
@@ -38,8 +38,8 @@ const AdminLayout = () => {
             </Link>
           </div>
 
-          <div className="flex-1 mt-5 h-full">
-            <nav className="grid items-start px-2 text-sm lg:px-4 gap-2">
+          <div className="flex-1 mt-5 h-full bg-white">
+            <nav className="grid items-start px-2 text-sm lg:px-4 gap-2 bg-white border-none">
               {adminLinks.map((link) => (
                 <Link
                   key={link.id}
@@ -75,8 +75,8 @@ const AdminLayout = () => {
         </div>
       </div>
 
-      <div className="flex flex-col">
-        <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
+      <div className="flex flex-col bg-white">
+        <header className="flex h-14 items-center bg-white gap-4 border-b px-4 lg:h-[60px] lg:px-6">
           <Sheet>
             <SheetTrigger asChild>
               <Button
@@ -89,7 +89,7 @@ const AdminLayout = () => {
               </Button>
             </SheetTrigger>
 
-            <SheetContent side="left" className="flex flex-col">
+            <SheetContent side="left" className="flex flex-col bg-white">
               <div className="flex items-center border-b pb-5 -mt-2">
                 <Link to="/" className="flex items-center gap-2 font-semibold">
                   <Package2 className="h-6 w-6" />
@@ -97,7 +97,7 @@ const AdminLayout = () => {
                 </Link>
               </div>
 
-              <nav className="grid items-start text-sm gap-2 mt-5">
+              <nav className="grid items-start text-sm gap-2 mt-5 bg-white">
                 {adminLinks.map((link) => (
                   <Link
                     key={link.id}
@@ -130,7 +130,7 @@ const AdminLayout = () => {
             </SheetContent>
           </Sheet>
 
-          <div className="w-full flex-1">
+          <div className="w-full flex-1 bg-white">
             <form>
               <div className="relative">
                 <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 size-5 text-muted-foreground" />

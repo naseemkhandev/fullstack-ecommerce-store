@@ -22,6 +22,7 @@ import { addUser } from "../../../store/slices/authSlice";
 const ProfilePage = () => {
   const authUser = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
+
   const [userData, setUserData] = useState({
     _id: "" || authUser?._id,
     profilePic: "" || authUser?.profilePic,

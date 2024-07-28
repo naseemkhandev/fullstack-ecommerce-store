@@ -38,6 +38,12 @@ export const userApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    getUsersByRole: builder.query({
+      query: () => ({
+        url: `users/users-by-role`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -47,4 +53,5 @@ export const {
   useAddNewUserMutation,
   useUpdateUserMutation,
   useGetUserByIdQuery,
+  useGetUsersByRoleQuery,
 } = userApiSlice;

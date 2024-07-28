@@ -15,6 +15,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { useGetUsersByRoleQuery } from "../../../../store/api/userApiSlice";
 
 const chartData = [
   { browser: "Admin", visitors: 1, fill: "var(--color-chrome)" },
@@ -33,6 +34,10 @@ const chartConfig = {
 };
 
 const UsersByRole = () => {
+  const { data: usersByRole } = useGetUsersByRoleQuery();
+
+  console.log(usersByRole);
+
   const totalVisitors = React.useMemo(() => {
     return chartData.reduce((acc, curr) => acc + curr.visitors, 0);
   }, []);

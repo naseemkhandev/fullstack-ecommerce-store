@@ -23,7 +23,7 @@ const DashboardPage = () => {
         <SalesByCategories />
       </div>
 
-      <div className="flex gap-3 md:gap-4">
+      <div className="flex flex-col lg:flex-row gap-3 md:gap-4">
         <div className="flex-[.5] w-full">
           <RecentSales />
         </div>

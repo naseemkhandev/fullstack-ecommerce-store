@@ -13,19 +13,19 @@ const AnalyticsPage = () => {
         </p>
       </div>
 
-      <div className="grid sm:grid-cols-2 gap-5">
+      <div className="grid lg:grid-cols-2 gap-5">
         <TotalRevenue />
         <TotalRevenue />
       </div>
 
       <TotalSales />
 
-      <div className="grid sm:grid-cols-2 gap-5">
+      <div className="grid lg:grid-cols-2 gap-5">
         <ProductsCategoryRatio />
         <ProductsCategoryRatio />
       </div>
 
-      <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-5">
+      <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-5">
         <UsersByRole />
         <UsersByRole />
         <UsersByRole />

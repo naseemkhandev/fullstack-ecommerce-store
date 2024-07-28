@@ -103,3 +103,20 @@ export const getAuthUser = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getUsersByRole = async (req, res, next) => {
+  try {
+    const users = await User.find().select("isAdmin");
+
+    if (!users || users.length === 0) {
+      return res.status(404).json({ message: "No users found", users: [] });
+    }
+
+    res.status(200).json({
+      message: "Users fetched successfully",
+      users: users,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

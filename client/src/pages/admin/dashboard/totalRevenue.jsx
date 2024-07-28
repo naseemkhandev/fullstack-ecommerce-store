@@ -24,27 +24,16 @@ const chartData = [
   { month: "June", revenue: 214, profit: 140 },
 ];
 
-// const chartConfig = {
-//   revenue: {
-//     label: "Desktop",
-//     color: "hsl(var(--primary))",
-//   },
-//   profit: {
-//     label: "Mobile",
-//     color: "#fca5a5",
-//   },
-// };
-
 const TotalRevenue = () => {
   return (
-    <Card className="border-none shadow-lg rounded-2xl shadow-black/5">
+    <Card className="border-none flex h-full flex-col shadow-lg rounded-2xl shadow-black/5">
       <CardHeader>
         <CardTitle>Total Revenue</CardTitle>
         <CardDescription>January - June 2024</CardDescription>
       </CardHeader>
 
-      <CardContent>
-        <ChartContainer config={{}}>
+      <CardContent className="h-full flex-grow p-0 m-0 flex-center">
+        <ChartContainer config={{}} className="h-fit">
           <BarChart accessibilityLayer data={chartData}>
             <CartesianGrid vertical={false} />
             <XAxis
@@ -63,14 +52,15 @@ const TotalRevenue = () => {
           </BarChart>
         </ChartContainer>
       </CardContent>
-      {/* <CardFooter className="flex-col items-start gap-2 text-sm">
+
+      <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="flex gap-2 font-medium leading-none">
           Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
         </div>
         <div className="leading-none text-muted-foreground">
           Showing total visitors for the last 6 months
         </div>
-      </CardFooter> */}
+      </CardFooter>
     </Card>
   );
 };
