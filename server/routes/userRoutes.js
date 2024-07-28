@@ -17,7 +17,7 @@ const router = express.Router();
 router.get("/", verifyAdmin, getAllUsers);
 router.delete("/:id", verifyAdmin, deleteUser);
 router.post("/", verifyAdmin, validateSchema(userSchema), addNewUser);
-router.put("/:id", verifyAdmin, validateSchema(userSchema), updateUser);
+router.put("/:id", verifyAdmin, updateUser);
 router.get("/:id", verifyAdmin, getUserById);
 router.get("/users-by-role", verifyAdmin, getUsersByRole);
 

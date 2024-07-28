@@ -36,8 +36,7 @@ export const addNewUser = async (req, res, next) => {
     const { name, email, password } = req.body;
 
     const existingUser = await User.findOne({ email });
-    if (existingUser)
-      return next(createError(400, "User with this email already registered"));
+    if (existingUser) return next(createError(400, "Email already registered"));
 
     const user = new User({
       name,
@@ -62,16 +61,21 @@ export const updateUser = async (req, res, next) => {
     const user = await User.findById(req.params.id);
     if (!user) return next(createError(404, "User not found"));
 
-    if (user.email === email)
-      return next(createError(400, "You entered the same email"));
+    if (!name || !email)
+      return next(createError(400, "Name and email are required"));
 
-    const userWithSameEmail = await User.find({ email }).select("email");
+    // if (user.email === email)
+    //   return next(createError(400, "You entered the same email"));
+
+    const userWithSameEmail = await User.find({
+      email,
+      _id: { $ne: req.params.id },
+    }).select("email");
     if (userWithSameEmail.length > 0)
-      return next(createError(400, "User with this email already exists"));
+      return next(createError(400, "Email already exists"));
 
     user.name = name;
     user.email = email;
-
     await user.save();
 
     res.status(200).json({ message: "User updated successfully", user });

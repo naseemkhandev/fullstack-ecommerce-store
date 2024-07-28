@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { SlCloudUpload } from "react-icons/sl";
@@ -19,6 +20,7 @@ import {
 import {
   useAddNewUserMutation,
   useGetUserByIdQuery,
+  useUpdateUserMutation,
 } from "../../../store/api/userApiSlice";
 import { cn } from "@/lib/utils";
 
@@ -26,9 +28,11 @@ const AddNewUserPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { pathname } = useLocation();
+
   const { data: { user: userToUpdate } = {}, isLoading: isFetchingUser } =
     useGetUserByIdQuery(id);
   const [addNewUser, { isLoading: isAddingUser }] = useAddNewUserMutation();
+  const [updateUser, { isLoading: isUpdatingUser }] = useUpdateUserMutation();
 
   const [userData, setUserData] = useState({
     profilePic: "",
@@ -43,15 +47,14 @@ const AddNewUserPage = () => {
     if (pathname.includes("update") && userToUpdate) {
       setUserData({
         ...userData,
+        _id: userToUpdate._id,
         name: userToUpdate.name,
         email: userToUpdate.email,
         role: userToUpdate.role,
         isVerified: userToUpdate.isVerified,
-        password: ".......",
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userToUpdate]);
+  }, [userToUpdate, id, pathname]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -61,38 +64,38 @@ const AddNewUserPage = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleAddNewUser = async (e) => {
     e.preventDefault();
 
-    const loading = toast.loading(
-      !pathname.includes("update") ? "Updating User..." : "Adding User..."
-    );
+    const loading = toast.loading("Adding new user...");
+    try {
+      const res = await addNewUser(userData).unwrap();
+      navigate("/admin/users");
+      toast.success(res?.message);
+    } catch (error) {
+      toast.error(error.data.message || "An error occurred");
+    } finally {
+      toast.dismiss(loading);
+    }
+  };
+
+  const handleUpdateUser = async () => {
+    const loading = toast.loading("Updating user...");
     try {
       if (
-        pathname.includes("add") &&
-        !userToUpdate &&
-        !id &&
-        !pathname.includes("update")
+        userData.name !== userToUpdate.name ||
+        userData.email !== userToUpdate.email
       ) {
-        const res = await addNewUser(userData).unwrap();
+        const res = await updateUser(userData).unwrap();
 
         navigate("/admin/users");
         toast.success(res?.message);
       } else {
-        if (
-          userData.name !== userToUpdate.name ||
-          userData.email !== userToUpdate.email
-        ) {
-          const res = await addNewUser(userData).unwrap();
-
-          navigate("/admin/users");
-          toast.success(res?.message);
-        } else {
-          navigate("/admin/users");
-        }
+        toast.error("You haven't made any changes");
+        navigate("/admin/users");
       }
     } catch (error) {
-      toast.error(error.data.message);
+      toast.error(error.data.message || "An error occurred");
     } finally {
       toast.dismiss(loading);
     }
@@ -234,15 +237,28 @@ const AddNewUserPage = () => {
           </Button>
         </Link>
 
-        <Button
-          onClick={handleSubmit}
-          isLoading={isAddingUser || isFetchingUser}
-          className={cn("bg-primary text-white px-6 py-3.5", {
-            "px-5": isAddingUser,
-          })}
-        >
-          {pathname.includes("update") ? "Update" : "Add New"} User
-        </Button>
+        {pathname.includes("update") ? (
+          <Button
+            onClick={handleUpdateUser}
+            isLoading={isAddingUser || isFetchingUser || isUpdatingUser}
+            disabled={isFetchingUser || isUpdatingUser}
+            className={cn("bg-primary text-white px-6 py-3.5", {
+              "px-5": isAddingUser,
+            })}
+          >
+            Update User
+          </Button>
+        ) : (
+          <Button
+            onClick={handleAddNewUser}
+            isLoading={isAddingUser}
+            className={cn("bg-primary text-white px-6 py-3.5", {
+              "px-5": isAddingUser,
+            })}
+          >
+            Add New User
+          </Button>
+        )}
       </div>
     </div>
   );
