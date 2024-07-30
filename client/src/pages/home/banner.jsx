@@ -19,11 +19,6 @@ const Banner = () => {
           30% off sale <span className="text-gray-500"> Hurry up!!!</span>
         </h3>
 
-        {/* <p className="text-lg text-gray-500 mt-5">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </p> */}
-
         <Button
           className="w-fit ml-auto py-3.5 !font-semibold"
           variant="default"

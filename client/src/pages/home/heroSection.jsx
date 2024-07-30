@@ -3,8 +3,8 @@ import { Button } from "../../components/ui/button";
 
 const HeroSection = () => {
   return (
-    <div className="h-[38rem] rounded-lg relative">
-      <div className="w-1/2 h-full flex flex-col justify-center pl-24 gap-5 !z-[100]">
+    <div className="h-[38rem] rounded-lg relative cursor-pointer select-none">
+      <div className="w-1/2 text-left h-full flex flex-col justify-center pl-24 gap-5 !z-[100]">
         <h3 className="text-lg font-semibold text-primary">
           Starting from $99.00
         </h3>

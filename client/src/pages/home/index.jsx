@@ -1,19 +1,31 @@
-import ProductCard from "../../components/products/productCard";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import "../../styles/carouselStyles.css";
+
 import Banner from "./banner";
+import Deals from "./deals";
 import HeroSection from "./heroSection";
+import NewArrivals from "./newArrivals";
 
 const HomePage = () => {
   return (
     <div className="flex flex-col gap-24">
-      <HeroSection />
+      <Carousel
+        autoPlay
+        infiniteLoop
+        showThumbs={false}
+        showStatus={false}
+        showArrows={false}
+        swipeable
+        emulateTouch
+      >
+        <HeroSection />
+        <HeroSection />
+      </Carousel>
 
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 xl:gap-5">
-        {[...Array(10)].map((_, i) => (
-          <ProductCard key={i} />
-        ))}
-      </div>
-
+      <Deals />
       <Banner />
+      <NewArrivals />
     </div>
   );
 };

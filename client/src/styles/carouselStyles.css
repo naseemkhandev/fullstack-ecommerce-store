@@ -1,0 +1,20 @@
+/* carouselStyles.css */
+.carousel .control-dots .dot {
+  background-color: transparent; /* Change the background color of the dots */
+  border: 2px solid #4b5966; /* Add a white border */
+  width: 16px; /* Set the width of the dots */
+  height: 16px; /* Set the height of the dots */
+  border-radius: 50%; /* Make the dots circular */
+  margin: 0 2px; /* Add some margin between the dots */
+  transition: all 0.25s ease-in; /* Smooth transition for opacity */
+  box-shadow: none; /* Remove the box shadow */
+}
+
+.carousel .control-dots .dot.selected {
+  background-color: #4b5966; /* Change the background color of the selected dot */
+  border-color: #4b5966; /* Change the border color of the selected dot */
+  opacity: 1; /* Make the selected dot fully opaque */
+  border-radius: 20px;
+  width: 30px;
+  height: 16px;
+}
