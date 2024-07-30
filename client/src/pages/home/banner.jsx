@@ -1,9 +1,12 @@
 import { ChevronsRight } from "lucide-react";
 import { Button } from "../../components/ui/button";
+import ShineEffect from "../../components/common/shineEffect";
 
 const Banner = () => {
   return (
-    <div className="h-[28rem] rounded-lg relative">
+    <div className="h-[28rem] rounded-lg relative group overflow-hidden">
+      <ShineEffect />
+
       <img
         src="/images/home/banner.jpg"
         alt="banner"
