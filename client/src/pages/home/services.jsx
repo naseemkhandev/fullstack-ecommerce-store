@@ -2,7 +2,7 @@ import { services } from "../../constants/services";
 
 const Services = () => {
   return (
-    <div className="grid grid-cols-4 gap-5">
+    <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
       {services.map((service, index) => (
         <div key={index} className="flex items-center text-center gap-5 flex-col border border-slate-100 rounded-md px-10 py-8">
           <service.icon className="size-14 stroke-[.8px] text-primary" />
