@@ -6,6 +6,7 @@ import Banner from "./banner";
 import Deals from "./deals";
 import HeroSection from "./heroSection";
 import NewArrivals from "./newArrivals";
+import Services from "./services";
 
 const HomePage = () => {
   return (
@@ -26,6 +27,7 @@ const HomePage = () => {
       <Deals />
       <Banner />
       <NewArrivals />
+      <Services />
     </div>
   );
 };
