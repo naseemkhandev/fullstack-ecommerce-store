@@ -3,7 +3,7 @@ import ProductCard from "../../components/products/productCard";
 const NewArrivals = () => {
   return (
     <div className="flex flex-col gap-10">
-      <div className="flex-between flex-col md:flex-row items-start md:items-end">
+      <div className="flex justify-between flex-col md:flex-row items-start md:items-end">
         <div>
           <h2 className="text-2xl md:text-3xl font-bold text-gray-700">
             New <span className="text-primary">Arrivals</span>
@@ -13,7 +13,7 @@ const NewArrivals = () => {
           </p>
         </div>
 
-        <div className="w-full overflow-auto">
+        <div className="w-full md:w-fit overflow-auto">
           <div className="flex items-center gap-5">
             {[
               "all",

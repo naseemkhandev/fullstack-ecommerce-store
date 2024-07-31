@@ -1,4 +1,5 @@
-import { Eye, Heart, ShoppingBasket, Star } from "lucide-react";
+import { Heart, ShoppingBasket, Star } from "lucide-react";
+import ProductPreviewModal from "./productPreviewModal";
 
 const ProductCard = () => {
   return (
@@ -15,7 +16,7 @@ const ProductCard = () => {
 
         <div className="absolute transition-all -bottom-6 group-hover:bottom-2 flex-center gap-1 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 duration-300 text-gray-500">
           <Heart className="size-7 border p-1 hover:border-primary hover:bg-primary hover:text-white rounded bg-white cursor-pointer" />
-          <Eye className="size-7 border p-1 hover:border-primary hover:bg-primary hover:text-white rounded bg-white cursor-pointer" />
+          <ProductPreviewModal />
           <ShoppingBasket className="size-7 border p-1 hover:border-primary hover:bg-primary hover:text-white rounded bg-white cursor-pointer" />
         </div>
       </div>
