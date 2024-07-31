@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 
-import { LogOut, Menu, Package2, Search } from "lucide-react";
+import { LogOut, Menu, Search } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import {
@@ -31,10 +31,13 @@ const AdminLayout = () => {
     <div className="grid min-h-screen w-full md:grid-cols-[280px_1fr]">
       <div className="hidden border-r border-muted md:block bg-white">
         <div className="flex h-full max-h-screen flex-col gap-2 border-none shadow-lg rounded-2xl shadow-black/5">
-          <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
-            <Link to="/" className="flex items-center gap-2 font-semibold">
-              <Package2 className="h-6 w-6" />
-              <span className="">ShopWave</span>
+          <div className="flex h-14 w-32 items-center px-4 lg:h-[60px] lg:px-6">
+            <Link to="/">
+              <img
+                src="/images/logo.png"
+                alt="logo"
+                className="w-full h-full"
+              />
             </Link>
           </div>
 
@@ -90,10 +93,13 @@ const AdminLayout = () => {
             </SheetTrigger>
 
             <SheetContent side="left" className="flex flex-col bg-white">
-              <div className="flex items-center border-b pb-5 -mt-2">
-                <Link to="/" className="flex items-center gap-2 font-semibold">
-                  <Package2 className="h-6 w-6" />
-                  <span className="">ShopWave</span>
+              <div className="flex h-14 w-28 items-center lg:h-[60px] lg:px-6">
+                <Link to="/">
+                  <img
+                    src="/images/logo.png"
+                    alt="logo"
+                    className="w-full h-full"
+                  />
                 </Link>
               </div>
 

@@ -1,4 +1,4 @@
-import { CircleUser, Heart, Menu, Package2, ShoppingCart } from "lucide-react";
+import { CircleUser, Heart, Menu, ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
@@ -11,8 +11,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { navLinks } from "../../constants/navLinks";
 import { useSelector } from "react-redux";
+import { navLinks } from "../../constants/navLinks";
 import useLogout from "../../hooks/useLogout";
 
 const Navbar = () => {
@@ -21,12 +21,15 @@ const Navbar = () => {
 
   return (
     <header className="sticky top-0 h-16 border-b z-50 bg-white shadow-lg shadow-black/5">
-      <div className="container mx-auto px-3 md:px-5 items-center flex gap-4">
+      <div className="container mx-auto relative px-3 md:px-5 items-center flex gap-4">
         <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
-          <div className="flex h-14 items-center px-4 lg:h-[60px] lg:px-6">
-            <Link to="/" className="flex items-center gap-2 font-semibold">
-              <Package2 className="h-6 w-6" />
-              <span className="">ShopWave</span>
+          <div className="flex h-14 w-32 items-center px-4 lg:h-[60px] lg:px-6">
+            <Link href="/">
+              <img
+                src="/images/logo.png"
+                alt="logo"
+                className="w-full h-full"
+              />
             </Link>
           </div>
 
@@ -34,7 +37,7 @@ const Navbar = () => {
             <Link
               key={link.id}
               to={link.path}
-              className="text-muted-foreground transition-colors hover:text-foreground"
+              className="text-muted-foreground mt-2 transition-colors hover:text-foreground"
             >
               {link.title}
             </Link>
@@ -46,18 +49,22 @@ const Navbar = () => {
             <Button
               variant="outline"
               size="icon"
-              className="shrink-0 md:hidden"
+              className="shrink-0 md:hidden mt-2.5"
             >
               <Menu className="h-5 w-5" />
               <span className="sr-only">Toggle navigation menu</span>
             </Button>
           </SheetTrigger>
+
           <SheetContent side="left">
             <nav className="grid gap-6 text-lg font-medium">
-              <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
-                <Link to="/" className="flex items-center gap-2 font-semibold">
-                  <Package2 className="h-6 w-6" />
-                  <span className="">ShopWave</span>
+              <div className="flex h-14 w-28 items-center lg:h-[60px] lg:px-6">
+                <Link href="/">
+                  <img
+                    src="/images/logo.png"
+                    alt="logo"
+                    className="w-full h-full"
+                  />
                 </Link>
               </div>
 
@@ -75,13 +82,14 @@ const Navbar = () => {
         </Sheet>
 
         <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
-          <div className="flex-center gap-1 ml-auto">
+          <div className="flex-center gap-1 ml-auto mt-2.5 md:mt-0">
             <Button variant="ghost" size="icon" className="rounded-full">
               <Heart className="h-5 w-5" />
             </Button>
             <Button variant="ghost" size="icon" className="rounded-full">
               <ShoppingCart className="h-5 w-5" />
             </Button>
+
             {authUser ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
