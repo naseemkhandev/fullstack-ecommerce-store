@@ -16,7 +16,8 @@ import AddNewUserPage from "./pages/admin/users/addNewUser";
 import OrdersPage from "./pages/admin/orders";
 import ProfilePage from "./pages/admin/profile";
 import SettingsPage from "./pages/admin/settings";
-import ShopPage from "./pages/shop/shopPage";
+import ShopPage from "./pages/products/productsPage";
+import ProductDetailsPage from "./pages/products/productDetailsPage";
 
 const router = createBrowserRouter([
   {
@@ -28,8 +29,12 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "shop",
+        path: "products",
         element: <ShopPage />,
+      },
+      {
+        path: "product/:id",
+        element: <ProductDetailsPage />,
       },
       {
         path: "orders",

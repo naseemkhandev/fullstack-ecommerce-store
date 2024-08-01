@@ -2,6 +2,7 @@ import { Heart, ShoppingBasket, Star } from "lucide-react";
 
 import ProductPreviewModal from "./productPreviewModal";
 import { cn } from "@/lib/utils";
+import { Link } from "react-router-dom";
 
 const ProductCard = ({ layoutStyle }) => {
   return (
@@ -21,22 +22,24 @@ const ProductCard = ({ layoutStyle }) => {
             : "h-72 border-b"
         )}
       >
-        <img
-          src="https://www.tractor-shop.nl/1641/scania-soft-shell-jas-zwart.jpg"
-          className={cn(
-            "w-full rounded-t-sm object-contain group-hover:opacity-0 group-hover:scale-90 scale-[.95] transition-all mix-blend-multiply duration-500 delay-150",
-            layoutStyle === "list" ? "aspect-square max-w-60" : "max-h-72"
-          )}
-        />
-        <img
-          src="https://m.media-amazon.com/images/I/61ekniUkLJL._AC_UF894,1000_QL80_.jpg"
-          className={cn(
-            "w-full rounded-t-sm object-contain group-hover:opacity-100 opacity-0 group-hover:scale-100 scale-90 mix-blend-multiply transition-all duration-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
-            layoutStyle === "list" ? "aspect-square max-w-60" : "max-h-72"
-          )}
-        />
+        <Link to="/product/123">
+          <img
+            src="https://www.tractor-shop.nl/1641/scania-soft-shell-jas-zwart.jpg"
+            className={cn(
+              "w-full rounded-t-sm object-contain group-hover:opacity-0 group-hover:scale-90 scale-[.95] transition-all mix-blend-multiply duration-500 delay-150",
+              layoutStyle === "list" ? "aspect-square max-w-60" : "max-h-72"
+            )}
+          />
+          <img
+            src="https://m.media-amazon.com/images/I/61ekniUkLJL._AC_UF894,1000_QL80_.jpg"
+            className={cn(
+              "w-full rounded-t-sm object-contain group-hover:opacity-100 opacity-0 group-hover:scale-100 scale-90 mix-blend-multiply transition-all duration-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
+              layoutStyle === "list" ? "aspect-square max-w-60" : "max-h-72"
+            )}
+          />
+        </Link>
 
-        <div className="absolute transition-all -bottom-6 group-hover:bottom-2 flex-center gap-1 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 duration-300 text-gray-500">
+        <div className="absolute z-10 transition-all -bottom-6 group-hover:bottom-2 flex-center gap-1 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 duration-300 text-gray-500">
           <Heart className="size-7 border p-1 hover:border-primary hover:bg-primary hover:text-white rounded bg-white cursor-pointer" />
           <ProductPreviewModal />
           <ShoppingBasket className="size-7 border p-1 hover:border-primary hover:bg-primary hover:text-white rounded bg-white cursor-pointer" />
