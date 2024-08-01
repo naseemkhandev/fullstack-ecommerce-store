@@ -46,19 +46,22 @@ const ProductCard = ({ layoutStyle }) => {
         </div>
       </div>
 
-      <div className="p-3 flex flex-col gap-1">
-        <p className="block font-sans text-sm leading-normal antialiased">
+      <Link to="/product/123" className="p-3 flex flex-col gap-1">
+        <Link
+          to="/"
+          className="block font-sans text-sm leading-normal antialiased"
+        >
           Electronics
-        </p>
+        </Link>
 
-        <p
+        <h2
           className={cn(
             "block font-medium hover:underline text-[.95rem] leading-relaxed text-blue-gray-900 antialiased",
             layoutStyle === "list" && "sm:text-base xl:text-lg"
           )}
         >
           Apple Headphones Pro Max 2021 Edition - Black
-        </p>
+        </h2>
 
         {layoutStyle === "list" && (
           <p className="block font-sans text-sm xl:text-base leading-relaxed text-blue-gray-500 antialiased mt-auto">
@@ -83,7 +86,7 @@ const ProductCard = ({ layoutStyle }) => {
             $120.00
           </s>
         </div>
-      </div>
+      </Link>
     </div>
   );
 };
