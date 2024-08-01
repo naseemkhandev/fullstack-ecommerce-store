@@ -16,6 +16,7 @@ import AddNewUserPage from "./pages/admin/users/addNewUser";
 import OrdersPage from "./pages/admin/orders";
 import ProfilePage from "./pages/admin/profile";
 import SettingsPage from "./pages/admin/settings";
+import ShopPage from "./pages/shop/shopPage";
 
 const router = createBrowserRouter([
   {
@@ -28,7 +29,7 @@ const router = createBrowserRouter([
       },
       {
         path: "shop",
-        element: <div>Shop</div>,
+        element: <ShopPage />,
       },
       {
         path: "orders",

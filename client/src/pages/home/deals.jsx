@@ -14,7 +14,7 @@ const Deals = () => {
         </div>
       </div>
 
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 xl:gap-5">
+      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-3 xl:gap-5">
         {[...Array(10)].map((_, i) => (
           <ProductCard key={i} />
         ))}

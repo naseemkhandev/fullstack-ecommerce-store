@@ -3,7 +3,6 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import colors from "colors";
-import helmet from "helmet";
 import { v2 as cloudinary } from "cloudinary";
 
 import { config } from "./config/config.js";
@@ -25,13 +24,6 @@ app.use(
   cors({
     origin: config.clientUrl,
     credentials: true,
-  })
-);
-app.use(helmet());
-app.use(
-  helmet.crossOriginResourcePolicy({
-    policy: "cross-origin",
-    policy: "same-site",
   })
 );
 
