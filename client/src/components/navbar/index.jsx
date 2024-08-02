@@ -86,9 +86,12 @@ const Navbar = () => {
             <Button variant="ghost" size="icon" className="rounded-full">
               <Heart className="h-5 w-5" />
             </Button>
-            <Button variant="ghost" size="icon" className="rounded-full">
-              <ShoppingCart className="h-5 w-5" />
-            </Button>
+
+            <Link to="/cart">
+              <Button variant="ghost" size="icon" className="rounded-full">
+                <ShoppingCart className="h-5 w-5" />
+              </Button>
+            </Link>
 
             {authUser ? (
               <DropdownMenu>

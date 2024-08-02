@@ -16,8 +16,9 @@ import AddNewUserPage from "./pages/admin/users/addNewUser";
 import OrdersPage from "./pages/admin/orders";
 import ProfilePage from "./pages/admin/profile";
 import SettingsPage from "./pages/admin/settings";
-import ShopPage from "./pages/products/productsPage";
-import ProductDetailsPage from "./pages/products/productDetailsPage";
+import ShopPage from "./pages/products";
+import ProductDetailsPage from "./pages/products/productDetails";
+import CartPage from "./pages/cart";
 
 const router = createBrowserRouter([
   {
@@ -42,7 +43,7 @@ const router = createBrowserRouter([
       },
       {
         path: "cart",
-        element: <div>Cart</div>,
+        element: <CartPage />,
       },
       {
         path: "wishlist",

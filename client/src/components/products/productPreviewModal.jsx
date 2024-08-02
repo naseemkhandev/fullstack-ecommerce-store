@@ -62,14 +62,12 @@ const ProductPreviewModal = () => {
             </div>
 
             <div className="flex items-center gap-3 mt-auto">
-              <div className="flex-between">
-                <div className="flex items-center border rounded-md gap-5 p-2">
-                  <Minus className="size-4 cursor-pointer" />
-                  <p className="block font-sans text-base font-normal leading-normal text-gray-700 antialiased">
-                    1
-                  </p>
-                  <Plus className="size-4 cursor-pointer" />
-                </div>
+              <div className="flex items-center border rounded-md gap-5 p-2">
+                <Minus className="size-4 cursor-pointer" />
+                <p className="block font-sans text-base font-normal leading-normal text-gray-700 antialiased">
+                  1
+                </p>
+                <Plus className="size-4 cursor-pointer" />
               </div>
 
               <Button className="bg-dark-gray py-3 font-semibold">
