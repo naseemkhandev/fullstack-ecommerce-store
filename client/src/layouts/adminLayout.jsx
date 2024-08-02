@@ -48,7 +48,7 @@ const AdminLayout = () => {
                   key={link.id}
                   to={`/admin${link.path}`}
                   className={cn(
-                    "flex items-center gap-3 rounded-lg px-4 py-3.5 text-base text-muted-foreground transition-all hover:text-primary hover:bg-primary/20 cursor-pointer",
+                    "flex items-center gap-3 rounded-lg px-4 py-3.5 text-base text-muted-foreground transition-all hover:text-primary hover:bg-[#5BAE8F]/20 border hover:border-[#5BAE8F]/50 border-transparent cursor-pointer",
                     {
                       "bg-primary hover:bg-primary hover:text-white text-white":
                         location.pathname === `/admin${link.path}`,
@@ -109,7 +109,7 @@ const AdminLayout = () => {
                     key={link.id}
                     to={`/admin${link.path}`}
                     className={cn(
-                      "flex items-center gap-3 rounded-lg px-4 py-4 text-[.95rem] text-muted-foreground transition-all hover:text-primary hover:bg-primary/20 cursor-pointer",
+                      "flex items-center gap-3 rounded-lg px-4 py-3.5 text-base text-muted-foreground transition-all hover:text-primary hover:bg-[#5BAE8F]/20 border hover:border-[#5BAE8F]/50 border-transparent cursor-pointer",
                       {
                         "bg-primary hover:bg-primary hover:text-white text-white":
                           location.pathname === `/admin${link.path}`,

@@ -1,24 +1,25 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import RootLayout from "./layouts/rootLayout";
 import AuthLayout from "./layouts/authLayout";
+import RootLayout from "./layouts/rootLayout";
 
-import HomePage from "./pages/home";
-import AuthPage from "./pages/auth/authPage";
 import AdminLayout from "./layouts/adminLayout";
-import DashboardPage from "./pages/admin/dashboard";
-import ProductsPage from "./pages/admin/products";
-import UsersPage from "./pages/admin/users";
-import CategoriesPage from "./pages/admin/categories";
 import AnalyticsPage from "./pages/admin/analytics";
-import AddNewProductPage from "./pages/admin/products/addNewProduct";
-import AddNewUserPage from "./pages/admin/users/addNewUser";
+import CategoriesPage from "./pages/admin/categories";
+import DashboardPage from "./pages/admin/dashboard";
 import OrdersPage from "./pages/admin/orders";
+import ProductsPage from "./pages/admin/products";
+import AddNewProductPage from "./pages/admin/products/addNewProduct";
 import ProfilePage from "./pages/admin/profile";
 import SettingsPage from "./pages/admin/settings";
+import UsersPage from "./pages/admin/users";
+import AddNewUserPage from "./pages/admin/users/addNewUser";
+import AuthPage from "./pages/auth/authPage";
+import CartPage from "./pages/cart";
+import HomePage from "./pages/home";
 import ShopPage from "./pages/products";
 import ProductDetailsPage from "./pages/products/productDetails";
-import CartPage from "./pages/cart";
+import WishListPage from "./pages/wishlist";
 
 const router = createBrowserRouter([
   {
@@ -47,15 +48,11 @@ const router = createBrowserRouter([
       },
       {
         path: "wishlist",
-        element: <div>Wishlist</div>,
+        element: <WishListPage />,
       },
       {
         path: "checkout",
         element: <div>Checkout</div>,
-      },
-      {
-        path: "product/:id",
-        element: <div>Product</div>,
       },
       {
         path: "about",

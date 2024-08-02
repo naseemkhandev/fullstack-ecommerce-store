@@ -83,9 +83,11 @@ const Navbar = () => {
 
         <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
           <div className="flex-center gap-1 ml-auto mt-2.5 md:mt-0">
-            <Button variant="ghost" size="icon" className="rounded-full">
-              <Heart className="h-5 w-5" />
-            </Button>
+            <Link to="/wishlist">
+              <Button variant="ghost" size="icon" className="rounded-full">
+                <Heart className="h-5 w-5" />
+              </Button>
+            </Link>
 
             <Link to="/cart">
               <Button variant="ghost" size="icon" className="rounded-full">
