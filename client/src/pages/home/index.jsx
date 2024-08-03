@@ -7,10 +7,11 @@ import Deals from "./deals";
 import HeroSection from "./heroSection";
 import NewArrivals from "./newArrivals";
 import Services from "./services";
+import Categories from "./categories";
 
 const HomePage = () => {
   return (
-    <div className="flex flex-col gap-24">
+    <div className="flex flex-col gap-20">
       <Carousel
         autoPlay
         infiniteLoop
@@ -23,6 +24,8 @@ const HomePage = () => {
         <HeroSection />
         <HeroSection />
       </Carousel>
+
+      <Categories />
 
       <Deals />
       <Banner />
