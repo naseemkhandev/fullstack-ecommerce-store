@@ -19,7 +19,7 @@ router.get("/", verifyAdmin, getAllUsers);
 router.delete("/:id", verifyAdmin, deleteUser);
 router.post("/", verifyAdmin, validateSchema(userSchema), addNewUser);
 router.put("/:id", verifyUser, uploadImage.single("profilePic"), updateUser);
-router.get("/:id", verifyAdmin, getUserById);
 router.get("/users-by-role", verifyAdmin, getUsersByRole);
+router.get("/:id", verifyAdmin, getUserById);
 
 export default router;

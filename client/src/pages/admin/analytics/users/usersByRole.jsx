@@ -15,7 +15,9 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+
 import { useGetUsersByRoleQuery } from "../../../../store/api/userApiSlice";
+import PieChartSkeleton from "../../../../components/skeletons/admin/pieChartSkeleton";
 
 const chartData = [
   { browser: "Admin", visitors: 1, fill: "var(--color-chrome)" },
@@ -25,16 +27,16 @@ const chartData = [
 const chartConfig = {
   chrome: {
     label: "Admin",
-    color: "hsl(var(--primary))",
+    color: "#429676",
   },
   safari: {
     label: "Users",
-    color: "#fca5a5",
+    color: "hsl(var(--primary))",
   },
 };
 
 const UsersByRole = () => {
-  const { data: usersByRole } = useGetUsersByRoleQuery();
+  const { data: usersByRole, isLoading } = useGetUsersByRoleQuery();
 
   console.log(usersByRole);
 
@@ -42,9 +44,11 @@ const UsersByRole = () => {
     return chartData.reduce((acc, curr) => acc + curr.visitors, 0);
   }, []);
 
-  return (
+  return !isLoading ? (
+    <PieChartSkeleton />
+  ) : (
     <Card className="border-none shadow-lg rounded-2xl shadow-black/5 flex flex-col">
-      <CardHeader className="items-center pb-0">
+      <CardHeader className="pb-0">
         <CardTitle>Users by Role</CardTitle>
         <CardDescription>January - June 2024</CardDescription>
       </CardHeader>
