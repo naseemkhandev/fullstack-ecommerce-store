@@ -4,11 +4,13 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
-const ProductPreviewModal = () => {
+const ProductPreviewModal = ({ iconClassName }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Eye className="size-7 border p-1 hover:border-primary hover:bg-primary hover:text-white rounded bg-white cursor-pointer" />
+        <Eye
+          className={`size-7 border p-1 hover:border-primary hover:bg-primary hover:text-white rounded bg-white cursor-pointer ${iconClassName}`}
+        />
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-4xl w-full">
