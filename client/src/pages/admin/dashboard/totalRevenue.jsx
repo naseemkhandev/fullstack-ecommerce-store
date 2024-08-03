@@ -24,16 +24,29 @@ const chartData = [
   { month: "June", revenue: 214, profit: 140 },
 ];
 
+const chartConfig = {
+  revenue: {
+    label: "Revenue",
+    color: "#429676",
+  },
+  profit: {
+    label: "Profit",
+    color: "hsl(var(--primary))",
+  },
+};
+
 const TotalRevenue = () => {
   return (
     <Card className="border-none flex h-full flex-col shadow-lg rounded-2xl shadow-black/5">
       <CardHeader>
         <CardTitle>Total Revenue</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardDescription>
+          Revenue and profit for the last 6 months
+        </CardDescription>
       </CardHeader>
 
       <CardContent className="h-full flex-grow p-0 m-0 flex-center">
-        <ChartContainer config={{}} className="h-fit">
+        <ChartContainer config={chartConfig} className="xl:h-[350px] w-[97%]">
           <BarChart accessibilityLayer data={chartData}>
             <CartesianGrid vertical={false} />
             <XAxis
@@ -47,8 +60,8 @@ const TotalRevenue = () => {
               cursor={false}
               content={<ChartTooltipContent indicator="dashed" />}
             />
-            <Bar dataKey="revenue" fill="#f87171" radius={4} />
-            <Bar dataKey="profit" fill="#dc2626" radius={4} />
+            <Bar dataKey="revenue" fill="var(--color-revenue)" radius={4} />
+            <Bar dataKey="profit" fill="var(--color-profit)" radius={4} />
           </BarChart>
         </ChartContainer>
       </CardContent>

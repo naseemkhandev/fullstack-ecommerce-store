@@ -60,7 +60,7 @@ const UsersPage = () => {
 
   return (
     <main className="grid flex-1 items-start gap-4 md:gap-8 h-full">
-      {!isUsersLoading ? (
+      {isUsersLoading ? (
         <TablesSkeleton />
       ) : (
         <Tabs

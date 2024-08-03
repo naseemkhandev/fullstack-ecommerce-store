@@ -44,7 +44,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         url: `users/${id}`,
         method: "GET",
       }),
-      providesTags: ["User"],
+      invalidatesTags: ["User"],
     }),
     getUsersByRole: builder.query({
       query: () => ({

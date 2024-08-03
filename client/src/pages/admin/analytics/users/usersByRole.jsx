@@ -1,6 +1,5 @@
-import { TrendingUp } from "lucide-react";
-import * as React from "react";
-import { Label, Pie, PieChart } from "recharts";
+import { Label, Pie, PieChart, Legend } from "recharts";
+import { TrendingDown, TrendingUp } from "lucide-react";
 
 import {
   Card,
@@ -16,48 +15,34 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-import { useGetUsersByRoleQuery } from "../../../../store/api/userApiSlice";
 import PieChartSkeleton from "../../../../components/skeletons/admin/pieChartSkeleton";
-
-const chartData = [
-  { browser: "Admin", visitors: 1, fill: "var(--color-chrome)" },
-  { browser: "Users", visitors: 1, fill: "var(--color-safari)" },
-];
-
-const chartConfig = {
-  chrome: {
-    label: "Admin",
-    color: "#429676",
-  },
-  safari: {
-    label: "Users",
-    color: "hsl(var(--primary))",
-  },
-};
+import { useGetUsersByRoleQuery } from "../../../../store/api/userApiSlice";
 
 const UsersByRole = () => {
-  const { data: usersByRole, isLoading } = useGetUsersByRoleQuery();
+  const { data: { users: usersByRole } = [], isLoading } =
+    useGetUsersByRoleQuery();
 
-  console.log(usersByRole);
+  const admins = usersByRole?.filter((user) => user?.isAdmin)?.length;
+  const users = usersByRole?.filter((user) => !user?.isAdmin)?.length;
 
-  const totalVisitors = React.useMemo(() => {
-    return chartData.reduce((acc, curr) => acc + curr.visitors, 0);
-  }, []);
+  const chartData = [
+    { role: "Admins", users: admins, fill: "#429676" },
+    { role: "Users", users: users, fill: "hsl(var(--primary))" },
+  ];
 
-  return !isLoading ? (
+  return isLoading ? (
     <PieChartSkeleton />
   ) : (
     <Card className="border-none shadow-lg rounded-2xl shadow-black/5 flex flex-col">
       <CardHeader className="pb-0">
         <CardTitle>Users by Role</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardDescription>
+          Distribution of users based on their role
+        </CardDescription>
       </CardHeader>
 
       <CardContent className="flex-1 pb-0">
-        <ChartContainer
-          config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px]"
-        >
+        <ChartContainer config={{}} className="mx-auto aspect-square">
           <PieChart>
             <ChartTooltip
               cursor={false}
@@ -65,9 +50,9 @@ const UsersByRole = () => {
             />
             <Pie
               data={chartData}
-              dataKey="visitors"
-              nameKey="browser"
-              innerRadius={60}
+              dataKey="users"
+              nameKey="role"
+              innerRadius={75}
               strokeWidth={5}
             >
               <Label
@@ -85,14 +70,14 @@ const UsersByRole = () => {
                           y={viewBox.cy}
                           className="fill-foreground text-3xl font-bold"
                         >
-                          {totalVisitors.toLocaleString()}
+                          {usersByRole?.length}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 24}
                           className="fill-muted-foreground"
                         >
-                          Visitors
+                          users
                         </tspan>
                       </text>
                     );
@@ -100,16 +85,29 @@ const UsersByRole = () => {
                 }}
               />
             </Pie>
+
+            <Legend
+              verticalAlign="bottom"
+              align="center"
+              iconType="circle"
+              wrapperStyle={{ marginBottom: 10 }}
+            />
           </PieChart>
         </ChartContainer>
       </CardContent>
 
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="flex items-center gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+          {users > admins ? (
+            <TrendingUp className="size-5 text-green-500" />
+          ) : (
+            <TrendingDown className="size-5 text-red-500" />
+          )}
+          {admins > users ? "Admins" : "Users"} are more than{" "}
+          {admins > users ? "Users" : "Admins"}
         </div>
         <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
+          Showing all users based on their role
         </div>
       </CardFooter>
     </Card>

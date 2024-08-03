@@ -16,12 +16,12 @@ import {
 } from "@/components/ui/chart";
 
 const chartData = [
-  { category: "Mobiles", sales: 1, fill: "#fef2f2" },
-  { category: "Laptops", sales: 2, fill: "#fee2e2" },
-  { category: "Desktops", sales: 3, fill: "#fecaca" },
-  { category: "Tablets", sales: 4, fill: "#fca5a5" },
-  { category: "Watches", sales: 5, fill: "#f87171" },
-  { category: "Accessories", sales: 6, fill: "#dc2626" },
+  { category: "Mobiles", sales: 1, fill: "hsl(var(--primary))" },
+  { category: "Laptops", sales: 2, fill: "#8cc6b1" },
+  { category: "Desktops", sales: 3, fill: "#7cbea5" },
+  { category: "Tablets", sales: 4, fill: "#498b72" },
+  { category: "Watches", sales: 5, fill: "#6bb69a" },
+  { category: "Accessories", sales: 6, fill: "#7cbea5" },
 ];
 
 const SalesByCategories = () => {
@@ -43,7 +43,7 @@ const SalesByCategories = () => {
               data={chartData}
               dataKey="sales"
               nameKey="category"
-              innerRadius={120}
+              innerRadius={100}
               strokeWidth={5}
             ></Pie>
           </PieChart>

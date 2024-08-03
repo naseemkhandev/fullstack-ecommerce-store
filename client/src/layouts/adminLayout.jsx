@@ -28,7 +28,7 @@ const AdminLayout = () => {
   const { handleLogout, isLogouting } = useLogout();
 
   return authUser && authUser?.isAdmin ? (
-    <div className="grid min-h-screen w-full md:grid-cols-[280px_1fr]">
+    <div className="grid min-h-screen w-full md:grid-cols-[300px_1fr]">
       <div className="hidden border-r border-muted md:block bg-white">
         <div className="flex h-full max-h-screen flex-col gap-2 border-none shadow-lg rounded-2xl shadow-black/5">
           <div className="flex h-14 w-32 items-center px-4 lg:h-[60px] lg:px-6">
@@ -68,7 +68,7 @@ const AdminLayout = () => {
               onClick={handleLogout}
               isLoading={isLogouting}
               className={cn(
-                "flex items-center justify-start gap-3 rounded-lg px-4 py-4 text-[.95rem] text-muted-foreground transition-all hover:text-primary hover:bg-primary/20 cursor-pointer w-full"
+                "flex items-center justify-start gap-3 rounded-lg px-4 py-4 text-[.95rem] text-muted-foreground transition-all hover:text-primary hover:bg-[#5BAE8F]/20 border hover:border-[#5BAE8F]/50 border-transparent cursor-pointer w-full"
               )}
             >
               <LogOut className="size-[1.2rem] rotate-180" />
@@ -127,7 +127,7 @@ const AdminLayout = () => {
                 onClick={handleLogout}
                 isLoading={isLogouting}
                 className={cn(
-                  "flex items-center justify-start mt-auto gap-3 rounded-lg px-4 py-4 text-[.95rem] text-muted-foreground transition-all hover:text-primary hover:bg-primary/20 cursor-pointer"
+                  "flex items-center justify-start mt-auto gap-3 rounded-lg px-4 py-4 text-[.95rem] text-muted-foreground transition-all hover:text-primary hover:bg-[#5BAE8F]/20 border hover:border-[#5BAE8F]/50 border-transparent cursor-pointer"
                 )}
               >
                 <LogOut className="size-[1.2rem] rotate-180" />
