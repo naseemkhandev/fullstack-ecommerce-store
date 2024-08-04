@@ -32,3 +32,19 @@ export const getAllProducts = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getProductDetails = async (req, res, next) => {
+  try {
+    const product = await Product.findById(req.params.id)
+      .populate("user", "name")
+      .populate("category", "name slug");
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    res.status(200).json({ message: "Product fetched successfully", product });
+  } catch (error) {
+    next(error);
+  }
+};

@@ -1,17 +1,54 @@
-import { Eye, Heart, Minus, Plus, ShoppingBasket, Star } from "lucide-react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { CircleAlert, Heart, ShoppingBasket, Star } from "lucide-react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
-import { Button } from "../../components/ui/button";
+import ProductQuantityButton from "../../components/common/productQuantityButton";
 import ProductPreviewModal from "../../components/products/productPreviewModal";
+import { Button } from "../../components/ui/button";
+import useHandleAddToCart from "../../hooks/useHandleAddToCart";
+import useHandleAddToFavorites from "../../hooks/useHandleAddToWishlist";
+import { useGetProductDetailsQuery } from "../../store/api/productApiSlice";
+import ProductDetailsSkeleton from "../../components/skeletons/productDetailsSkeleton";
 
 const ProductDetailsPage = () => {
-  const images = [
-    "https://pagedone.io/asset/uploads/1700472379.png",
-    "https://pagedone.io/asset/uploads/1711622397.png",
-    "https://pagedone.io/asset/uploads/1711622408.png",
-    "https://pagedone.io/asset/uploads/1711622419.png",
-  ];
+  const params = useParams();
+  const { data: { product } = {}, isLoading: isProductDetailsLoading } =
+    useGetProductDetailsQuery(params?.id);
+
+  const { handleAddToCart } = useHandleAddToCart();
+  const { handleAddToFavorites } = useHandleAddToFavorites();
+
+  const wishlist = useSelector((state) => state.favorites.products);
+  const isProductInWishlist = wishlist.some(
+    (product) => product.id === params?.id
+  );
+
+  if (isProductDetailsLoading) {
+    return <ProductDetailsSkeleton />;
+  }
+
+  if (!product) {
+    return (
+      <div className="flex-center flex-grow flex-center min-h-80 h-full flex-col">
+        <CircleAlert className="size-12 text-primary mb-2" />
+        <p className="text-2xl text-muted-foreground">Product not found</p>
+      </div>
+    );
+  }
+
+  const {
+    title,
+    category,
+    images,
+    rating,
+    actualPrice,
+    discountedPrice,
+    description,
+    stock,
+    createdAt,
+  } = product;
 
   return (
     <section className="py-10">
@@ -27,7 +64,7 @@ const ProductDetailsPage = () => {
               swipeable
               emulateTouch
             >
-              {images.map((image, index) => (
+              {images?.map((image, index) => (
                 <img
                   key={index}
                   src="https://pagedone.io/asset/uploads/1700472379.png"
@@ -38,7 +75,7 @@ const ProductDetailsPage = () => {
             </Carousel>
 
             <div className="flex items-center gap-5 mt-5 overflow-auto">
-              {images.map((image, index) => (
+              {images?.map((image, index) => (
                 <img
                   key={index}
                   src="https://pagedone.io/asset/uploads/1700472430.png"
@@ -105,21 +142,58 @@ const ProductDetailsPage = () => {
             </p>
 
             <div className="flex items-center gap-3 mt-5">
-              <div className="flex items-center border rounded-md gap-8 p-3">
-                <Minus className="size-4 cursor-pointer" />
-                <p className="block font-sans text-base font-normal leading-normal text-gray-700 antialiased">
-                  1
-                </p>
-                <Plus className="size-4 cursor-pointer" />
-              </div>
+              <ProductQuantityButton />
 
-              <Button className="bg-dark-gray py-3.5 px-8 font-semibold">
+              <Button
+                onClick={() =>
+                  handleAddToCart({
+                    id: params?.id,
+                    title,
+                    discountedPrice,
+                    image: images[0],
+                    stock,
+                    createdAt,
+                    quantity: 1,
+                  })
+                }
+                className="bg-dark-gray py-3.5 px-8 font-semibold"
+              >
                 <ShoppingBasket className="size-4 mr-2" />
                 Add to Cart
               </Button>
 
-              <Heart className="size-12 border p-2.5 hover:border-primary hover:bg-primary hover:text-white rounded bg-white cursor-pointer stroke-[1px]" />
-              <ProductPreviewModal iconClassName="!size-12 p-2.5 stroke-[1px]" />
+              <Heart
+                onClick={() =>
+                  handleAddToFavorites({
+                    id: params?.id,
+                    title,
+                    discountedPrice,
+                    image: images[0],
+                    stock,
+                    createdAt,
+                  })
+                }
+                className={`size-12 border p-2.5 hover:border-primary hover:bg-primary hover:text-white rounded bg-white cursor-pointer stroke-[1px] ${
+                  isProductInWishlist
+                    ? "!bg-primary text-white"
+                    : "hover:border-primary hover:bg-primary hover:text-white"
+                }`}
+              />
+              <ProductPreviewModal
+                iconClassName="!size-12 p-2.5 stroke-[1px]"
+                {...{
+                  id: params?.id,
+                  title,
+                  category,
+                  images,
+                  rating,
+                  actualPrice,
+                  discountedPrice,
+                  description,
+                  stock,
+                  createdAt,
+                }}
+              />
             </div>
           </div>
         </div>

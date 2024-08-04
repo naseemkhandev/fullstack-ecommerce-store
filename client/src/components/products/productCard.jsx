@@ -99,7 +99,20 @@ const ProductCard = ({
                 : "hover:border-primary hover:bg-primary hover:text-white"
             )}
           />
-          <ProductPreviewModal />
+          <ProductPreviewModal
+            {...{
+              id,
+              title,
+              category,
+              images,
+              rating,
+              actualPrice,
+              discountedPrice,
+              description,
+              stock,
+              createdAt,
+            }}
+          />
           <ShoppingBasket
             onClick={() =>
               handleAddToCart({
