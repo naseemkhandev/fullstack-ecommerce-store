@@ -1,11 +1,11 @@
-import { Trash2 } from "lucide-react";
+import { Loader2, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { SlCloudUpload } from "react-icons/sl";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Select,
   SelectContent,
@@ -14,7 +14,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
 import generateSlug from "../../../utils/generateSlug";
+import { useGetAllCategoriesQuery } from "../../../store/api/categoryApiSlice";
 
 const AddNewProductPage = () => {
   const [userData, setUserData] = useState({
@@ -36,6 +38,9 @@ const AddNewProductPage = () => {
     });
   };
 
+  const { data: { categories } = [], isLoading: isCategoriesLoading } =
+    useGetAllCategoriesQuery();
+
   return (
     <div className="overflow-auto h-full flex flex-col gap-5">
       <div className="flex flex-col gap-3">
@@ -55,7 +60,7 @@ const AddNewProductPage = () => {
             </button>
           </div>
         ) : (
-          <div className="relative w-full h-[18rem] text-center flex flex-col items-center justify-center gap-1 rounded-lg border-gray-200 px-10 lg:px-7 xl:px-10 border-dashed border-2 hover:border-primary/50 hover:bg-primary/5 group">
+          <div className="relative w-full h-[18rem] text-center flex flex-col items-center justify-center gap-1 rounded-lg border-gray-200 px-10 lg:px-7 xl:px-10 border-dashed border-2 hover:border-[#5BAE8F] hover:bg-[#5BAE8F]/10 group">
             <input
               type="file"
               id="image"
@@ -64,7 +69,7 @@ const AddNewProductPage = () => {
               className="absolute w-full z-10 h-full opacity-0 top-0 left-0 cursor-pointer"
               //   onChange={handleImageChange}
             />
-            <SlCloudUpload className="size-14 stroke-[0.01px] text-gray-300 mb-3 group-hover:text-primary/80" />
+            <SlCloudUpload className="size-14 stroke-[0.01px] text-gray-300 mb-3 group-hover:text-[#5BAE8F]/80" />
             <h4 className="font-medium text-lg text-gray-500">
               Drag & drop files or{" "}
               <span className="text-primary underline">Browse</span>
@@ -152,14 +157,29 @@ const AddNewProductPage = () => {
         </Label>
 
         <Select>
-          <SelectTrigger className="w-full">
+          <SelectTrigger className="w-full capitalize">
             <SelectValue placeholder="Select category" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectItem value="mobiles">Mobiles</SelectItem>
-              <SelectItem value="laptops">Laptops</SelectItem>
-              <SelectItem value="electronics">Electronics</SelectItem>
+              {isCategoriesLoading ? (
+                <Skeleton className="h-11 flex-center gap-2 select-none text-muted-foreground bg-muted">
+                  <Loader2 className="animate-spin size-5" />
+                  Loading categories...
+                </Skeleton>
+              ) : (
+                <>
+                  {categories?.map((category) => (
+                    <SelectItem
+                      key={category._id}
+                      value={category.name}
+                      className="capitalize"
+                    >
+                      <span>{category.name}</span>
+                    </SelectItem>
+                  ))}
+                </>
+              )}
             </SelectGroup>
           </SelectContent>
         </Select>

@@ -136,7 +136,7 @@ const AddNewUserPage = () => {
               <img
                 src={userData.profilePic?.secure_url}
                 alt="profilePic"
-                className="w-full h-full object-cover object-top rounded-lg"
+                className="object-scale-down w-full h-full object-top rounded-lg bg-gray-100"
               />
               <button
                 onClick={() => setUserData({ ...userData, profilePic: "" })}
@@ -146,8 +146,8 @@ const AddNewUserPage = () => {
               </button>
             </div>
           ) : (
-            <div className="relative w-full h-[18rem] text-center flex flex-col items-center justify-center gap-1 rounded-lg border-gray-200 px-10 lg:px-7 xl:px-10 border-dashed border-2 hover:border-primary/50 hover:bg-primary/5 group">
-              <SlCloudUpload className="size-14 stroke-[0.01px] text-gray-300 mb-3 group-hover:text-primary/80" />
+            <div className="relative w-full h-[18rem] text-center flex flex-col items-center justify-center gap-1 rounded-lg border-gray-200 px-10 lg:px-7 xl:px-10 border-dashed border-2 hover:border-[#5BAE8F] hover:bg-[#5BAE8F]/10 group">
+              <SlCloudUpload className="size-14 stroke-[0.01px] text-gray-300 mb-3 group-hover:text-primary" />
               <h4 className="font-medium text-lg text-gray-500">
                 Drag & drop files or{" "}
                 <span className="text-primary underline">Browse</span>

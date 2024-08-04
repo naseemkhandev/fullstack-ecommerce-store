@@ -80,7 +80,7 @@ const ProfilePage = () => {
               className="w-44 bg-muted aspect-square object-cover object-center rounded-full"
             />
           ) : (
-            <div className="w-44 aspect-square bg-muted-foreground/50 rounded-full flex-center">
+            <div className="w-44 aspect-square bg-muted-foreground/30 rounded-full flex-center">
               <UserRound className="size-32 text-muted stroke-[.9px]" />
             </div>
           )}

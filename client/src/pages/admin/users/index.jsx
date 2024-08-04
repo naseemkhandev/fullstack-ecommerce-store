@@ -188,8 +188,8 @@ const UsersPage = () => {
                             variant="outline"
                             className={
                               user?.isVerified
-                                ? "bg-green-500/10 text-green-500 border-green-500/50"
-                                : "bg-primary/10 text-primary border-primary/50"
+                                ? "bg-green-500/10 text-primary border-primary"
+                                : "bg-red-500/10 text-red-500 border-red-500/50"
                             }
                           >
                             {user?.isVerified ? "Verified" : "Unverified"}

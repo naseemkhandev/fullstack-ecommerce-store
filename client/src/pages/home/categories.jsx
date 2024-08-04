@@ -3,10 +3,8 @@ import { useGetAllCategoriesQuery } from "../../store/api/categoryApiSlice";
 import renderIcon from "../../utils/renderIcon";
 
 const Categories = () => {
-  const {
-    data: { categories },
-    isLoading: isCategoriesLoading,
-  } = useGetAllCategoriesQuery();
+  const { data: { categories } = [], isLoading: isCategoriesLoading } =
+    useGetAllCategoriesQuery();
 
   return (
     <div className="flex items-center gap-6 overflow-auto w-full">
