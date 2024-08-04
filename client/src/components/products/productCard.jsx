@@ -1,10 +1,14 @@
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { Heart, ImageOff, ShoppingBasket, Star } from "lucide-react";
+import { toast } from "react-hot-toast";
 
-import ProductPreviewModal from "./productPreviewModal";
 import { cn } from "@/lib/utils";
-import { Link } from "react-router-dom";
+import ProductPreviewModal from "./productPreviewModal";
+import { addToCart } from "@/store/slices/cartSlice";
 
 const ProductCard = ({
+  _id: id,
   layoutStyle,
   title,
   category,
@@ -14,6 +18,11 @@ const ProductCard = ({
   discountedPrice,
   description,
 }) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const authUser = useSelector((state) => state.auth.user);
+
   return (
     <div
       className={cn(
@@ -50,7 +59,7 @@ const ProductCard = ({
               />
             </>
           ) : (
-            <div className="flex-center rounded-md bg-muted w-full h-full p-40 max-h-72 max-w-64">
+            <div className="flex-center rounded-md bg-muted w-full h-full p-80 max-h-72 max-w-64">
               <ImageOff className="size-24 stroke-[1.5px] text-gray-300" />
             </div>
           )}
@@ -59,7 +68,26 @@ const ProductCard = ({
         <div className="absolute z-10 transition-all -bottom-6 group-hover:bottom-2 flex-center gap-1 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 duration-300 text-gray-500">
           <Heart className="size-9 stroke-[1.5px] border p-1.5 hover:border-primary hover:bg-primary hover:text-white rounded-md bg-white cursor-pointer" />
           <ProductPreviewModal />
-          <ShoppingBasket className="size-9 stroke-[1.5px] border p-1.5 hover:border-primary hover:bg-primary hover:text-white rounded-md bg-white cursor-pointer" />
+          <ShoppingBasket
+            onClick={() => {
+              if (!authUser) {
+                toast.error("Please login to add product to cart");
+                navigate("/auth/login");
+                return;
+              }
+              dispatch(
+                addToCart({
+                  id,
+                  title,
+                  discountedPrice,
+                  image: images[0],
+                  quantity: 1,
+                })
+              );
+              toast.success("Product added to cart");
+            }}
+            className="size-9 stroke-[1.5px] border p-1.5 hover:border-primary hover:bg-primary hover:text-white rounded-md bg-white cursor-pointer"
+          />
         </div>
       </div>
 
