@@ -10,11 +10,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import ProductCard from "../../components/products/productCard";
 import { cn } from "@/lib/utils";
+
+import ProductCard from "../../components/products/productCard";
+import { useGetAllProductsQuery } from "../../store/api/productApiSlice";
 
 const ProductsList = () => {
   const [layoutStyle, setLayoutStyle] = useState("grid");
+
+  const { data: { products } = [] } = useGetAllProductsQuery();
+
+  console.log(products);
 
   return (
     <div className="md:ml-5 w-full">
@@ -72,8 +78,12 @@ const ProductsList = () => {
             : "md:grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3"
         )}
       >
-        {[...Array(10)].map((_, i) => (
-          <ProductCard key={i} layoutStyle={layoutStyle} />
+        {products?.map((product) => (
+          <ProductCard
+            key={product?._id}
+            layoutStyle={layoutStyle}
+            {...product}
+          />
         ))}
       </div>
     </div>

@@ -1,10 +1,19 @@
-import { Heart, ShoppingBasket, Star } from "lucide-react";
+import { Heart, ImageOff, ShoppingBasket, Star } from "lucide-react";
 
 import ProductPreviewModal from "./productPreviewModal";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 
-const ProductCard = ({ layoutStyle }) => {
+const ProductCard = ({
+  layoutStyle,
+  title,
+  category,
+  images,
+  rating,
+  actualPrice,
+  discountedPrice,
+  description,
+}) => {
   return (
     <div
       className={cn(
@@ -23,20 +32,31 @@ const ProductCard = ({ layoutStyle }) => {
         )}
       >
         <Link to="/product/123">
-          <img
-            src="https://www.tractor-shop.nl/1641/scania-soft-shell-jas-zwart.jpg"
-            className={cn(
-              "w-full rounded-t-sm object-contain group-hover:opacity-0 group-hover:scale-90 scale-[.95] transition-all mix-blend-multiply duration-500 delay-150",
-              layoutStyle === "list" ? "aspect-square max-w-60" : "max-h-72"
-            )}
-          />
-          <img
-            src="https://m.media-amazon.com/images/I/61ekniUkLJL._AC_UF894,1000_QL80_.jpg"
-            className={cn(
-              "w-full rounded-t-sm object-contain group-hover:opacity-100 opacity-0 group-hover:scale-100 scale-90 mix-blend-multiply transition-all duration-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
-              layoutStyle === "list" ? "aspect-square max-w-60" : "max-h-72"
-            )}
-          />
+          {images?.length > 0 ? (
+            <>
+              <img
+                src={
+                  images[0] ||
+                  "https://pagedone.io/asset/uploads/1700472379.png"
+                }
+                className={cn(
+                  "w-full rounded-t-sm object-contain group-hover:opacity-0 group-hover:scale-90 scale-[.95] transition-all mix-blend-multiply duration-500 delay-150",
+                  layoutStyle === "list" ? "aspect-square max-w-60" : "max-h-72"
+                )}
+              />
+              <img
+                src={images[1]}
+                className={cn(
+                  "w-full rounded-t-sm object-contain group-hover:opacity-100 opacity-0 group-hover:scale-100 scale-90 mix-blend-multiply transition-all duration-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
+                  layoutStyle === "list" ? "aspect-square max-w-60" : "max-h-72"
+                )}
+              />
+            </>
+          ) : (
+            <div className="flex-center rounded-md bg-muted w-full h-full p-40 max-h-72 max-w-64">
+              <ImageOff className="size-24 stroke-[1.5px] text-gray-300" />
+            </div>
+          )}
         </Link>
 
         <div className="absolute z-10 transition-all -bottom-6 group-hover:bottom-2 flex-center gap-1 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 duration-300 text-gray-500">
@@ -48,42 +68,47 @@ const ProductCard = ({ layoutStyle }) => {
 
       <Link to="/product/123" className="p-3 flex flex-col gap-1">
         <Link
-          to="/"
+          to={`/products?category=${category}`}
           className="block font-sans text-sm leading-normal antialiased"
         >
-          Electronics
+          {category}
         </Link>
 
         <h2
           className={cn(
-            "block font-medium hover:underline text-[.95rem] leading-relaxed text-blue-gray-900 antialiased",
+            "block font-medium capitalize hover:underline text-[.95rem] leading-relaxed text-blue-gray-900 antialiased",
             layoutStyle === "list" && "sm:text-base xl:text-lg"
           )}
         >
-          Apple Headphones Pro Max 2021 Edition - Black
+          {title}
         </h2>
 
         {layoutStyle === "list" && (
           <p className="block font-sans text-sm xl:text-base leading-relaxed text-blue-gray-500 antialiased mt-auto">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-            malesuada, eros sed bibendum lacinia, magna turpis lacinia odio, sit
-            amet scelerisque ligula odio sit amet sem.
+            {description.slice(0, 100)}...
           </p>
         )}
 
         <div className="flex items-center gap-1 mt-5">
           {[...Array(5)].map((_, i) => (
-            <Star key={i} className="size-4 text-yellow-400 fill-yellow-400" />
+            <Star
+              key={i}
+              className={`size-4 ${
+                i < rating
+                  ? "text-yellow-400 fill-yellow-400"
+                  : "text-gray-400 fill-gray-400"
+              }`}
+            />
           ))}
         </div>
 
         <div className="mb-2 flex items-center gap-3 mt-2">
           <p className="block font-sans text-base font-bold leading-relaxed text-blue-gray-900 antialiased">
-            $95.00
+            ${actualPrice}.00
           </p>
 
           <s className="block font-sans text-sm font-normal leading-normal text-gray-700 antialiased opacity-75">
-            $120.00
+            ${discountedPrice}.00
           </s>
         </div>
       </Link>

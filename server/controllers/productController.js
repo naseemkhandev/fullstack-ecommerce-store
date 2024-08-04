@@ -14,12 +14,15 @@ export const addNewProduct = async (req, res, next) => {
 
 export const getAllProducts = async (req, res, next) => {
   try {
-    const products = await Product.find();
+    const products = await Product.find()
+      .populate("user", "name")
+      .populate("category", "name slug");
 
-    if (!products)
+    if (!products || products.length === 0) {
       return res
         .status(404)
         .json({ message: "No products found", products: [] });
+    }
 
     res.status(200).json({
       message: "All products fetched successfully",
