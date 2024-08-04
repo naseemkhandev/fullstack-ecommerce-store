@@ -62,8 +62,12 @@ const ProductCard = ({
               />
             </>
           ) : (
-            <div className="flex-center rounded-md bg-muted w-full h-full p-80 max-h-72 max-w-64">
-              <ImageOff className="size-24 stroke-[1.5px] text-gray-300" />
+            <div
+              className={`flex-center rounded-md text-muted-foreground w-full h-full max-h-72 max-w-64 ${
+                layoutStyle === "grid" && "p-80 bg-muted"
+              }`}
+            >
+              <ImageOff className="size-24 stroke-[1px]" />
             </div>
           )}
         </Link>

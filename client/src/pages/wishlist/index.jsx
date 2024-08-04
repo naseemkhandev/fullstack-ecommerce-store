@@ -1,3 +1,6 @@
+import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
 import {
   ArrowRight,
   HeartOffIcon,
@@ -5,7 +8,6 @@ import {
   ShoppingBasket,
   X,
 } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
 
 import { Badge } from "@/components/ui/badge";
 import {
@@ -18,14 +20,15 @@ import {
 } from "@/components/ui/table";
 
 import convertDate from "@/utils/convertDate";
-import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
 import ProductCard from "../../components/products/productCard";
 import { removeFromFavorites } from "../../store/slices/favoritesSlice";
+import useHandleAddToCart from "../../hooks/useHandleAddToCart";
 
 const WishListPage = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.favorites.products);
+  console.log(products);
+  const { handleAddToCart } = useHandleAddToCart();
 
   return (
     <div>
@@ -116,7 +119,19 @@ const WishListPage = () => {
 
                   <TableCell className="table-cell">
                     <div className="flex-center">
-                      <ShoppingBasket className="size-[2.3rem] cursor-pointer text-primary p-2 rounded-full hover:bg-green-500/10" />
+                      <ShoppingBasket
+                        onClick={() =>
+                          handleAddToCart({
+                            id: product?.id,
+                            title: product?.title,
+                            price: product?.price,
+                            image: product?.image,
+                            stock: product?.stock,
+                            createdAt: product?.createdAt,
+                          })
+                        }
+                        className="size-[2.3rem] cursor-pointer text-primary p-2 rounded-full hover:bg-green-500/10"
+                      />
                       <X
                         onClick={() => {
                           dispatch(removeFromFavorites({ id: product?.id }));
