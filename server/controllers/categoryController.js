@@ -49,9 +49,11 @@ export const updateCategory = async (req, res, next) => {
     const category = await Category.findById(id);
     if (!category) return next(createError(404, "Category not found"));
 
-    const isCategoryExist = await Category.findOne({ name });
-    if (isCategoryExist)
-      return next(createError(400, "Category already exists"));
+    if (category.name !== name) {
+      const isCategoryExist = await Category.findOne({ name });
+      if (isCategoryExist)
+        return next(createError(400, "Category already exists"));
+    }
 
     category.name = name;
     category.slug = slug;

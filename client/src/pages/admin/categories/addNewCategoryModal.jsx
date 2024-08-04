@@ -19,10 +19,11 @@ import {
   useUpdateCategoryMutation,
 } from "../../../store/api/categoryApiSlice";
 import generateSlug from "../../../utils/generateSlug";
+import { CircleAlert } from "lucide-react";
 
 const AddNewCategoryModal = ({ categoryToUpdate }) => {
-  const [category, setCategory] = useState("" || categoryToUpdate?.name);
-  const [icon, setIcon] = useState("" || categoryToUpdate?.icon);
+  const [category, setCategory] = useState(categoryToUpdate?.name || "");
+  const [icon, setIcon] = useState(categoryToUpdate?.icon || "");
   const [slug, setSlug] = useState("");
 
   const [addNewCategory, { isLoading: isAddingCategory }] =
@@ -34,18 +35,35 @@ const AddNewCategoryModal = ({ categoryToUpdate }) => {
     e.preventDefault();
     try {
       if (categoryToUpdate) {
-        await updateCategory({
-          id: categoryToUpdate._id,
-          name: category,
-          icon,
-          slug,
-        }).unwrap();
-        toast.success("Category updated successfully");
-        return;
+        if (
+          categoryToUpdate.name === category &&
+          categoryToUpdate.icon === icon &&
+          generateSlug(categoryToUpdate.name) === slug
+        ) {
+          toast.success("No changes have been made", {
+            style: {
+              backgroundColor: "#fff2cc",
+              padding: "10px",
+              color: "#bf9000",
+            },
+            icon: <CircleAlert size={20} />,
+          });
+          return;
+        } else {
+          await updateCategory({
+            id: categoryToUpdate._id,
+            name: category,
+            icon,
+            slug,
+          }).unwrap();
+          toast.success("Category updated successfully");
+          return;
+        }
+      } else {
+        await addNewCategory({ name: category, slug, icon }).unwrap();
+        toast.success("Category added successfully");
+        setCategory("");
       }
-      await addNewCategory({ name: category, slug, icon }).unwrap();
-      toast.success("Category added successfully");
-      setCategory("");
     } catch (error) {
       toast.error(error?.data?.message || "An error occurred");
     }
@@ -58,9 +76,13 @@ const AddNewCategoryModal = ({ categoryToUpdate }) => {
   return (
     <DialogContent className="sm:max-w-[40rem]">
       <DialogHeader>
-        <DialogTitle>Add New Category</DialogTitle>
+        <DialogTitle>
+          {categoryToUpdate ? "Update Category" : "Add New Category"}
+        </DialogTitle>
         <DialogDescription>
-          Add a new category to the store to organize your products.
+          {categoryToUpdate
+            ? "Update the category details to save changes."
+            : "Add a new category to the store to organize your products."}
         </DialogDescription>
       </DialogHeader>
 
@@ -96,22 +118,22 @@ const AddNewCategoryModal = ({ categoryToUpdate }) => {
         />
       </div>
 
-      <DialogFooter>
+      <DialogFooter className="flex gap-3">
         <DialogClose asChild>
-          <div className="flex gap-3">
-            <Button className="py-3.5 px-6" variant="outline">
-              Cancel
-            </Button>
+          <Button className="py-3.5 px-6" variant="outline">
+            Cancel
+          </Button>
+        </DialogClose>
 
-            <Button
-              type="submit"
-              isLoading={isAddingCategory || isUpdatingCategory}
-              onClick={handleAddNewCategory}
-              className="py-3.5"
-            >
-              Add Category
-            </Button>
-          </div>
+        <DialogClose asChild>
+          <Button
+            type="submit"
+            isLoading={isAddingCategory || isUpdatingCategory}
+            onClick={handleAddNewCategory}
+            className="py-3.5"
+          >
+            {categoryToUpdate ? "Update" : "Add"} Category
+          </Button>
         </DialogClose>
       </DialogFooter>
     </DialogContent>
