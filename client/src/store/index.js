@@ -13,6 +13,7 @@ import {
 
 import apiSlice from "./api/apiSlice";
 import authSlice from "./slices/authSlice";
+import cartSlice from "./slices/cartSlice";
 
 const persistConfig = {
   key: "root",
@@ -22,6 +23,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   auth: authSlice,
+  cart: cartSlice,
   [apiSlice.reducerPath]: apiSlice.reducer,
 });
 
