@@ -1,12 +1,11 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { Heart, ImageOff, ShoppingBasket, Star } from "lucide-react";
-import { toast } from "react-hot-toast";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 import { cn } from "@/lib/utils";
+import useHandleAddToCart from "../../hooks/useHandleAddToCart";
+import useHandleAddToFavorites from "../../hooks/useHandleAddToWishlist";
 import ProductPreviewModal from "./productPreviewModal";
-import { addToCart } from "@/store/slices/cartSlice";
-import { addToFavorites } from "@/store/slices/favoritesSlice";
 
 const ProductCard = ({
   _id: id,
@@ -21,42 +20,11 @@ const ProductCard = ({
   stock,
   createdAt,
 }) => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const authUser = useSelector((state) => state.auth.user);
+  const { handleAddToCart } = useHandleAddToCart();
+  const { handleAddToFavorites } = useHandleAddToFavorites();
 
-  const handleAddToCart = () => {
-    if (!authUser) {
-      toast.error("Please login to add product to cart");
-      navigate("/auth/login");
-      return;
-    }
-
-    dispatch(
-      addToCart({ id, title, discountedPrice, image: images[0], quantity: 1 })
-    );
-    toast.success("Product added to cart");
-  };
-
-  const handleAddToFavorites = () => {
-    if (!authUser) {
-      toast.error("Please login to add product to wishlist");
-      navigate("/auth/login");
-      return;
-    }
-
-    dispatch(
-      addToFavorites({
-        id,
-        title,
-        price: discountedPrice,
-        image: images[0],
-        stock,
-        createdAt,
-      })
-    );
-    toast.success("Product added to wishlist");
-  };
+  const wishlist = useSelector((state) => state.favorites.products);
+  const isProductInWishlist = wishlist.some((product) => product.id === id);
 
   return (
     <div
@@ -75,7 +43,7 @@ const ProductCard = ({
             : "h-72 border-b"
         )}
       >
-        <Link to="/product/123">
+        <Link to={`/product/${id}`}>
           {images?.length > 0 ? (
             <>
               <img
@@ -100,20 +68,56 @@ const ProductCard = ({
           )}
         </Link>
 
+        {isProductInWishlist && (
+          <p className="text-white absolute top-2 right-2 bg-primary rounded-md text-xs font-medium px-2 py-1 antialiased select-none">
+            Favorite
+          </p>
+        )}
+
+        {discountedPrice && (
+          <p className="text-white absolute top-2 left-2 bg-red-500 rounded-md text-xs font-medium px-2 py-1 antialiased select-none">
+            Sale
+          </p>
+        )}
+
         <div className="absolute z-10 transition-all -bottom-6 group-hover:bottom-2 flex-center gap-1 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 duration-300 text-gray-500">
           <Heart
-            onClick={handleAddToFavorites}
-            className="size-9 stroke-[1.5px] border p-1.5 hover:border-primary hover:bg-primary hover:text-white rounded-md bg-white cursor-pointer"
+            onClick={() =>
+              handleAddToFavorites({
+                id,
+                title,
+                discountedPrice,
+                image: images[0],
+                stock,
+                createdAt,
+              })
+            }
+            className={cn(
+              "size-9 stroke-[1.5px] border p-1.5 rounded-md bg-white cursor-pointer",
+              isProductInWishlist
+                ? "bg-primary text-white"
+                : "hover:border-primary hover:bg-primary hover:text-white"
+            )}
           />
           <ProductPreviewModal />
           <ShoppingBasket
-            onClick={handleAddToCart}
+            onClick={() =>
+              handleAddToCart({
+                id,
+                title,
+                discountedPrice,
+                image: images[0],
+                stock,
+                createdAt,
+                quantity: 1,
+              })
+            }
             className="size-9 stroke-[1.5px] border p-1.5 hover:border-primary hover:bg-primary hover:text-white rounded-md bg-white cursor-pointer"
           />
         </div>
       </div>
 
-      <Link to="/product/123" className="p-3 flex flex-col gap-1">
+      <Link to={`/product/${id}`} className="p-3 flex flex-col gap-1">
         <Link
           to={`/products?category=${category}`}
           className="block font-sans text-sm leading-normal antialiased"

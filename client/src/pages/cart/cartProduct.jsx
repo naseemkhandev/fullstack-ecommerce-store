@@ -1,9 +1,10 @@
 import { Heart, ImageOff, Minus, Plus, X } from "lucide-react";
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { removeFromCart } from "../../store/slices/cartSlice";
+import useHandleAddToFavorites from "../../hooks/useHandleAddToWishlist";
 
 const CartProduct = ({
   id,
@@ -12,8 +13,14 @@ const CartProduct = ({
   actualPrice,
   discountedPrice,
   quantity,
+  stock,
+  createdAt,
 }) => {
   const dispatch = useDispatch();
+  const wishlist = useSelector((state) => state.favorites.products);
+  const isProductInWishlist = wishlist.some((product) => product.id === id);
+
+  const { handleAddToFavorites } = useHandleAddToFavorites();
 
   return (
     <div className="space-y-6">
@@ -65,9 +72,25 @@ const CartProduct = ({
             <div className="flex items-center gap-4">
               <button
                 type="button"
-                className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-primary hover:underline group"
+                onClick={() =>
+                  handleAddToFavorites({
+                    id,
+                    title,
+                    discountedPrice,
+                    image,
+                    stock,
+                    createdAt,
+                  })
+                }
+                className={`inline-flex items-center text-sm font-medium text-gray-500 hover:text-primary hover:underline group ${
+                  isProductInWishlist && "text-primary"
+                }`}
               >
-                <Heart className="size-4 me-1.5 group-hover:fill-primary" />
+                <Heart
+                  className={`size-4 me-1.5 group-hover:fill-primary ${
+                    isProductInWishlist && "fill-primary"
+                  }`}
+                />
                 Add to Favorites
               </button>
 

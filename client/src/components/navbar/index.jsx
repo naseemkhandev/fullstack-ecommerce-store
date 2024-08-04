@@ -17,7 +17,10 @@ import useLogout from "../../hooks/useLogout";
 
 const Navbar = () => {
   const { handleLogout, isLogouting } = useLogout();
+
   const authUser = useSelector((state) => state.auth.user);
+  const wishlist = useSelector((state) => state.favorites.products);
+  const cart = useSelector((state) => state.cart.products);
 
   return (
     <header className="sticky top-0 h-16 border-b z-50 bg-white shadow-lg shadow-black/5">
@@ -84,14 +87,28 @@ const Navbar = () => {
         <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
           <div className="flex-center gap-1 ml-auto mt-2.5 md:mt-0">
             <Link to="/wishlist">
-              <Button variant="ghost" size="icon" className="rounded-full">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="rounded-full relative"
+              >
                 <Heart className="h-5 w-5" />
+                <span className="absolute top-0 right-0 text-xs font-medium text-white bg-primary rounded-full px-1">
+                  {wishlist.length}
+                </span>
               </Button>
             </Link>
 
             <Link to="/cart">
-              <Button variant="ghost" size="icon" className="rounded-full">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="rounded-full relative"
+              >
                 <ShoppingCart className="h-5 w-5" />
+                <span className="absolute top-0 right-0 text-xs font-medium text-white bg-primary rounded-full px-1">
+                  {cart.length}
+                </span>
               </Button>
             </Link>
 
