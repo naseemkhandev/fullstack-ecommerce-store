@@ -35,10 +35,7 @@ const ProductCard = ({
           {images?.length > 0 ? (
             <>
               <img
-                src={
-                  images[0] ||
-                  "https://pagedone.io/asset/uploads/1700472379.png"
-                }
+                src={images[0]}
                 className={cn(
                   "w-full rounded-t-sm object-contain group-hover:opacity-0 group-hover:scale-90 scale-[.95] transition-all mix-blend-multiply duration-500 delay-150",
                   layoutStyle === "list" ? "aspect-square max-w-60" : "max-h-72"
@@ -60,9 +57,9 @@ const ProductCard = ({
         </Link>
 
         <div className="absolute z-10 transition-all -bottom-6 group-hover:bottom-2 flex-center gap-1 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 duration-300 text-gray-500">
-          <Heart className="size-7 border p-1 hover:border-primary hover:bg-primary hover:text-white rounded bg-white cursor-pointer" />
+          <Heart className="size-9 stroke-[1.5px] border p-1.5 hover:border-primary hover:bg-primary hover:text-white rounded-md bg-white cursor-pointer" />
           <ProductPreviewModal />
-          <ShoppingBasket className="size-7 border p-1 hover:border-primary hover:bg-primary hover:text-white rounded bg-white cursor-pointer" />
+          <ShoppingBasket className="size-9 stroke-[1.5px] border p-1.5 hover:border-primary hover:bg-primary hover:text-white rounded-md bg-white cursor-pointer" />
         </div>
       </div>
 

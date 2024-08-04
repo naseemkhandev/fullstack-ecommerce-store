@@ -14,13 +14,13 @@ import { cn } from "@/lib/utils";
 
 import ProductCard from "../../components/products/productCard";
 import { useGetAllProductsQuery } from "../../store/api/productApiSlice";
+import ProductCardSkeleton from "../skeletons/productCardSkeleton";
 
 const ProductsList = () => {
   const [layoutStyle, setLayoutStyle] = useState("grid");
 
-  const { data: { products } = [] } = useGetAllProductsQuery();
-
-  console.log(products);
+  const { data: { products } = [], isLoading: isProductsLoading } =
+    useGetAllProductsQuery();
 
   return (
     <div className="md:ml-5 w-full">
@@ -70,22 +70,30 @@ const ProductsList = () => {
         </Select>
       </div>
 
-      <div
-        className={cn(
-          "grid mt-5 gap-3 xl:gap-5",
-          layoutStyle === "list"
-            ? "md:grid-cols-1"
-            : "md:grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3"
-        )}
-      >
-        {products?.map((product) => (
-          <ProductCard
-            key={product?._id}
-            layoutStyle={layoutStyle}
-            {...product}
-          />
-        ))}
-      </div>
+      {isProductsLoading ? (
+        <div className="grid mt-5 gap-3 md:grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+          {[...Array(12)].map((_, i) => (
+            <ProductCardSkeleton key={i} isLoading />
+          ))}
+        </div>
+      ) : (
+        <div
+          className={cn(
+            "grid mt-5 gap-3 xl:gap-5",
+            layoutStyle === "list"
+              ? "md:grid-cols-1"
+              : "md:grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3"
+          )}
+        >
+          {products?.map((product) => (
+            <ProductCard
+              key={product?._id}
+              layoutStyle={layoutStyle}
+              {...product}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

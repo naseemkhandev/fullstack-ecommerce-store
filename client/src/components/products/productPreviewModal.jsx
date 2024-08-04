@@ -9,7 +9,7 @@ const ProductPreviewModal = ({ iconClassName }) => {
     <Dialog>
       <DialogTrigger asChild>
         <Eye
-          className={`size-7 border p-1 hover:border-primary hover:bg-primary hover:text-white rounded bg-white cursor-pointer ${iconClassName}`}
+          className={`size-9 stroke-[1.5px] border p-1.5 hover:border-primary hover:bg-primary hover:text-white rounded-md bg-white cursor-pointer ${iconClassName}`}
         />
       </DialogTrigger>
 
