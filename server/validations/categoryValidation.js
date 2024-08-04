@@ -21,6 +21,12 @@ const categorySchema = z.object({
     .refine((data) => /^[a-zA-Z-]+$/.test(data), {
       message: "Category Slug must contain only letters and hyphens",
     }),
+  icon: z
+    .string({ required_error: "Category Icon is required" })
+    .nonempty({ message: "Category Icon is required" })
+    .min(3, { message: "Category Icon must be at least 3 characters long" })
+    .max(20, { message: "Category Icon must be at most 20 characters long" })
+    .trim(),
 });
 
 export default categorySchema;

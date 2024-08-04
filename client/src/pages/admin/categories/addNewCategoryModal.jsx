@@ -22,6 +22,7 @@ import generateSlug from "../../../utils/generateSlug";
 
 const AddNewCategoryModal = ({ categoryToUpdate }) => {
   const [category, setCategory] = useState("" || categoryToUpdate?.name);
+  const [icon, setIcon] = useState("" || categoryToUpdate?.icon);
   const [slug, setSlug] = useState("");
 
   const [addNewCategory, { isLoading: isAddingCategory }] =
@@ -36,12 +37,13 @@ const AddNewCategoryModal = ({ categoryToUpdate }) => {
         await updateCategory({
           id: categoryToUpdate._id,
           name: category,
+          icon,
           slug,
         }).unwrap();
         toast.success("Category updated successfully");
         return;
       }
-      await addNewCategory({ name: category, slug }).unwrap();
+      await addNewCategory({ name: category, slug, icon }).unwrap();
       toast.success("Category added successfully");
       setCategory("");
     } catch (error) {
@@ -54,7 +56,7 @@ const AddNewCategoryModal = ({ categoryToUpdate }) => {
   }, [category]);
 
   return (
-    <DialogContent className="sm:max-w-[34rem]">
+    <DialogContent className="sm:max-w-[40rem]">
       <DialogHeader>
         <DialogTitle>Add New Category</DialogTitle>
         <DialogDescription>
@@ -69,6 +71,17 @@ const AddNewCategoryModal = ({ categoryToUpdate }) => {
           value={category}
           onChange={(e) => setCategory(e.target.value)}
           placeholder="Enter category name"
+        />
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="icon">Icon Name</Label>
+        <Input
+          id="icon"
+          value={icon}
+          onChange={(e) => setIcon(e.target.value)}
+          placeholder="Enter Category Icon Name"
+          className="capitalize"
         />
       </div>
 

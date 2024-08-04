@@ -1,4 +1,5 @@
-import { Edit, Loader2, PlusCircle, Trash2Icon } from "lucide-react";
+import * as Icons from "lucide-react";
+import React from "react";
 import { Link } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
@@ -46,6 +47,15 @@ const CategoriesPage = () => {
     }
   };
 
+  const renderIcon = (iconName) => {
+    const IconComponent = Icons[iconName];
+    return IconComponent ? (
+      React.createElement(IconComponent)
+    ) : (
+      <span className="text-gray-400">N/A</span>
+    );
+  };
+
   return (
     <div className="grid gap-6 overflow-auto">
       {isLoading ? (
@@ -65,7 +75,7 @@ const CategoriesPage = () => {
             <Dialog>
               <DialogTrigger asChild>
                 <Button className="gap-2 px-3 mr-5 mb-2 py-3.5">
-                  <PlusCircle className="size-[1rem]" />
+                  <Icons.PlusCircle className="size-[1rem]" />
                   <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                     Add New Category
                   </span>
@@ -81,6 +91,7 @@ const CategoriesPage = () => {
               <TableHeader>
                 <TableRow>
                   <TableHead>Sr.#</TableHead>
+                  <TableHead>Icon</TableHead>
                   <TableHead>Name</TableHead>
                   <TableHead>Slug</TableHead>
                   <TableHead>Created At</TableHead>
@@ -101,12 +112,18 @@ const CategoriesPage = () => {
                   <TableRow key={category?._id}>
                     <TableCell className="table-cell">{index + 1}</TableCell>
 
+                    <TableCell className="font-medium capitalize whitespace-nowrap text-primary">
+                      {renderIcon(category.icon)}
+                    </TableCell>
+
                     <TableCell className="font-medium capitalize whitespace-nowrap">
                       {category?.name}
                     </TableCell>
 
                     <TableCell className="whitespace-nowrap text-gray-500">
-                      <Link to={"#"}>{category?.slug}</Link>
+                      <Link to={`/products?cat=${category?.slug}`}>
+                        {category?.slug}
+                      </Link>
                     </TableCell>
 
                     <TableCell className="whitespace-nowrap opacity-50 font-medium">
@@ -119,9 +136,9 @@ const CategoriesPage = () => {
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="text-green-500 hover:text-green-500 hover:bg-green-500/10 rounded-full"
+                            className="text-primary hover:text-primary hover:bg-green-500/10 rounded-full"
                           >
-                            <Edit className="size-5" />
+                            <Icons.Edit className="size-5" />
                           </Button>
                         </DialogTrigger>
 
@@ -133,12 +150,12 @@ const CategoriesPage = () => {
                         size="icon"
                         onClick={() => handleDeleteCategory(category?._id)}
                         disabled={isCategoryDeleting}
-                        className="text-primary hover:text-primary disabled:cursor-not-allowed hover:bg-primary/10 rounded-full"
+                        className="text-red-500 hover:text-red-500 disabled:cursor-not-allowed hover:bg-red-500/10 rounded-full"
                       >
                         {isCategoryDeleting ? (
-                          <Loader2 className="size-5 animate-spin opacity-80 cursor-not-allowed" />
+                          <Icons.Loader2 className="size-5 animate-spin opacity-80 cursor-not-allowed" />
                         ) : (
-                          <Trash2Icon className="size-5" />
+                          <Icons.Trash2 className="size-5" />
                         )}
                       </Button>
                     </TableCell>
