@@ -19,6 +19,10 @@ const categorySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    bgColor: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );

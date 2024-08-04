@@ -1,5 +1,5 @@
-import * as Icons from "lucide-react";
-import React from "react";
+import { Edit, Loader2, PlusCircle, Trash2 } from "lucide-react";
+import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
@@ -21,14 +21,14 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import toast from "react-hot-toast";
-import TablesSkeleton from "../../../components/skeletons/admin/tablesSkeleton";
 import {
   useDeleteCategoryMutation,
   useGetAllCategoriesQuery,
 } from "../../../store/api/categoryApiSlice";
 import convertDate from "../../../utils/convertDate";
+import renderIcon from "../../../utils/renderIcon";
 import AddNewCategoryModal from "./addNewCategoryModal";
+import TablesSkeleton from "../../../components/skeletons/admin/tablesSkeleton";
 
 const CategoriesPage = () => {
   const { data: { categories } = [], isLoading } = useGetAllCategoriesQuery();
@@ -45,15 +45,6 @@ const CategoriesPage = () => {
     } finally {
       toast.dismiss(loading);
     }
-  };
-
-  const renderIcon = (iconName) => {
-    const IconComponent = Icons[iconName];
-    return IconComponent ? (
-      React.createElement(IconComponent)
-    ) : (
-      <span className="text-gray-400">N/A</span>
-    );
   };
 
   return (
@@ -75,7 +66,7 @@ const CategoriesPage = () => {
             <Dialog>
               <DialogTrigger asChild>
                 <Button className="gap-2 px-3 mr-5 mb-2 py-3.5">
-                  <Icons.PlusCircle className="size-[1rem]" />
+                  <PlusCircle className="size-[1rem]" />
                   <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                     Add New Category
                   </span>
@@ -90,12 +81,17 @@ const CategoriesPage = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Sr.#</TableHead>
-                  <TableHead>Icon</TableHead>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Slug</TableHead>
-                  <TableHead>Created At</TableHead>
-                  <TableHead className="text-center">Actions</TableHead>
+                  <TableHead className="table-cell">Sr.#</TableHead>
+                  <TableHead className="table-cell">Icon</TableHead>
+                  <TableHead className="table-cell text-center">
+                    Background Color
+                  </TableHead>
+                  <TableHead className="table-cell">Name</TableHead>
+                  <TableHead className="table-cell">Slug</TableHead>
+                  <TableHead className="table-cell">Created At</TableHead>
+                  <TableHead className="text-center table-cell">
+                    Actions
+                  </TableHead>
                 </TableRow>
               </TableHeader>
 
@@ -113,7 +109,18 @@ const CategoriesPage = () => {
                     <TableCell className="table-cell">{index + 1}</TableCell>
 
                     <TableCell className="font-medium capitalize whitespace-nowrap text-primary">
-                      {renderIcon(category.icon)}
+                      {category?.icon ? (
+                        renderIcon(category.icon)
+                      ) : (
+                        <span className="text-gray-400">N/A</span>
+                      )}
+                    </TableCell>
+
+                    <TableCell className="whitespace-nowrap flex-center">
+                      <span
+                        className="rounded-full w-8 h-8 p-2 block"
+                        style={{ background: category?.bgColor }}
+                      ></span>
                     </TableCell>
 
                     <TableCell className="font-medium capitalize whitespace-nowrap">
@@ -138,7 +145,7 @@ const CategoriesPage = () => {
                             size="icon"
                             className="text-primary hover:text-primary hover:bg-green-500/10 rounded-full"
                           >
-                            <Icons.Edit className="size-5" />
+                            <Edit className="size-5" />
                           </Button>
                         </DialogTrigger>
 
@@ -153,9 +160,9 @@ const CategoriesPage = () => {
                         className="text-red-500 hover:text-red-500 disabled:cursor-not-allowed hover:bg-red-500/10 rounded-full"
                       >
                         {isCategoryDeleting ? (
-                          <Icons.Loader2 className="size-5 animate-spin opacity-80 cursor-not-allowed" />
+                          <Loader2 className="size-5 animate-spin opacity-80 cursor-not-allowed" />
                         ) : (
-                          <Icons.Trash2 className="size-5" />
+                          <Trash2 className="size-5" />
                         )}
                       </Button>
                     </TableCell>

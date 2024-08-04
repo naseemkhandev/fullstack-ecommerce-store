@@ -25,6 +25,7 @@ const AddNewCategoryModal = ({ categoryToUpdate }) => {
   const [category, setCategory] = useState(categoryToUpdate?.name || "");
   const [icon, setIcon] = useState(categoryToUpdate?.icon || "");
   const [slug, setSlug] = useState("");
+  const [bgColor, setBgColor] = useState(categoryToUpdate?.bgColor || "");
 
   const [addNewCategory, { isLoading: isAddingCategory }] =
     useAddNewCategoryMutation();
@@ -38,7 +39,8 @@ const AddNewCategoryModal = ({ categoryToUpdate }) => {
         if (
           categoryToUpdate.name === category &&
           categoryToUpdate.icon === icon &&
-          generateSlug(categoryToUpdate.name) === slug
+          generateSlug(categoryToUpdate.name) === slug &&
+          categoryToUpdate.bgColor === bgColor
         ) {
           toast.success("No changes have been made", {
             style: {
@@ -54,13 +56,14 @@ const AddNewCategoryModal = ({ categoryToUpdate }) => {
             id: categoryToUpdate._id,
             name: category,
             icon,
+            bgColor,
             slug,
           }).unwrap();
           toast.success("Category updated successfully");
           return;
         }
       } else {
-        await addNewCategory({ name: category, slug, icon }).unwrap();
+        await addNewCategory({ name: category, slug, icon, bgColor }).unwrap();
         toast.success("Category added successfully");
         setCategory("");
       }
@@ -89,6 +92,7 @@ const AddNewCategoryModal = ({ categoryToUpdate }) => {
       <div className="flex flex-col gap-2">
         <Label htmlFor="name">Name</Label>
         <Input
+          type="text"
           id="name"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
@@ -97,8 +101,21 @@ const AddNewCategoryModal = ({ categoryToUpdate }) => {
       </div>
 
       <div className="flex flex-col gap-2">
+        <Label htmlFor="slug">Slug</Label>
+        <Input
+          type="text"
+          id="slug"
+          value={slug}
+          placeholder="Category slug"
+          disabled
+          className="disabled:bg-muted-foreground/20"
+        />
+      </div>
+
+      <div className="flex flex-col gap-2">
         <Label htmlFor="icon">Icon Name</Label>
         <Input
+          type="text"
           id="icon"
           value={icon}
           onChange={(e) => setIcon(e.target.value)}
@@ -107,14 +124,14 @@ const AddNewCategoryModal = ({ categoryToUpdate }) => {
         />
       </div>
 
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="slug">Slug</Label>
-        <Input
-          id="slug"
-          value={slug}
-          placeholder="Category slug"
-          disabled
-          className="disabled:bg-muted-foreground/20"
+      <div className="flex flex-col gap-2 relative">
+        <Label htmlFor="bgColor">Background Color</Label>
+        <input
+          type="color"
+          id="bgColor"
+          value={bgColor}
+          onChange={(e) => setBgColor(e.target.value)}
+          className="w-full h-14 rounded-lg border border-gray-300 focus:ring-primary focus:border-primary"
         />
       </div>
 

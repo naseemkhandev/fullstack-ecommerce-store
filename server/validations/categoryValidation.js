@@ -27,6 +27,16 @@ const categorySchema = z.object({
     .min(3, { message: "Category Icon must be at least 3 characters long" })
     .max(20, { message: "Category Icon must be at most 20 characters long" })
     .trim(),
+  bgColor: z
+    .string({ required_error: "Category Background Color is required" })
+    .nonempty({ message: "Category Background Color is required" })
+    .min(3, {
+      message: "Category Background Color must be at least 3 characters long",
+    })
+    .max(20, {
+      message: "Category Background Color must be at most 20 characters long",
+    })
+    .trim(),
 });
 
 export default categorySchema;
