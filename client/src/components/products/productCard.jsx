@@ -6,6 +6,7 @@ import { toast } from "react-hot-toast";
 import { cn } from "@/lib/utils";
 import ProductPreviewModal from "./productPreviewModal";
 import { addToCart } from "@/store/slices/cartSlice";
+import { addToFavorites } from "@/store/slices/favoritesSlice";
 
 const ProductCard = ({
   _id: id,
@@ -17,11 +18,45 @@ const ProductCard = ({
   actualPrice,
   discountedPrice,
   description,
+  stock,
+  createdAt,
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const authUser = useSelector((state) => state.auth.user);
+
+  const handleAddToCart = () => {
+    if (!authUser) {
+      toast.error("Please login to add product to cart");
+      navigate("/auth/login");
+      return;
+    }
+
+    dispatch(
+      addToCart({ id, title, discountedPrice, image: images[0], quantity: 1 })
+    );
+    toast.success("Product added to cart");
+  };
+
+  const handleAddToFavorites = () => {
+    if (!authUser) {
+      toast.error("Please login to add product to wishlist");
+      navigate("/auth/login");
+      return;
+    }
+
+    dispatch(
+      addToFavorites({
+        id,
+        title,
+        price: discountedPrice,
+        image: images[0],
+        stock,
+        createdAt,
+      })
+    );
+    toast.success("Product added to wishlist");
+  };
 
   return (
     <div
@@ -66,26 +101,13 @@ const ProductCard = ({
         </Link>
 
         <div className="absolute z-10 transition-all -bottom-6 group-hover:bottom-2 flex-center gap-1 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 duration-300 text-gray-500">
-          <Heart className="size-9 stroke-[1.5px] border p-1.5 hover:border-primary hover:bg-primary hover:text-white rounded-md bg-white cursor-pointer" />
+          <Heart
+            onClick={handleAddToFavorites}
+            className="size-9 stroke-[1.5px] border p-1.5 hover:border-primary hover:bg-primary hover:text-white rounded-md bg-white cursor-pointer"
+          />
           <ProductPreviewModal />
           <ShoppingBasket
-            onClick={() => {
-              if (!authUser) {
-                toast.error("Please login to add product to cart");
-                navigate("/auth/login");
-                return;
-              }
-              dispatch(
-                addToCart({
-                  id,
-                  title,
-                  discountedPrice,
-                  image: images[0],
-                  quantity: 1,
-                })
-              );
-              toast.success("Product added to cart");
-            }}
+            onClick={handleAddToCart}
             className="size-9 stroke-[1.5px] border p-1.5 hover:border-primary hover:bg-primary hover:text-white rounded-md bg-white cursor-pointer"
           />
         </div>

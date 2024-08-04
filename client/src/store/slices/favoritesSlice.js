@@ -2,37 +2,34 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   products: [],
-  total: 0,
 };
 
-export const cartSlice = createSlice({
-  name: "cart",
+export const favoritesSlice = createSlice({
+  name: "favorites",
   initialState,
 
   reducers: {
-    addToCart: (state, action) => {
+    addToFavorites: (state, action) => {
       if (!Array.isArray(state.products)) {
         state.products = [];
       }
       state.products.push(action.payload);
-      state.total += action.payload.price;
     },
-    removeFromCart: (state, action) => {
+    removeFromFavorites: (state, action) => {
       if (!Array.isArray(state.products)) {
         state.products = [];
       }
       state.products = state.products.filter(
         (product) => product.id !== action.payload.id
       );
-      state.total -= action.payload.price;
     },
-    emptyCart: (state) => {
+    emptyFavorites: (state) => {
       state.products = [];
-      state.total = 0;
     },
   },
 });
 
-export const { addToCart, removeFromCart, emptyCart } = cartSlice.actions;
+export const { addToFavorites, removeFromFavorites, emptyFavorites } =
+  favoritesSlice.actions;
 
-export default cartSlice.reducer;
+export default favoritesSlice.reducer;

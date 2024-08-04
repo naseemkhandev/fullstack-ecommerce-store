@@ -14,6 +14,7 @@ import {
 import apiSlice from "./api/apiSlice";
 import authSlice from "./slices/authSlice";
 import cartSlice from "./slices/cartSlice";
+import favoritesSlice from "./slices/favoritesSlice";
 
 const persistConfig = {
   key: "root",
@@ -24,6 +25,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   auth: authSlice,
   cart: cartSlice,
+  favorites: favoritesSlice,
   [apiSlice.reducerPath]: apiSlice.reducer,
 });
 

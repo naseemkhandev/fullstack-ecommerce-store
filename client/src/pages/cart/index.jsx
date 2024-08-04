@@ -1,24 +1,14 @@
 import { ArrowRight, ShoppingCart } from "lucide-react";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import ProductCard from "../../components/products/productCard";
+import CartProduct from "./cartProduct";
 import CouponCode from "./couponCode";
 import OrderSummary from "./orderSummary";
-import CartProduct from "./cartProduct";
-import { emptyCart } from "../../store/slices/cartSlice";
 
 const CartPage = () => {
-  const dispatch = useDispatch();
   const products = useSelector((state) => state.cart.products);
-  const authUser = useSelector((state) => state.auth.user);
-
-  useEffect(() => {
-    if (!authUser) {
-      dispatch(emptyCart());
-    }
-  }, [authUser, dispatch]);
 
   return (
     <section className="bg-white antialiased">
