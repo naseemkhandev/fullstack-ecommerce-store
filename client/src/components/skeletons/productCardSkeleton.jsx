@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const ProductCardSkeleton = () => {
   return (
-    <Skeleton className="rounded-md flex-center flex-col items-start gap-3 p-3">
+    <div className="flex-center flex-col items-start gap-3 p-1">
       <Skeleton className="w-full h-72 rounded-md" />
       <Skeleton className="w-[95%] h-4" />
       <Skeleton className="w-[80%] h-4" />
@@ -23,7 +23,7 @@ const ProductCardSkeleton = () => {
         <Skeleton className="w-[75%] h-12" />
         <Skeleton className="w-[25%] h-12" />
       </div>
-    </Skeleton>
+    </div>
   );
 };
 
