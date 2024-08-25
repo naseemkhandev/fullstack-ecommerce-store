@@ -20,7 +20,7 @@ const FooterLinks = ({ title, links }) => {
         {links.map((link) => (
           <Link
             key={link.name}
-            href={`${link.link}`}
+            to={`${link.link}`}
             target="_blank"
             className="text-gray-500 hover:text-primary dark:text-white antialiased text-[.9rem] font-medium hover:underline whitespace-nowrap"
           >
@@ -35,7 +35,7 @@ const FooterLinks = ({ title, links }) => {
 const SocialIcons = ({ link, icon: Icon }) => {
   return (
     <Link
-      href={`${link}`}
+      to={link}
       target="_blank"
       className="text-lg bg-[#4B5966] rounded-lg hover:bg-primary hover:text-white p-3 text-white"
     >
@@ -49,7 +49,7 @@ const Footer = () => {
     <div className="mt-10 pt-10 md:pt-16 border-t">
       <div className="container mx-auto px-3 md:px-5 flex items-start justify-between flex-wrap lg:flex-nowrap gap-5 md:gap-10">
         <div className="w-full lg:max-w-80 flex flex-col gap-5 mb-5 lg:mb-0">
-          <Link href="/">
+          <Link to="/">
             <img src="/images/logo.png" alt="logo" className="w-36" />
           </Link>
 
@@ -86,7 +86,7 @@ const Footer = () => {
 
           <div className="flex flex-col gap-8">
             <div className="flex items-center gap-3">
-              <MapPin className="stroke-[1.5px] block size-10 text-primary" />
+              <MapPin className="stroke-[1.5px] block size-6 sm:size-10 text-primary" />
               <p className="text-gray-500 antialiased text-base font-medium">
                 2548 Broaddus Maple Court, Madisonville KY 4783, USA.
               </p>
@@ -105,10 +105,10 @@ const Footer = () => {
             <div className="flex items-center gap-3">
               <Mail className="stroke-[1.5px] text-primary size-6" />
               <Link
-                to="mailto:naseemsaffy@gmail.com"
+                to="mailto:devnaseemkhan@gmail.com"
                 className="text-gray-500 antialiased text-base font-medium"
               >
-                naseemsaffy@gmail.com
+                devnaseemkhan@gmail.com
               </Link>
             </div>
           </div>
@@ -119,7 +119,7 @@ const Footer = () => {
               icon={FaLinkedin}
             />
             <SocialIcons
-              link="https://github.com/NaseemKhan005"
+              link="https://github.com/naseemkhandev"
               icon={FaGithub}
             />
             <SocialIcons
@@ -135,7 +135,7 @@ const Footer = () => {
         <p>
           © Grabit {new Date().getFullYear()} - all Rights Reserved, Created by{" "}
           <Link
-            href="https://naseemkhan.vercel.app/"
+            to="https://github.com/naseemkhandev"
             target="_blank"
             className="hover:underline text-primary"
           >

@@ -14,6 +14,15 @@ export const cartSlice = createSlice({
       if (!Array.isArray(state.products)) {
         state.products = [];
       }
+      const existingProduct = state.products.find(
+        (product) => product.id === action.payload.id
+      );
+
+      if (existingProduct) {
+        existingProduct.quantity += 1;
+        state.total += existingProduct.price;
+        return;
+      }
       state.products.push(action.payload);
       state.total += action.payload.price;
     },

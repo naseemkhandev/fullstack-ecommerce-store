@@ -27,7 +27,7 @@ const Navbar = () => {
       <div className="container mx-auto relative px-3 md:px-5 items-center flex gap-4">
         <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
           <div className="flex h-14 w-28 items-center lg:h-[60px]">
-            <Link href="/">
+            <Link to="/">
               <img
                 src="/images/logo.png"
                 alt="logo"
@@ -62,7 +62,7 @@ const Navbar = () => {
           <SheetContent side="left">
             <nav className="grid gap-6 text-lg font-medium">
               <div className="flex h-14 w-28 items-center lg:h-[60px]">
-                <Link href="/">
+                <Link to="/">
                   <img
                     src="/images/logo.png"
                     alt="logo"

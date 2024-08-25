@@ -30,7 +30,7 @@ const Transactions = () => {
           </CardDescription>
         </div>
         <Button asChild size="sm" className="ml-auto gap-1">
-          <Link href="#">
+          <Link to="#">
             View All
             <ArrowUpRight className="h-4 w-4" />
           </Link>

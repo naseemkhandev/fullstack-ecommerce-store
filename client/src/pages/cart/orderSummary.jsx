@@ -1,9 +1,12 @@
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
 import { Button } from "../../components/ui/button";
 
 const OrderSummary = () => {
+  const cart = useSelector((state) => state.cart);
+
   return (
     <div className="space-y-4 rounded-lg border-gray-100 border bg-white p-4 sm:p-6">
       <p className="text-xl font-semibold text-dark-gray dark:text-white">
@@ -52,7 +55,7 @@ const OrderSummary = () => {
             Total
           </dt>
           <dd className="text-base font-bold text-dark-gray dark:text-white">
-            $8,191.00
+            ${cart?.total}.00
           </dd>
         </dl>
       </div>

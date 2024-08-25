@@ -27,7 +27,6 @@ import useHandleAddToCart from "../../hooks/useHandleAddToCart";
 const WishListPage = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.favorites.products);
-  console.log(products);
   const { handleAddToCart } = useHandleAddToCart();
 
   return (
@@ -128,6 +127,7 @@ const WishListPage = () => {
                             image: product?.image,
                             stock: product?.stock,
                             createdAt: product?.createdAt,
+                            quantity: 1,
                           })
                         }
                         className="size-[2.3rem] cursor-pointer text-primary p-2 rounded-full hover:bg-green-500/10"
