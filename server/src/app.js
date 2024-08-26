@@ -7,7 +7,6 @@ import helmet from "helmet";
 import { v2 as cloudinary } from "cloudinary";
 
 import { config } from "./config/config.js";
-import connectToDB from "./config/db.js";
 import errorHandler from "./middlewares/errorHandler.js";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
@@ -45,7 +44,6 @@ cloudinary.config({
 app.get("/", (req, res) => {
   res.send("<h1>Server is running...</h1>");
 });
-
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/categories", categoryRoutes);
@@ -53,10 +51,5 @@ app.use("/api/v1/products", productRoutes);
 
 // Error handler
 app.use(errorHandler);
-
-app.listen(config.port, () => {
-  connectToDB();
-  console.log(`Server is running on port ${config.port}`.bgMagenta);
-});
 
 export default app;

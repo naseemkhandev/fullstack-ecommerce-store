@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
+    _id: {
+      type: String,
+      required: true,
+    },
     name: {
       type: String,
       required: true,
@@ -25,15 +29,9 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    profilePic: {
-      public_id: {
-        type: String,
-        default: "",
-      },
-      secure_url: {
-        type: String,
-        default: "",
-      },
+    photo: {
+      type: String,
+      default: "",
     },
     isVerified: {
       type: Boolean,
