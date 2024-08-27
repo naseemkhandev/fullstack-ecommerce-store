@@ -49,7 +49,7 @@ const AddNewProductPage = () => {
         </Label>
 
         {userData.image ? (
-          <div className="w-full h-[18rem] relative">
+          <div className="w-full h-[30rem] relative">
             <img
               src={userData.image}
               alt="image"
@@ -60,7 +60,7 @@ const AddNewProductPage = () => {
             </button>
           </div>
         ) : (
-          <div className="relative w-full h-[18rem] text-center flex flex-col items-center justify-center gap-1 rounded-lg border-gray-200 px-10 lg:px-7 xl:px-10 border-dashed border-2 hover:border-[#5BAE8F] hover:bg-[#5BAE8F]/10 group">
+          <div className="relative w-full h-[30rem] text-center flex flex-col items-center justify-center gap-1 rounded-xl border-gray-200 px-10 lg:px-7 xl:px-10 border-dashed border-2 hover:border-[#5BAE8F] hover:bg-[#5BAE8F]/10 group">
             <input
               type="file"
               id="image"

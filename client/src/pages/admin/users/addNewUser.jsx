@@ -114,37 +114,37 @@ const AddNewUserPage = () => {
         <Label className="font-medium text-gray-500">Profile Picture</Label>
 
         <div className="relative">
-          <input
-            type="file"
-            className="absolute top-0 z-10 left-0 w-full h-full opacity-0 cursor-pointer"
-            name="profilePic"
-            id="profilePic"
-            onChange={(e) => {
-              handleChange({
-                target: {
-                  name: "profilePic",
-                  value: e.target.files[0],
-                },
-              });
-            }}
-          />
-
-          {userData?.profilePic?.secure_url ? (
-            <div className="w-full h-[18rem] relative">
+          {userData?.photo ? (
+            <div className="w-full h-[30rem] relative">
               <img
-                src={userData.profilePic?.secure_url}
+                src={userData.photo}
                 alt="profilePic"
                 className="object-scale-down w-full h-full object-top rounded-lg bg-gray-100"
               />
               <button
-                onClick={() => setUserData({ ...userData, profilePic: "" })}
+                onClick={() => setUserData({ ...userData, photo: "" })}
                 className="bg-white text-primary absolute top-3 right-3 p-1.5 rounded-md"
               >
                 <Trash2 className="w-5" />
               </button>
             </div>
           ) : (
-            <div className="relative w-full h-[18rem] text-center flex flex-col items-center justify-center gap-1 rounded-lg border-gray-200 px-10 lg:px-7 xl:px-10 border-dashed border-2 hover:border-[#5BAE8F] hover:bg-[#5BAE8F]/10 group">
+            <div className="relative w-full h-[30rem] text-center flex flex-col items-center justify-center gap-1 rounded-xl border-gray-200 px-10 lg:px-7 xl:px-10 border-dashed border-2 hover:border-[#5BAE8F] hover:bg-[#5BAE8F]/10 group">
+              <input
+                type="file"
+                className="absolute top-0 z-10 left-0 w-full h-full opacity-0 cursor-pointer"
+                name="profilePic"
+                id="profilePic"
+                onChange={(e) => {
+                  handleChange({
+                    target: {
+                      name: "profilePic",
+                      value: e.target.files[0],
+                    },
+                  });
+                }}
+              />
+
               <SlCloudUpload className="size-14 stroke-[0.01px] text-gray-300 mb-3 group-hover:text-primary" />
               <h4 className="font-medium text-lg text-gray-500">
                 Drag & drop files or{" "}

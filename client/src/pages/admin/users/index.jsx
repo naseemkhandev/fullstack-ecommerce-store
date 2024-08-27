@@ -156,11 +156,11 @@ const UsersPage = () => {
                     {users?.map((user) => (
                       <TableRow key={user?._id}>
                         <TableCell className="table-cell">
-                          {user?.profilePic?.secure_url ? (
+                          {user?.photo ? (
                             <img
-                              src={user?.profilePic?.secure_url}
+                              src={user?.photo}
                               alt="product img"
-                              className="w-[4.5rem] aspect-square rounded-md object-cover object-center"
+                              className="w-[4.5rem] aspect-square rounded-md object-cover object-center bg-muted"
                             />
                           ) : (
                             <div className="w-[4.5rem] aspect-square flex-center rounded-md bg-muted">
