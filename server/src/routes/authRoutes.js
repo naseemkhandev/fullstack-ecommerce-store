@@ -13,7 +13,7 @@ import {
   registerSchema,
 } from "../validations/authValidation.js";
 import validateSchema from "../middlewares/validateSchema.js";
-import { verifyToken } from "../middlewares/verifyToken.js";
+import { verifyUser } from "../middlewares/verifyToken.js";
 
 const router = express.Router();
 
@@ -23,7 +23,7 @@ router.post("/logout", logout);
 router.post("/signin-with-google", signInWithGoogle);
 router.put(
   "/change-password",
-  verifyToken,
+  verifyUser,
   validateSchema(changePasswordSchema),
   changePassword
 );

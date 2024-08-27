@@ -24,7 +24,10 @@ const verifyToken = async (req, res, next) => {
 
 const verifyUser = (req, res, next) => {
   verifyToken(req, res, async () => {
-    if (req.user && (req.params.id === req.user._id.toString() || req.user.isAdmin)) {
+    if (
+      req.user &&
+      (req.params.id === req.user._id.toString() || req.user.isAdmin)
+    ) {
       next();
     } else {
       next(createError(403, "You are not authorized"));
