@@ -59,6 +59,32 @@ export const logout = async (req, res, next) => {
   }
 };
 
+export const signInWithGoogle = async (req, res, next) => {
+  try {
+    const { name, email, photo } = req.body;
+
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      generateToken(userExists, res);
+      return res
+        .status(200)
+        .json({ message: "Welcome back!", user: userExists });
+    } else {
+      const newUser = await User.create({
+        name,
+        email,
+        photo,
+        isVerified: true,
+      });
+
+      generateToken(newUser, res);
+      res.status(201).json({ message: "Welcome to Shopwave", user: newUser });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const changePassword = async (req, res, next) => {
   try {
     const { currentPassword, newPassword, confirmPassword } = req.body;

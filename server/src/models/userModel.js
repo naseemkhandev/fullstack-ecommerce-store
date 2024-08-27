@@ -3,8 +3,8 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema(
   {
     _id: {
-      type: String,
-      required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      default: () => new mongoose.Types.ObjectId(),
     },
     name: {
       type: String,
@@ -19,7 +19,6 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
     },
     bio: {
       type: String,

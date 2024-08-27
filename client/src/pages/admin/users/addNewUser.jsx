@@ -43,8 +43,6 @@ const AddNewUserPage = () => {
     isVerified: "" || false,
   });
 
-  console.log(userData);
-
   useEffect(() => {
     if (pathname.includes("update") && userToUpdate) {
       setUserData({

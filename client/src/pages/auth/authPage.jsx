@@ -1,14 +1,19 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { useAuthMutation } from "../../store/api/authApiSlice";
+import {
+  useAuthMutation,
+  useSignInWithGoogleMutation,
+} from "../../store/api/authApiSlice";
 import { addUser } from "../../store/slices/authSlice";
-import toast from "react-hot-toast";
+import { auth } from "../../firebase";
 
 const AuthPage = () => {
   const [user, setUser] = useState({
@@ -22,6 +27,10 @@ const AuthPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [handleAuth, { isError, error, isLoading }] = useAuthMutation();
+  const [
+    signInWithGoogle,
+    { isError: isErrorGoogle, error: errorGoogle, isLoading: isLoadingGoogle },
+  ] = useSignInWithGoogleMutation();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,9 +41,26 @@ const AuthPage = () => {
     e.preventDefault();
 
     try {
-      const res = await handleAuth({
-        path,
-        user,
+      const res = await handleAuth({ path, user }).unwrap();
+
+      navigate("/");
+      dispatch(addUser(res.user));
+      toast.success(res?.message);
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  const handleSignInWithGoogle = async () => {
+    const provider = new GoogleAuthProvider();
+
+    try {
+      const { user } = await signInWithPopup(auth, provider);
+      const res = await signInWithGoogle({
+        name: user.displayName,
+        email: user.email,
+        photo: user.photoURL,
+        isVerified: true,
       }).unwrap();
 
       navigate("/");
@@ -114,9 +140,12 @@ const AuthPage = () => {
               )}
             </div>
 
-            {isError && (
+            {((isError && error) || (isErrorGoogle && errorGoogle)) && (
               <p className="text-red-500 text-sm -my-2 font-medium">
-                {error?.data?.message}
+                {error?.message ||
+                  error?.data?.message ||
+                  errorGoogle?.message ||
+                  errorGoogle?.data?.message}
               </p>
             )}
 
@@ -125,7 +154,8 @@ const AuthPage = () => {
                 !user.email > 3 ||
                 !user.password > 6 ||
                 (path === "register" && !user.name) ||
-                isLoading
+                isLoading ||
+                isLoadingGoogle
               }
               isLoading={isLoading}
               onClick={handleSubmit}
@@ -141,7 +171,13 @@ const AuthPage = () => {
               <Separator />
             </div>
 
-            <Button variant="outline" className="w-full flex-center gap-2">
+            <Button
+              onClick={handleSignInWithGoogle}
+              isLoading={isLoadingGoogle}
+              disabled={isLoading || isLoadingGoogle}
+              variant="outline"
+              className="w-full flex-center gap-2"
+            >
               <img
                 src="/icons/google.png"
                 alt="google"

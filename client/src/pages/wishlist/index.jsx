@@ -135,7 +135,6 @@ const WishListPage = () => {
                       <X
                         onClick={() => {
                           dispatch(removeFromFavorites({ id: product?.id }));
-                          console.log(product?.id);
                           toast.success("Product removed from wishlist");
                         }}
                         className="size-[2.3rem] cursor-pointer text-red-500 p-2 rounded-full hover:bg-red-500/10"

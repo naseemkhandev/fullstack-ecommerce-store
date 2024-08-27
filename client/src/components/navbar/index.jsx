@@ -1,4 +1,4 @@
-import { CircleUser, Heart, Menu, ShoppingCart } from "lucide-react";
+import { Heart, Menu, ShoppingCart, UserRound } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
@@ -115,14 +115,24 @@ const Navbar = () => {
             {authUser ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="secondary"
-                    size="icon"
-                    className="rounded-full"
-                  >
-                    <CircleUser className="h-5 w-5" />
+                  <div className="cursor-pointer ml-1">
+                    {authUser?.photo ? (
+                      <img
+                        src={authUser?.photo}
+                        alt="user"
+                        className="w-9 aspect-square rounded-full"
+                      />
+                    ) : (
+                      <Button
+                        variant="secondary"
+                        size="icon"
+                        className="rounded-full"
+                      >
+                        <UserRound className="size-6" />
+                      </Button>
+                    )}
                     <span className="sr-only">Toggle user menu</span>
-                  </Button>
+                  </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuLabel>My Account</DropdownMenuLabel>
