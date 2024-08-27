@@ -1,20 +1,12 @@
 import { CameraIcon, UserRound } from "lucide-react";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { useUpdateUserMutation } from "../../../store/api/userApiSlice";
 import { addUser } from "../../../store/slices/authSlice";
@@ -29,8 +21,6 @@ const ProfilePage = () => {
     name: "" || authUser?.name,
     email: "" || authUser?.email,
     bio: "" || authUser?.bio,
-    role: "" || "user" || authUser?.isAdmin,
-    isVerified: "" || false || authUser?.isVerified,
   });
 
   const handleChange = (e) => {
@@ -155,46 +145,26 @@ const ProfilePage = () => {
         <div className="flex flex-col gap-3">
           <Label className="font-medium text-gray-500">Role</Label>
 
-          <Select value={userData.role} onChange={handleChange}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select role" value={userData.role} />
-            </SelectTrigger>
-
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem value="user">User</SelectItem>
-                <SelectItem
-                  value="admin"
-                  disabled={true}
-                  className="cursor-not-allowed"
-                >
-                  Admin
-                </SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+          <Input
+            placeholder="Your role"
+            type="text"
+            name="role"
+            value={authUser?.isAdmin ? "Admin" : "User"}
+            disabled={true}
+            className="cursor-not-allowed disabled:opacity-90 disabled:select-none"
+          />
         </div>
 
         <div className="flex flex-col gap-3">
           <Label className="font-medium text-gray-500">Status</Label>
-
-          <Select value={userData.isVerified} onChange={handleChange}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem
-                  value={true}
-                  disabled={true}
-                  className="cursor-not-allowed"
-                >
-                  Verified
-                </SelectItem>
-                <SelectItem value={false}>Unverified</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+          <Input
+            placeholder="Your status"
+            type="text"
+            name="isVerified"
+            value={authUser?.isVerified ? "Verified" : "Unverified"}
+            disabled={true}
+            className="cursor-not-allowed disabled:opacity-90 disabled:select-none"
+          />
         </div>
       </div>
 
