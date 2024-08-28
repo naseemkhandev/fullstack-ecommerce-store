@@ -2,20 +2,42 @@ import DashboardCard from "./dashboardCard";
 import SalesByCategories from "./salesByCategories";
 import TotalRevenue from "./totalRevenue";
 
-import Transactions from "./transactions";
+import {
+  BriefcaseBusinessIcon,
+  ChartNoAxesCombinedIcon,
+  DollarSignIcon,
+  UserRoundPlusIcon
+} from "lucide-react";
+import OrdersRevenue from "./ordersRevenue";
 import RecentSales from "./recentSales";
 import TopProducts from "./topProducts";
-import OrdersRevenue from "./ordersRevenue";
+import Transactions from "./transactions";
 import WebsiteVisitors from "./websiteVisitors";
 
 const DashboardPage = () => {
   return (
     <div className="flex flex-col gap-3 md:gap-4">
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4">
-        <DashboardCard />
-        <DashboardCard />
-        <DashboardCard />
-        <DashboardCard />
+      <div className="grid lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3 md:gap-4 overflow-hidden">
+        <DashboardCard
+          color={"#5356FF"}
+          icon={<DollarSignIcon className="size-6" />}
+          title="Total Revenue"
+        />
+        <DashboardCard
+          color={"#EF4040"}
+          icon={<ChartNoAxesCombinedIcon className="size-6" />}
+          title="Total Sales"
+        />
+        <DashboardCard
+          color={"#21C55D"}
+          icon={<BriefcaseBusinessIcon className="size-6" />}
+          title="product sold"
+        />
+        <DashboardCard
+          color={"#A854F7"}
+          icon={<UserRoundPlusIcon className="size-6" />}
+          title="Total Customers"
+        />
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">

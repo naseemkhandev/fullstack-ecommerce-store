@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { DollarSign, TrendingUp } from "lucide-react";
+import { TrendingUp } from "lucide-react";
 
 import { Area, AreaChart } from "recharts";
 
@@ -8,23 +8,23 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-const chartData = [
-  { month: "January", mobile: 80 },
-  { month: "February", mobile: 200 },
-  { month: "March", mobile: 120 },
-  { month: "April", mobile: 190 },
-  { month: "May", mobile: 130 },
-  { month: "June", mobile: 140 },
-];
 
-const chartConfig = {
-  mobile: {
-    label: "Mobile",
-    color: "hsl(var(--chart-2))",
-  },
-};
+const DashboardCard = ({ color, icon, title }) => {
+  const chartData = [
+    { month: "January", mobile: 0 },
+    { month: "February", mobile: 200 },
+    { month: "March", mobile: 120 },
+    { month: "April", mobile: 0 },
+    { month: "May", mobile: 130 },
+    { month: "June", mobile: 0 },
+  ];
 
-const DashboardCard = () => {
+  const chartConfig = {
+    mobile: {
+      label: "Mobile",
+    },
+  };
+
   return (
     <div>
       <Card
@@ -32,12 +32,15 @@ const DashboardCard = () => {
         className="rounded-xl border-none shadow-md shadow-black/5"
       >
         <CardContent className="p-3 pb-0 flex items-center gap-3">
-          <div className="bg-orange-500 w-12 aspect-square text-white flex-center rounded-full">
-            <DollarSign className="size-6" />
+          <div
+            style={{ backgroundColor: color }}
+            className="w-12 aspect-square text-white flex-center rounded-full"
+          >
+            {icon}
           </div>
 
           <div>
-            <p className="text-xs text-muted-foreground">Total Revenue</p>
+            <p className="text-sm text-muted-foreground capitalize">{title}</p>
             <div className="text-xl font-bold">$45,231.89</div>
           </div>
 
@@ -50,38 +53,36 @@ const DashboardCard = () => {
         <CardContent className="p-0 pt-2">
           <ChartContainer
             config={chartConfig}
-            className="aspect-auto h-[90px] w-full"
+            className="aspect-auto h-[90px] w-full relative"
           >
+            <div
+              style={{ backgroundColor: color }}
+              className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[99%] h-[6px] opacity-[0.08] rounded-b-xl"
+            />
             <AreaChart
               accessibilityLayer
               data={chartData}
               margin={{
                 top: 5,
+                bottom: 6,
               }}
             >
               <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
               <defs>
                 <linearGradient id="fillMobile" x1="0" y1="0" x2="0" y2="1">
-                  <stop
-                    offset="1%"
-                    stopColor="hsl(var(--primary))"
-                    stopOpacity={0.8}
-                  />
-                  <stop
-                    offset="70%"
-                    stopColor="hsl(var(--primary))"
-                    stopOpacity={0.1}
-                  />
+                  <stop offset="1%" stopColor={color} stopOpacity={0.8} />
+                  <stop offset="70%" stopColor={color} stopOpacity={0.5} />
                 </linearGradient>
               </defs>
 
               <Area
                 dataKey="mobile"
                 type="natural"
-                fill="url(#fillMobile)"
-                fillOpacity={0.3}
-                stroke="hsl(var(--primary))"
-                strokeWidth={4}
+                fill={color}
+                fillOpacity={0.08}
+                stroke={color}
+                strokeWidth={5}
+                strokeOpacity={0.8}
               />
             </AreaChart>
           </ChartContainer>
