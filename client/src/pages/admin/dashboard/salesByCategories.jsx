@@ -16,12 +16,12 @@ import {
 } from "@/components/ui/chart";
 
 const chartData = [
-  { category: "Mobiles", sales: 1, fill: "hsl(var(--primary))" },
-  { category: "Laptops", sales: 2, fill: "#8cc6b1" },
-  { category: "Desktops", sales: 3, fill: "#7cbea5" },
-  { category: "Tablets", sales: 4, fill: "#498b72" },
-  { category: "Watches", sales: 5, fill: "#6bb69a" },
-  { category: "Accessories", sales: 6, fill: "#7cbea5" },
+  { category: "Mobiles", sales: 1, fill: "#00A9FF" },
+  { category: "Laptops", sales: 2, fill: "#FEC7B4" },
+  { category: "Desktops", sales: 3, fill: "#95D2B3" },
+  { category: "Tablets", sales: 4, fill: "#68D2E8" },
+  { category: "Watches", sales: 5, fill: "#FFBB70" },
+  { category: "Accessories", sales: 6, fill: "#FA7070" },
 ];
 
 const SalesByCategories = () => {

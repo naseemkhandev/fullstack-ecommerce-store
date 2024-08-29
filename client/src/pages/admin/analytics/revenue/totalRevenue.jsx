@@ -31,7 +31,7 @@ const chartConfig = {
   },
   mobile: {
     label: "Mobile",
-    color: "#fca5a5",
+    color: "hsl(var(--secondary))",
   },
 };
 

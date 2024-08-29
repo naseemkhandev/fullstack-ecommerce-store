@@ -35,7 +35,7 @@ const AddNewUserPage = () => {
   const [updateUser, { isLoading: isUpdatingUser }] = useUpdateUserMutation();
 
   const [userData, setUserData] = useState({
-    profilePic: "",
+    photo: "",
     name: "",
     email: "",
     password: "",
@@ -52,7 +52,7 @@ const AddNewUserPage = () => {
         email: userToUpdate.email,
         role: userToUpdate.role,
         isVerified: userToUpdate.isVerified,
-        profilePic: userToUpdate.profilePic,
+        photo: userToUpdate.photo,
       });
     }
   }, [userToUpdate, id, pathname]);
@@ -88,7 +88,7 @@ const AddNewUserPage = () => {
         userData.email !== userToUpdate.email ||
         userData.role !== userToUpdate.role ||
         userData.isVerified !== userToUpdate.isVerified ||
-        userData.profilePic !== userToUpdate.profilePic
+        userData.photo !== userToUpdate.photo
       ) {
         const res = await updateUser(userData).unwrap();
 
@@ -105,6 +105,8 @@ const AddNewUserPage = () => {
     }
   };
 
+  console.log(userData);
+
   return (
     <form
       encType="multipart/form-data"
@@ -115,11 +117,11 @@ const AddNewUserPage = () => {
 
         <div className="relative">
           {userData?.photo ? (
-            <div className="w-full h-[30rem] relative">
+            <div className="w-full h-[30rem] relative bg-gray-100">
               <img
                 src={userData.photo}
-                alt="profilePic"
-                className="object-scale-down w-full h-full object-top rounded-lg bg-gray-100"
+                alt="photo"
+                className="object-cover h-full aspect-video object-top rounded-lg mx-auto"
               />
               <button
                 onClick={() => setUserData({ ...userData, photo: "" })}
@@ -133,15 +135,20 @@ const AddNewUserPage = () => {
               <input
                 type="file"
                 className="absolute top-0 z-10 left-0 w-full h-full opacity-0 cursor-pointer"
-                name="profilePic"
-                id="profilePic"
+                name="photo"
+                id="photo"
                 onChange={(e) => {
-                  handleChange({
-                    target: {
-                      name: "profilePic",
-                      value: e.target.files[0],
-                    },
-                  });
+                  const file = e.target.files[0];
+                  const reader = new FileReader();
+
+                  reader.onloadend = () => {
+                    setUserData({
+                      ...userData,
+                      photo: reader.result,
+                    });
+                  };
+
+                  reader.readAsDataURL(file);
                 }}
               />
 

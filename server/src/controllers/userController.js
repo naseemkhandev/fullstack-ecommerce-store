@@ -47,6 +47,7 @@ export const addNewUser = async (req, res, next) => {
       password,
       isAdmin: false,
       isVerified: false,
+      photo: req.file ? req.file.path : null,
     });
 
     await user.save();
@@ -81,14 +82,14 @@ export const updateUser = async (req, res, next) => {
         "users"
       );
 
-      if (user.profilePic && user.profilePic.public_id) {
-        const publicId = user.profilePic.public_id;
+      if (user.photo) {
+        const publicId = user.photo.public_id;
         await cloudinary.uploader.destroy(publicId);
       }
 
       if (!secure_url) return next(createError(500, "Failed to upload image"));
 
-      user.profilePic = { secure_url, public_id };
+      user.photo = { secure_url, public_id };
     }
 
     user.name = name;

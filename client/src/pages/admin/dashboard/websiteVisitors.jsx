@@ -17,11 +17,11 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 const chartData = [
-  { browser: "chrome", visitors: 275, fill: "#529d81" },
-  { browser: "safari", visitors: 200, fill: "#498b72" },
-  { browser: "firefox", visitors: 187, fill: "#407a64" },
-  { browser: "edge", visitors: 173, fill: "#407a64" },
-  { browser: "other", visitors: 90, fill: "#376856" },
+  { browser: "chrome", visitors: 275, fill: "#FF204E" },
+  { browser: "safari", visitors: 200, fill: "#A0153E" },
+  { browser: "firefox", visitors: 187, fill: "#5D0E41" },
+  { browser: "edge", visitors: 173, fill: "#00224D" },
+  { browser: "other", visitors: 90, fill: "#FFBB70" },
 ];
 
 const chartConfig = {
@@ -30,23 +30,18 @@ const chartConfig = {
   },
   chrome: {
     label: "Chrome",
-    color: "hsl(var(--chart-1))",
   },
   safari: {
     label: "Safari",
-    color: "hsl(var(--chart-2))",
   },
   firefox: {
     label: "Firefox",
-    color: "hsl(var(--chart-3))",
   },
   edge: {
     label: "Edge",
-    color: "hsl(var(--chart-4))",
   },
   other: {
     label: "Other",
-    color: "hsl(var(--chart-5))",
   },
 };
 

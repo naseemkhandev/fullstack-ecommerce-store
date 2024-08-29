@@ -26,8 +26,8 @@ const UsersByRole = () => {
   const users = usersByRole?.filter((user) => !user?.isAdmin)?.length;
 
   const chartData = [
-    { role: "Admins", users: admins, fill: "#429676" },
-    { role: "Users", users: users, fill: "hsl(var(--primary))" },
+    { role: "Admins", users: admins, fill: "hsl(var(--primary))" },
+    { role: "Users", users: users, fill: "hsl(var(--secondary))" },
   ];
 
   return isLoading ? (

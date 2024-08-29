@@ -16,10 +16,16 @@ import uploadImage from "../middlewares/uploadImage.js";
 const router = express.Router();
 
 router.get("/", verifyAdmin, getAllUsers);
-router.delete("/:id", verifyAdmin, deleteUser);
-router.post("/", verifyAdmin, validateSchema(userSchema), addNewUser);
-router.put("/:id", verifyUser, uploadImage.single("profilePic"), updateUser);
 router.get("/users-by-role", verifyAdmin, getUsersByRole);
 router.get("/:id", verifyAdmin, getUserById);
+router.delete("/:id", verifyAdmin, deleteUser);
+router.post(
+  "/",
+  verifyAdmin,
+  validateSchema(userSchema),
+  uploadImage.single("photo"),
+  addNewUser
+);
+router.put("/:id", verifyUser, uploadImage.single("photo"), updateUser);
 
 export default router;

@@ -27,11 +27,11 @@ const chartData = [
 const chartConfig = {
   revenue: {
     label: "Revenue",
-    color: "#429676",
+    color: "hsl(var(--primary))",
   },
   profit: {
     label: "Profit",
-    color: "hsl(var(--primary))",
+    color: "hsl(var(--secondary))",
   },
 };
 

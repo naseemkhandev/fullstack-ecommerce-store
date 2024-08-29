@@ -48,7 +48,7 @@ const AdminLayout = () => {
                   key={link.id}
                   to={`/admin${link.path}`}
                   className={cn(
-                    "flex items-center gap-3 rounded-lg px-4 py-3.5 text-base text-muted-foreground transition-all hover:text-primary hover:bg-[#5BAE8F]/20 border hover:border-[#5BAE8F]/50 border-transparent cursor-pointer",
+                    "flex items-center gap-3 rounded-lg px-4 py-3.5 text-base text-muted-foreground transition-all hover:text-primary hover:bg-[#00A3B3]/20 border hover:border-[#00A3B3]/50 border-transparent cursor-pointer",
                     {
                       "bg-primary hover:bg-primary hover:text-white text-white":
                         location.pathname === `/admin${link.path}`,
@@ -68,7 +68,7 @@ const AdminLayout = () => {
               onClick={handleLogout}
               isLoading={isLogouting}
               className={cn(
-                "flex items-center justify-start gap-3 rounded-lg px-4 py-4 text-[.95rem] text-muted-foreground transition-all hover:text-primary hover:bg-[#5BAE8F]/20 border hover:border-[#5BAE8F]/50 border-transparent cursor-pointer w-full"
+                "flex items-center justify-start gap-3 rounded-lg px-4 py-4 text-[.95rem] text-muted-foreground transition-all hover:text-primary hover:bg-[#00A3B3]/20 border hover:border-[#00A3B3]/50 border-transparent cursor-pointer w-full"
               )}
             >
               <LogOut className="size-[1.2rem] rotate-180" />
@@ -109,7 +109,7 @@ const AdminLayout = () => {
                     key={link.id}
                     to={`/admin${link.path}`}
                     className={cn(
-                      "flex items-center gap-3 rounded-lg px-4 py-3.5 text-base text-muted-foreground transition-all hover:text-primary hover:bg-[#5BAE8F]/20 border hover:border-[#5BAE8F]/50 border-transparent cursor-pointer",
+                      "flex items-center gap-3 rounded-lg px-4 py-3.5 text-base text-muted-foreground transition-all hover:text-primary hover:bg-[#00A3B3]/20 border hover:border-[#00A3B3]/50 border-transparent cursor-pointer",
                       {
                         "bg-primary hover:bg-primary hover:text-white text-white":
                           location.pathname === `/admin${link.path}`,
@@ -127,7 +127,7 @@ const AdminLayout = () => {
                 onClick={handleLogout}
                 isLoading={isLogouting}
                 className={cn(
-                  "flex items-center justify-start mt-auto gap-3 rounded-lg px-4 py-4 text-[.95rem] text-muted-foreground transition-all hover:text-primary hover:bg-[#5BAE8F]/20 border hover:border-[#5BAE8F]/50 border-transparent cursor-pointer"
+                  "flex items-center justify-start mt-auto gap-3 rounded-lg px-4 py-4 text-[.95rem] text-muted-foreground transition-all hover:text-primary hover:bg-[#00A3B3]/20 border hover:border-[#00A3B3]/50 border-transparent cursor-pointer"
                 )}
               >
                 <LogOut className="size-[1.2rem] rotate-180" />
