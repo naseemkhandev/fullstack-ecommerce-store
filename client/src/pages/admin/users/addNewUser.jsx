@@ -104,8 +104,6 @@ const AddNewUserPage = () => {
     }
   };
 
-  console.log(userData);
-
   return (
     <form
       encType="multipart/form-data"

@@ -62,7 +62,7 @@ export const addNewUser = async (req, res, next) => {
       }
 
       const buffer = Buffer.from(matches[2], "base64");
-      const tempDir = path.join(__dirname, "../temp");
+      const tempDir = path.join(__dirname, "../../public/uploads");
 
       // Ensure the temp directory exists
       ensureTempDirExists(tempDir);
@@ -127,7 +127,7 @@ export const updateUser = async (req, res, next) => {
       }
 
       const buffer = Buffer.from(matches[2], "base64");
-      const tempDir = path.join(__dirname, "../temp");
+      const tempDir = path.join(__dirname, "../../public/uploads");
       const tempFilePath = path.join(tempDir, `${uuidv4()}.jpg`);
 
       // Ensure the temp directory exists

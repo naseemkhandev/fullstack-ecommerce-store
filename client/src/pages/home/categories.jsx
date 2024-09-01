@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import CategoriesSkeleton from "../../components/skeletons/categoriesSkeleton";
 import { useGetAllCategoriesQuery } from "../../store/api/categoryApiSlice";
 import renderIcon from "../../utils/renderIcon";
@@ -13,8 +15,9 @@ const Categories = () => {
       ) : (
         <>
           {categories?.map((category) => (
-            <div
-              key={category.id}
+            <Link
+              key={category._id}
+              to={`/search?cat=${category.name}`}
               className="flex-col flex-center rounded-md relative cursor-pointer transition-all duration-500 capitalize"
               style={{
                 background: `linear-gradient(to bottom, ${category?.bgColor}50, ${category?.bgColor}20 30%, transparent 70%)`,
@@ -35,7 +38,7 @@ const Categories = () => {
                 </h2>
                 <p className="text-sm font-light text-gray-400">85 items</p>
               </div>
-            </div>
+            </Link>
           ))}
         </>
       )}

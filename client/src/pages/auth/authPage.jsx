@@ -57,9 +57,9 @@ const AuthPage = () => {
     try {
       const { user } = await signInWithPopup(auth, provider);
       const res = await signInWithGoogle({
-        name: user.displayName,
-        email: user.email,
-        profilePic: user.photoURL,
+        name: user?.displayName,
+        email: user?.email,
+        profilePic: { secure_url: user?.photoURL, public_id: "" },
         isVerified: true,
       }).unwrap();
 

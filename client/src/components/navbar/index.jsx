@@ -116,9 +116,13 @@ const Navbar = () => {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <div className="cursor-pointer ml-1">
-                    {authUser?.photo ? (
+                    {authUser?.profilePic ||
+                    authUser?.profilePic?.secure_url ? (
                       <img
-                        src={authUser?.photo}
+                        src={
+                          authUser?.profilePic?.secure_url ||
+                          authUser?.profilePic
+                        }
                         alt="user"
                         className="w-9 aspect-square rounded-full"
                       />

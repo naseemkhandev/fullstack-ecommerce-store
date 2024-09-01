@@ -58,8 +58,6 @@ const UsersPage = () => {
     }
   };
 
-  console.log(users);
-
   return (
     <main className="grid flex-1 items-start gap-4 md:gap-8 h-full">
       {isUsersLoading ? (

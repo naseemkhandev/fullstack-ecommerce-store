@@ -61,7 +61,7 @@ export const logout = async (req, res, next) => {
 
 export const signInWithGoogle = async (req, res, next) => {
   try {
-    const { name, email, photo } = req.body;
+    const { name, email, profilePic } = req.body;
 
     const userExists = await User.findOne({ email });
     if (userExists) {
@@ -73,7 +73,10 @@ export const signInWithGoogle = async (req, res, next) => {
       const newUser = await User.create({
         name,
         email,
-        photo,
+        profilePic: {
+          secure_url: profilePic.secure_url,
+          public_id: profilePic.public,
+        },
         isVerified: true,
       });
 

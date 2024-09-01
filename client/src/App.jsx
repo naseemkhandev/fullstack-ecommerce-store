@@ -20,6 +20,7 @@ import HomePage from "./pages/home";
 import ShopPage from "./pages/products";
 import ProductDetailsPage from "./pages/products/productDetails";
 import WishListPage from "./pages/wishlist";
+import SearchPage from "./pages/search";
 
 const router = createBrowserRouter([
   {
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
       {
         path: "contact",
         element: <div>Contact</div>,
+      },
+      {
+        path: "search",
+        element: <SearchPage />,
       },
     ],
   },
