@@ -93,7 +93,7 @@ const Navbar = () => {
                 className="rounded-full relative"
               >
                 <Heart className="h-5 w-5" />
-                <span className="absolute top-0 right-0 text-xs font-medium text-white bg-primary rounded-full px-1">
+                <span className="absolute top-0 right-0 text-xs font-medium text-white bg-primary rounded-full w-4 aspect-square">
                   {wishlist.length}
                 </span>
               </Button>
@@ -106,7 +106,7 @@ const Navbar = () => {
                 className="rounded-full relative"
               >
                 <ShoppingCart className="h-5 w-5" />
-                <span className="absolute top-0 right-0 text-xs font-medium text-white bg-primary rounded-full px-1">
+                <span className="absolute top-0 right-0 text-xs font-medium text-white bg-primary rounded-full w-4 aspect-square">
                   {cart.length}
                 </span>
               </Button>

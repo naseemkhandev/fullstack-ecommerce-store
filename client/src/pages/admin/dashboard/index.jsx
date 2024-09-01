@@ -6,7 +6,7 @@ import {
   BriefcaseBusinessIcon,
   ChartNoAxesCombinedIcon,
   DollarSignIcon,
-  UserRoundPlusIcon
+  UserRoundPlusIcon,
 } from "lucide-react";
 import OrdersRevenue from "./ordersRevenue";
 import RecentSales from "./recentSales";
@@ -17,7 +17,7 @@ import WebsiteVisitors from "./websiteVisitors";
 const DashboardPage = () => {
   return (
     <div className="flex flex-col gap-3 md:gap-4">
-      <div className="grid lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3 md:gap-4 overflow-hidden">
+      <div className="grid lg:grid-cols-2 xl:grid-cols-3  gap-3 md:gap-4 overflow-hidden">
         <DashboardCard
           color={"#5356FF"}
           icon={<DollarSignIcon className="size-6" />}

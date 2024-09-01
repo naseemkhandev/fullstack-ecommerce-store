@@ -6,9 +6,15 @@ import ProductCard from "../../components/products/productCard";
 import CartProduct from "./cartProduct";
 import CouponCode from "./couponCode";
 import OrderSummary from "./orderSummary";
+import { useGetAllProductsQuery } from "../../store/api/productApiSlice";
+import ProductCardSkeleton from "../../components/skeletons/productCardSkeleton";
 
 const CartPage = () => {
   const products = useSelector((state) => state.cart.products);
+  const {
+    data: { products: recommendedProducts } = [],
+    isLoading: isProductsLoading,
+  } = useGetAllProductsQuery();
 
   return (
     <section className="bg-white antialiased">
@@ -45,9 +51,17 @@ const CartPage = () => {
             People also bought
           </h3>
 
-          <div className="xl:grid hidden sm:grid-cols-2 lg:grid-cols-3 mt-5 gap-3 xl:gap-5">
-            {[...Array(3)].map((_, i) => (
-              <ProductCard key={i} />
+          <div className="hidden xl:grid mt-5 sm:grid-cols-2 md:grid-cols-3 gap-3 xl:gap-5">
+            {isProductsLoading && (
+              <>
+                {[...Array(3)].map((_, i) => (
+                  <ProductCardSkeleton key={i} isLoading />
+                ))}
+              </>
+            )}
+
+            {recommendedProducts?.map((product) => (
+              <ProductCard key={product?._id} {...product} />
             ))}
           </div>
         </div>
@@ -61,9 +75,17 @@ const CartPage = () => {
           People also bought
         </h3>
 
-        <div className="grid xl:hidden sm:grid-cols-2 lg:grid-cols-3 mt-5 gap-3 xl:gap-5">
-          {[...Array(3)].map((_, i) => (
-            <ProductCard key={i} />
+        <div className="grid xl:hidden sm:grid-cols-2 mt-5 lg:grid-cols-3 gap-3 xl:gap-5">
+          {isProductsLoading && (
+            <>
+              {[...Array(3)].map((_, i) => (
+                <ProductCardSkeleton key={i} isLoading />
+              ))}
+            </>
+          )}
+
+          {recommendedProducts?.map((product) => (
+            <ProductCard key={product?._id} {...product} />
           ))}
         </div>
       </div>

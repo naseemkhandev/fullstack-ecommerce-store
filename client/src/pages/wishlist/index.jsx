@@ -23,11 +23,17 @@ import convertDate from "@/utils/convertDate";
 import ProductCard from "../../components/products/productCard";
 import { removeFromFavorites } from "../../store/slices/favoritesSlice";
 import useHandleAddToCart from "../../hooks/useHandleAddToCart";
+import { useGetAllProductsQuery } from "../../store/api/productApiSlice";
+import ProductCardSkeleton from "../../components/skeletons/productCardSkeleton";
 
 const WishListPage = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.favorites.products);
   const { handleAddToCart } = useHandleAddToCart();
+  const {
+    data: { products: recommendedProducts } = [],
+    isLoading: isProductsLoading,
+  } = useGetAllProductsQuery();
 
   return (
     <div>
@@ -152,9 +158,17 @@ const WishListPage = () => {
         People also bought
       </h3>
 
-      <div className="grid sm:grid-cols-2 mt-5 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-3 xl:gap-5">
-        {[...Array(4)].map((_, i) => (
-          <ProductCard key={i} />
+      <div className="grid sm:grid-cols-2 mt-5 lg:grid-cols-3 gap-3 xl:gap-5">
+        {isProductsLoading && (
+          <>
+            {[...Array(3)].map((_, i) => (
+              <ProductCardSkeleton key={i} isLoading />
+            ))}
+          </>
+        )}
+
+        {recommendedProducts?.map((product) => (
+          <ProductCard key={product?._id} {...product} />
         ))}
       </div>
     </div>
