@@ -58,6 +58,8 @@ const UsersPage = () => {
     }
   };
 
+  console.log(users);
+
   return (
     <main className="grid flex-1 items-start gap-4 md:gap-8 h-full">
       {isUsersLoading ? (
@@ -156,9 +158,12 @@ const UsersPage = () => {
                     {users?.map((user) => (
                       <TableRow key={user?._id}>
                         <TableCell className="table-cell">
-                          {user?.photo ? (
+                          {user?.profilePic?.secure_url ||
+                          user?.profilePic?.length > 0 ? (
                             <img
-                              src={user?.photo}
+                              src={
+                                user?.profilePic?.secure_url || user?.profilePic
+                              }
                               alt="product img"
                               className="w-[4.5rem] aspect-square rounded-md object-cover object-center bg-muted"
                             />

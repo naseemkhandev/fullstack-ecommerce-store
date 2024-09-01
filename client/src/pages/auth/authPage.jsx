@@ -59,7 +59,7 @@ const AuthPage = () => {
       const res = await signInWithGoogle({
         name: user.displayName,
         email: user.email,
-        photo: user.photoURL,
+        profilePic: user.photoURL,
         isVerified: true,
       }).unwrap();
 

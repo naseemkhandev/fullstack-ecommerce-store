@@ -28,9 +28,15 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    photo: {
-      type: String,
-      default: "",
+    profilePic: {
+      secure_url: {
+        type: String,
+        default: "",
+      },
+      public_id: {
+        type: String,
+        default: "",
+      },
     },
     isVerified: {
       type: Boolean,

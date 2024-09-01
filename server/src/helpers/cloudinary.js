@@ -8,12 +8,12 @@ const uploadImageToCloudinary = async (filePath, folderName) => {
       folder: folderName,
     });
 
-    //  Delete image from server
+    // Delete image from server
     try {
       fs.unlinkSync(filePath);
     } catch (error) {
-      console.log("Failed to delete image from server", error);
-      throw new Error(error);
+      console.error("Failed to delete image from server", error);
+      throw new Error("Failed to delete image from server");
     }
 
     return {
@@ -21,7 +21,8 @@ const uploadImageToCloudinary = async (filePath, folderName) => {
       public_id: result.public_id,
     };
   } catch (error) {
-    throw new Error(error);
+    console.error("Failed to upload image to Cloudinary", error);
+    throw new Error(`Failed to upload image to Cloudinary: ${error.message}`);
   }
 };
 

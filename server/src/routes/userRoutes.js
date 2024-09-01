@@ -23,9 +23,9 @@ router.post(
   "/",
   verifyAdmin,
   validateSchema(userSchema),
-  uploadImage.single("photo"),
+  uploadImage.single("profilePic"),
   addNewUser
 );
-router.put("/:id", verifyUser, uploadImage.single("photo"), updateUser);
+router.put("/:id", verifyUser, uploadImage.single("profilePic"), updateUser);
 
 export default router;

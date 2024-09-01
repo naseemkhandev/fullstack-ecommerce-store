@@ -1,28 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { SlCloudUpload } from "react-icons/sl";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import toast from "react-hot-toast";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { cn } from "@/lib/utils";
+import useHandleImageChange from "../../../hooks/useHandleImageChange";
 import {
   useAddNewUserMutation,
   useGetUserByIdQuery,
   useUpdateUserMutation,
 } from "../../../store/api/userApiSlice";
-import { cn } from "@/lib/utils";
 
 const AddNewUserPage = () => {
   const navigate = useNavigate();
@@ -35,7 +28,7 @@ const AddNewUserPage = () => {
   const [updateUser, { isLoading: isUpdatingUser }] = useUpdateUserMutation();
 
   const [userData, setUserData] = useState({
-    photo: "",
+    profilePic: "",
     name: "",
     email: "",
     password: "",
@@ -52,7 +45,7 @@ const AddNewUserPage = () => {
         email: userToUpdate.email,
         role: userToUpdate.role,
         isVerified: userToUpdate.isVerified,
-        photo: userToUpdate.photo,
+        profilePic: userToUpdate.profilePic,
       });
     }
   }, [userToUpdate, id, pathname]);
@@ -64,6 +57,12 @@ const AddNewUserPage = () => {
       [name]: value,
     });
   };
+
+  const { handleImageChange } = useHandleImageChange(
+    "profilePic",
+    userData,
+    setUserData
+  );
 
   const handleAddNewUser = async (e) => {
     e.preventDefault();
@@ -88,7 +87,7 @@ const AddNewUserPage = () => {
         userData.email !== userToUpdate.email ||
         userData.role !== userToUpdate.role ||
         userData.isVerified !== userToUpdate.isVerified ||
-        userData.photo !== userToUpdate.photo
+        userData.profilePic !== userToUpdate.profilePic
       ) {
         const res = await updateUser(userData).unwrap();
 
@@ -116,15 +115,15 @@ const AddNewUserPage = () => {
         <Label className="font-medium text-gray-500">Profile Picture</Label>
 
         <div className="relative">
-          {userData?.photo ? (
+          {userData?.profilePic ? (
             <div className="w-full h-[30rem] relative bg-gray-100">
               <img
-                src={userData.photo}
-                alt="photo"
-                className="object-cover h-full aspect-video object-top rounded-lg mx-auto"
+                src={userData.profilePic}
+                alt="profilePic"
+                className="object-cover md:object-contain h-full w-full object-top rounded-lg mx-auto"
               />
               <button
-                onClick={() => setUserData({ ...userData, photo: "" })}
+                onClick={() => setUserData({ ...userData, profilePic: "" })}
                 className="bg-white text-primary absolute top-3 right-3 p-1.5 rounded-md"
               >
                 <Trash2 className="w-5" />
@@ -135,21 +134,10 @@ const AddNewUserPage = () => {
               <input
                 type="file"
                 className="absolute top-0 z-10 left-0 w-full h-full opacity-0 cursor-pointer"
-                name="photo"
-                id="photo"
-                onChange={(e) => {
-                  const file = e.target.files[0];
-                  const reader = new FileReader();
-
-                  reader.onloadend = () => {
-                    setUserData({
-                      ...userData,
-                      photo: reader.result,
-                    });
-                  };
-
-                  reader.readAsDataURL(file);
-                }}
+                name="profilePic"
+                id="profilePic"
+                accept="image/*"
+                onChange={handleImageChange}
               />
 
               <SlCloudUpload className="size-14 stroke-[0.01px] text-gray-300 mb-3 group-hover:text-primary" />
@@ -213,46 +201,26 @@ const AddNewUserPage = () => {
         <div className="flex flex-col gap-3">
           <Label className="font-medium text-gray-500">Role</Label>
 
-          <Select value={userData.role} onChange={handleChange}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select role" value={userData.role} />
-            </SelectTrigger>
-
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem value="user">User</SelectItem>
-                <SelectItem
-                  value="admin"
-                  disabled={true}
-                  className="cursor-not-allowed"
-                >
-                  Admin
-                </SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+          <Input
+            placeholder="Your role"
+            type="text"
+            name="role"
+            value={userData.role}
+            disabled={true}
+            className="cursor-not-allowed disabled:opacity-90 disabled:select-none"
+          />
         </div>
 
         <div className="flex flex-col gap-3">
           <Label className="font-medium text-gray-500">Status</Label>
-
-          <Select value={userData.isVerified} onChange={handleChange}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem
-                  value={true}
-                  disabled={true}
-                  className="cursor-not-allowed"
-                >
-                  Verified
-                </SelectItem>
-                <SelectItem value={false}>Unverified</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+          <Input
+            placeholder="Your status"
+            type="text"
+            name="isVerified"
+            value={userData.isVerified ? "Verified" : "Not Verified"}
+            disabled={true}
+            className="cursor-not-allowed disabled:opacity-90 disabled:select-none"
+          />
         </div>
       </div>
 

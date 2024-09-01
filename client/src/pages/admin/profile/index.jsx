@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 import { cn } from "@/lib/utils";
+import useHandleImageChange from "../../../hooks/useHandleImageChange";
 import { useUpdateUserMutation } from "../../../store/api/userApiSlice";
 import { addUser } from "../../../store/slices/authSlice";
 
@@ -30,6 +31,12 @@ const ProfilePage = () => {
       [name]: value,
     });
   };
+
+  const { handleImageChange } = useHandleImageChange(
+    "profilePic",
+    userData,
+    setUserData
+  );
 
   const [updateUser, { isLoading: isUpdatingUser }] = useUpdateUserMutation();
 
@@ -66,7 +73,7 @@ const ProfilePage = () => {
           {userData.profilePic ? (
             <img
               src={userData.profilePic}
-              // alt="profilePic"
+              alt="profilePic"
               className="w-44 bg-muted aspect-square object-cover object-center rounded-full"
             />
           ) : (
@@ -81,16 +88,9 @@ const ProfilePage = () => {
               className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer rounded-full"
               name="profilePic"
               id="profilePic"
-              onChange={(e) => {
-                handleChange({
-                  target: {
-                    name: "profilePic",
-                    value: e.target.files[0],
-                  },
-                });
-              }}
+              accept="image/*"
+              onChange={handleImageChange}
             />
-
             <CameraIcon className="size-10 stroke-[.9px]" />
 
             <p>
