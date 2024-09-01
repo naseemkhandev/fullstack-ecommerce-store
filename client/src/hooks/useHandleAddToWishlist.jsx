@@ -16,6 +16,7 @@ const useHandleAddToFavorites = () => {
   const handleAddToFavorites = ({
     id,
     title,
+    actualPrice,
     discountedPrice,
     image,
     stock,
@@ -37,7 +38,8 @@ const useHandleAddToFavorites = () => {
         addToFavorites({
           id,
           title,
-          price: discountedPrice,
+          actualPrice,
+          discountedPrice,
           image,
           stock,
           createdAt,

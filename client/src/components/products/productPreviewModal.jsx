@@ -1,9 +1,10 @@
-import { Eye, ImageOff, ShoppingBasket, Star } from "lucide-react";
+import { Eye, ImageOff, Minus, Plus, ShoppingBasket, Star } from "lucide-react";
+import { useState } from "react";
+import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import ProductQuantityButton from "../common/productQuantityButton";
 import useHandleAddToCart from "../../hooks/useHandleAddToCart";
 
 const ProductPreviewModal = ({
@@ -20,16 +21,49 @@ const ProductPreviewModal = ({
   createdAt,
 }) => {
   const { handleAddToCart } = useHandleAddToCart();
+  const [quantity, setQuantity] = useState(1);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleIncrement = () => {
+    if (quantity < stock) {
+      setQuantity(quantity + 1);
+    } else {
+      toast.error("Cannot add more than available stock");
+    }
+  };
+
+  const handleDecrement = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    } else {
+      toast.error("Quantity cannot be less than 1");
+    }
+  };
+
+  const handleAddToCartClick = () => {
+    handleAddToCart({
+      id,
+      title,
+      actualPrice,
+      discountedPrice,
+      image,
+      stock,
+      createdAt,
+      quantity,
+    });
+    setIsOpen(false);
+  };
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Eye
           className={`size-9 stroke-[1.5px] border p-1.5 hover:border-primary hover:bg-primary hover:text-white rounded-md bg-white cursor-pointer ${iconClassName}`}
+          onClick={() => setIsOpen(true)}
         />
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-4xl w-full">
+      <DialogContent className="sm:max-w-4xl w-full select-none">
         <div className="flex flex-col md:flex-row gap-5">
           <div className="flex-center rounded flex-[.6] group relative bg-slate-50 h-full border border-gray-100 max-h-72 md:max-h-full">
             <Link to={`/product/${id}`}>
@@ -95,20 +129,22 @@ const ProductPreviewModal = ({
             </div>
 
             <div className="flex items-center gap-3 mt-auto">
-              <ProductQuantityButton />
+              <div className="flex items-center border-gray-100 border rounded-md gap-5 p-1 px-2">
+                <Minus
+                  className="size-4 cursor-pointer"
+                  onClick={handleDecrement}
+                />
+                <p className="block font-sans text-base font-normal leading-normal text-gray-700 antialiased">
+                  {quantity}
+                </p>
+                <Plus
+                  className="size-4 cursor-pointer"
+                  onClick={handleIncrement}
+                />
+              </div>
 
               <Button
-                onClick={() =>
-                  handleAddToCart({
-                    id,
-                    title,
-                    discountedPrice,
-                    image,
-                    stock,
-                    createdAt,
-                    quantity: 1,
-                  })
-                }
+                onClick={handleAddToCartClick}
                 className="bg-dark-gray py-3 font-semibold"
               >
                 <ShoppingBasket className="size-4 mr-2" />

@@ -90,6 +90,7 @@ const ProductCard = ({
               handleAddToFavorites({
                 id,
                 title,
+                actualPrice,
                 discountedPrice,
                 image: image?.secure_url,
                 stock,
@@ -123,6 +124,7 @@ const ProductCard = ({
                 id,
                 title,
                 discountedPrice,
+                actualPrice,
                 image: image?.secure_url,
                 stock,
                 createdAt,

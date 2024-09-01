@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { removeFromCart } from "../../store/slices/cartSlice";
+import { removeFromCart, incrementQuantity, decrementQuantity } from "../../store/slices/cartSlice";
 import useHandleAddToFavorites from "../../hooks/useHandleAddToWishlist";
 
 const CartProduct = ({
@@ -21,6 +21,22 @@ const CartProduct = ({
   const isProductInWishlist = wishlist.some((product) => product.id === id);
 
   const { handleAddToFavorites } = useHandleAddToFavorites();
+
+  const handleIncrement = () => {
+    if (quantity < stock) {
+      dispatch(incrementQuantity({ id }));
+    } else {
+      toast.error("Cannot add more than available stock");
+    }
+  };
+
+  const handleDecrement = () => {
+    if (quantity > 1) {
+      dispatch(decrementQuantity({ id }));
+    } else {
+      toast.error("Quantity cannot be less than 1");
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -42,25 +58,26 @@ const CartProduct = ({
 
           <div className="flex items-center justify-between md:order-3 md:justify-end">
             <div className="flex items-center border-gray-100 border rounded-md gap-5 p-1 px-2">
-              <Minus className="size-4 cursor-pointer" />
+              <Minus className="size-4 cursor-pointer" onClick={handleDecrement} />
               <p className="block font-sans text-base font-normal leading-normal text-gray-700 antialiased">
                 {quantity}
               </p>
-              <Plus className="size-4 cursor-pointer" />
+              <Plus className="size-4 cursor-pointer" onClick={handleIncrement} />
             </div>
 
             <div className="md:order-4 ml-8">
               <div className="flex items-center gap-3">
                 <p className="block font-sans font-bold leading-relaxed text-gray-600 text-2xl">
-                  ${actualPrice}.00
+                  ${discountedPrice}.00
                 </p>
 
                 <s className="block font-sans text-base font-normal leading-normal text-gray-700 antialiased opacity-75">
-                  ${discountedPrice}.00
+                  ${actualPrice}.00
                 </s>
               </div>
             </div>
           </div>
+
           <div className="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
             <Link
               to={`/product/${id}`}
@@ -76,6 +93,7 @@ const CartProduct = ({
                   handleAddToFavorites({
                     id,
                     title,
+                    actualPrice,
                     discountedPrice,
                     image,
                     stock,
@@ -98,7 +116,14 @@ const CartProduct = ({
                 type="button"
                 className="inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500"
                 onClick={() => {
-                  dispatch(removeFromCart({ id, price: discountedPrice }));
+                  dispatch(
+                    removeFromCart({
+                      id,
+                      quantity,
+                      actualPrice,
+                      discountedPrice,
+                    })
+                  );
                   toast.error("Product removed from cart");
                 }}
               >

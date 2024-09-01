@@ -102,7 +102,7 @@ const WishListPage = () => {
                   </TableCell>
 
                   <TableCell className="table-cell">
-                    ${product.price}.00
+                    ${product.discountedPrice}.00
                   </TableCell>
 
                   <TableCell className="table-cell whitespace-nowrap">
@@ -129,7 +129,8 @@ const WishListPage = () => {
                           handleAddToCart({
                             id: product?.id,
                             title: product?.title,
-                            price: product?.price,
+                            actualPrice: product?.actualPrice,
+                            discountedPrice: product?.discountedPrice,
                             image: product?.image,
                             stock: product?.stock,
                             createdAt: product?.createdAt,

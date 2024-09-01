@@ -13,6 +13,7 @@ const useHandleAddToCart = () => {
   const handleAddToCart = ({
     id,
     title,
+    actualPrice,
     discountedPrice,
     image,
     quantity,
@@ -29,6 +30,7 @@ const useHandleAddToCart = () => {
       addToCart({
         id,
         title,
+        actualPrice,
         discountedPrice,
         image,
         quantity,

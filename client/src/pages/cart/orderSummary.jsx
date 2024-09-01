@@ -7,6 +7,35 @@ import { Button } from "../../components/ui/button";
 const OrderSummary = () => {
   const cart = useSelector((state) => state.cart);
 
+  // Check if the cart is empty
+  const isCartEmpty = cart.products?.length === 0;
+
+  // Calculate original price
+  const originalPrice = isCartEmpty
+    ? 0
+    : cart.products?.reduce(
+        (total, item) => total + item.actualPrice * item.quantity,
+        0
+      );
+
+  // Calculate savings as the difference between actual price and discounted price
+  const savings = isCartEmpty
+    ? 0
+    : cart.products?.reduce(
+        (total, item) =>
+          total + (item.actualPrice - item.discountedPrice) * item.quantity,
+        0
+      );
+
+  // Store pickup fee (assuming a fixed value for simplicity)
+  const storePickup = isCartEmpty ? 0 : 99;
+
+  // Calculate tax (assuming a fixed tax rate of 10% for simplicity)
+  const tax = isCartEmpty ? 0 : (originalPrice - savings + storePickup) * 0.1;
+
+  // Calculate total
+  const total = isCartEmpty ? 0 : originalPrice - savings + storePickup + tax;
+
   return (
     <div className="space-y-4 rounded-lg border-gray-100 border bg-white p-4 sm:p-6">
       <p className="text-xl font-semibold text-dark-gray dark:text-white">
@@ -20,7 +49,7 @@ const OrderSummary = () => {
               Original price
             </dt>
             <dd className="text-base font-medium text-dark-gray dark:text-white">
-              $7,592.00
+              ${originalPrice?.toFixed(2)}
             </dd>
           </dl>
 
@@ -28,7 +57,9 @@ const OrderSummary = () => {
             <dt className="text-base font-normal text-gray-500 dark:text-gray-400">
               Savings
             </dt>
-            <dd className="text-base font-medium text-green-600">-$299.00</dd>
+            <dd className="text-base font-medium text-green-600">
+              -${savings?.toFixed(2)}
+            </dd>
           </dl>
 
           <dl className="flex items-center justify-between gap-4">
@@ -36,7 +67,7 @@ const OrderSummary = () => {
               Store Pickup
             </dt>
             <dd className="text-base font-medium text-dark-gray dark:text-white">
-              $99
+              ${storePickup?.toFixed(2)}
             </dd>
           </dl>
 
@@ -45,7 +76,7 @@ const OrderSummary = () => {
               Tax
             </dt>
             <dd className="text-base font-medium text-dark-gray dark:text-white">
-              $799
+              ${tax?.toFixed(2)}
             </dd>
           </dl>
         </div>
@@ -55,12 +86,14 @@ const OrderSummary = () => {
             Total
           </dt>
           <dd className="text-base font-bold text-dark-gray dark:text-white">
-            ${cart?.total}.00
+            ${total?.toFixed(2)}
           </dd>
         </dl>
       </div>
 
-      <Button className="w-full py-3.5">Proceed to Checkout</Button>
+      <Button className="w-full py-3.5" disabled={isCartEmpty}>
+        Proceed to Checkout
+      </Button>
 
       <div className="flex items-center justify-center gap-2">
         <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
