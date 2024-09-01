@@ -64,7 +64,7 @@ const Footer = () => {
               icon={FaLinkedin}
             />
             <SocialIcons
-              link="https://github.com/NaseemKhan005"
+              link="https://github.com/naseemkhandev"
               icon={FaGithub}
             />
             <SocialIcons

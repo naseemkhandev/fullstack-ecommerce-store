@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { CiCircleList, CiGrid41 } from "react-icons/ci";
 
 import {
@@ -18,9 +18,33 @@ import ProductCardSkeleton from "../skeletons/productCardSkeleton";
 
 const ProductsList = () => {
   const [layoutStyle, setLayoutStyle] = useState("grid");
+  const [sortOption, setSortOption] = useState("");
 
   const { data: { products } = [], isLoading: isProductsLoading } =
     useGetAllProductsQuery();
+
+  const sortedProducts = useMemo(() => {
+    if (!products) return [];
+
+    const sorted = [...products];
+    switch (sortOption) {
+      case "name(asce)":
+        sorted.sort((a, b) => a.title?.localeCompare(b.title));
+        break;
+      case "name(desc)":
+        sorted.sort((a, b) => b.title?.localeCompare(a.title));
+        break;
+      case "price(asce)":
+        sorted.sort((a, b) => a.discountedPrice - b.discountedPrice);
+        break;
+      case "price(desc)":
+        sorted.sort((a, b) => b.discountedPrice - a.discountedPrice);
+        break;
+      default:
+        break;
+    }
+    return sorted;
+  }, [products, sortOption]);
 
   return (
     <div className="md:ml-5 w-full">
@@ -46,13 +70,13 @@ const ProductsList = () => {
           />
         </div>
 
-        <Select>
+        <Select onValueChange={setSortOption}>
           <SelectTrigger className="min-w-[150px] w-fit h-11">
             <SelectValue placeholder="Sort By" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectLabel>Sort Byy</SelectLabel>
+              <SelectLabel>Sort By</SelectLabel>
               <SelectItem value="name(asce)">
                 Name <span className="text-gray-500">(A-Z)</span>
               </SelectItem>
@@ -85,7 +109,7 @@ const ProductsList = () => {
               : "md:grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3"
           )}
         >
-          {products?.map((product) => (
+          {sortedProducts.map((product) => (
             <ProductCard
               key={product?._id}
               layoutStyle={layoutStyle}
