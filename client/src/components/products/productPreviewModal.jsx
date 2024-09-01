@@ -11,7 +11,7 @@ const ProductPreviewModal = ({
   id,
   title,
   category,
-  images,
+  image,
   rating,
   actualPrice,
   discountedPrice,
@@ -31,21 +31,21 @@ const ProductPreviewModal = ({
 
       <DialogContent className="sm:max-w-4xl w-full">
         <div className="flex flex-col md:flex-row gap-5">
-          <div className="flex-center rounded flex-[.6] bg-slate-50 h-full p-5 border border-gray-100 max-h-72 md:max-h-full">
+          <div className="flex-center rounded flex-[.6] group relative bg-slate-50 h-full border border-gray-100 max-h-72 md:max-h-full">
             <Link to={`/product/${id}`}>
-              {images?.length > 0 ? (
+              {image ? (
                 <>
                   <img
-                    src={images[0]}
-                    className="w-full rounded-t-sm object-contain group-hover:opacity-0 group-hover:scale-90 scale-[.95] transition-all mix-blend-multiply duration-500 delay-150 max-h-72"
+                    src={image}
+                    className="w-full rounded-t-sm object-contain group-hover:opacity-0 group-hover:scale-90 scale-[.95] transition-all mix-blend-multiply duration-500 delay-150 h-full"
                   />
                   <img
-                    src={images[1]}
-                    className="w-full rounded-t-sm object-contain group-hover:opacity-100 opacity-0 group-hover:scale-100 scale-90 mix-blend-multiply transition-all duration-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 max-h-72"
+                    src={image}
+                    className="w-full rounded-t-sm object-contain group-hover:opacity-100 opacity-0 group-hover:scale-100 scale-90 mix-blend-multiply transition-all duration-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-full"
                   />
                 </>
               ) : (
-                <div className="flex-center rounded-md w-full h-full min-h-72 min-w-64 max-w-64">
+                <div className="flex-center rounded-md w-full h-full min-h-72 min-w-64 max-w-64 p-5">
                   <ImageOff className="stroke-[1.3px] size-32 text-muted-foreground opacity-50" />
                 </div>
               )}
@@ -74,10 +74,10 @@ const ProductPreviewModal = ({
             </div>
 
             <Link
-              to="/"
-              className="block font-sans text-sm leading-normal antialiased hover:underline hover:text-dark-gray cursor-pointer"
+              to={`/products?category=${category?.slug}`}
+              className="block font-sans text-sm leading-normal antialiased"
             >
-              {category}
+              {category?.name}
             </Link>
 
             <p className="block font-sans text-sm md:text-base text-dark-gray leading-normal antialiased">
@@ -103,7 +103,7 @@ const ProductPreviewModal = ({
                     id,
                     title,
                     discountedPrice,
-                    image: images[0],
+                    image,
                     stock,
                     createdAt,
                     quantity: 1,

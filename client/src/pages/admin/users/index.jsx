@@ -1,3 +1,4 @@
+import { useState } from "react";
 import toast from "react-hot-toast";
 
 import { Badge } from "@/components/ui/badge";
@@ -12,11 +13,9 @@ import {
 } from "@/components/ui/card";
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -28,26 +27,22 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  ListFilter,
-  MoreHorizontal,
-  PlusCircle,
-  UserRound,
-} from "lucide-react";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { MoreHorizontal, PlusCircle, UserRound } from "lucide-react";
 
+import { Link } from "react-router-dom";
 import TablesSkeleton from "../../../components/skeletons/admin/tablesSkeleton";
 import {
   useDeleteUserMutation,
   useGetAllUsersQuery,
 } from "../../../store/api/userApiSlice";
-import { Link } from "react-router-dom";
 
 const UsersPage = () => {
   const { data: { users } = [], isLoading: isUsersLoading } =
     useGetAllUsersQuery();
 
   const [deleteUser, { isLoading: isUserDeleting }] = useDeleteUserMutation();
+  const [selectedTab, setSelectedTab] = useState("all");
 
   const handleDelete = async (id) => {
     try {
@@ -58,6 +53,13 @@ const UsersPage = () => {
     }
   };
 
+  const filteredUsers = users?.filter((user) => {
+    if (selectedTab === "all") return true;
+    if (selectedTab === "active") return user.isAdmin;
+    if (selectedTab === "draft") return !user.isAdmin;
+    return true;
+  });
+
   return (
     <main className="grid flex-1 items-start gap-4 md:gap-8 h-full">
       {isUsersLoading ? (
@@ -66,6 +68,7 @@ const UsersPage = () => {
         <Tabs
           defaultValue="all"
           className="h-full overflow-auto whitespace-nowrap"
+          onValueChange={(value) => setSelectedTab(value)}
         >
           <div className="flex items-center">
             <TabsList>
@@ -79,36 +82,9 @@ const UsersPage = () => {
                 Users
               </TabsTrigger>
             </TabsList>
-
-            <div className="ml-auto flex items-center gap-2 h-full">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm" className="h-8 gap-1">
-                    <ListFilter className="h-3.5 w-3.5" />
-                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                      Filter
-                    </span>
-                  </Button>
-                </DropdownMenuTrigger>
-
-                <DropdownMenuContent align="end" className="w-40">
-                  <DropdownMenuLabel>Filter by</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuCheckboxItem checked>
-                    Role
-                  </DropdownMenuCheckboxItem>
-                  <DropdownMenuCheckboxItem>
-                    Total Sales
-                  </DropdownMenuCheckboxItem>
-                  <DropdownMenuCheckboxItem>
-                    Created at
-                  </DropdownMenuCheckboxItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
           </div>
 
-          <TabsContent value="all" className="mt-5 h-full">
+          <div className="mt-5 h-full">
             <Card x-chunk="dashboard-06-chunk-0">
               <div className="flex-between">
                 <CardHeader>
@@ -145,7 +121,7 @@ const UsersPage = () => {
                   </TableHeader>
 
                   <TableBody>
-                    {users?.length === 0 && (
+                    {filteredUsers?.length === 0 && (
                       <TableRow>
                         <TableCell colSpan={7} className="text-center">
                           No users found
@@ -153,7 +129,7 @@ const UsersPage = () => {
                       </TableRow>
                     )}
 
-                    {users?.map((user) => (
+                    {filteredUsers?.map((user) => (
                       <TableRow key={user?._id}>
                         <TableCell className="table-cell">
                           {user?.profilePic?.secure_url ||
@@ -238,11 +214,12 @@ const UsersPage = () => {
 
               <CardFooter>
                 <div className="text-xs text-muted-foreground">
-                  Showing <strong>1-10</strong> of <strong>32</strong> users
+                  Showing <strong>1-{filteredUsers?.length}</strong> of{" "}
+                  <strong>{filteredUsers?.length}</strong> users
                 </div>
               </CardFooter>
             </Card>
-          </TabsContent>
+          </div>
         </Tabs>
       )}
     </main>

@@ -17,11 +17,16 @@ const productSchema = z.object({
       message: "Product Description must be at most 200 characters long",
     })
     .trim(),
-  price: z
+  actualPrice: z
     .number({ required_error: "Product Price is required" })
     .min(1, { message: "Product Price must be at least 1" })
     .max(100000, { message: "Product Price must be at most 100000" })
     .positive({ message: "Product Price must be greater than 0" }),
+  discountedPrice: z
+    .number({ required_error: "Product Discounted Price is required" })
+    .min(1, { message: "Product Discounted Price must be at least 1" })
+    .max(100000, { message: "Product Discounted Price must be at most 100000" })
+    .positive({ message: "Product Discounted Price must be greater than 0" }),
   category: z
     .string({ required_error: "Product Category is required" })
     .nonempty({ message: "Product Category is required" })
@@ -32,15 +37,22 @@ const productSchema = z.object({
     .min(1, { message: "Product Stock must be at least 1" })
     .max(1000, { message: "Product Stock must be at most 1000" })
     .positive({ message: "Product Stock must be greater than 0" }),
-  sold: z
-    .number({ required_error: "Product Sold is required" })
-    .min(0, { message: "Product Sold must be at least 0" })
-    .max(1000, { message: "Product Sold must be at most 1000" })
-    .positive({ message: "Product Sold must be greater than 0" }),
-  // images: z
-  //   .array(z.string({ required_error: "Product Images are required" }))
-  //   .nonempty({ message: "Product Images are required" })
-  //   .min(1, { message: "Product Images must be at least 1" }),
+  image: z.object({
+    secure_url: z
+      .string({ required_error: "Product Image URL is required" })
+      .nonempty({ message: "Product Image URL is required" })
+      .url({ message: "Product Image URL must be a valid URL" })
+      .trim(),
+    public_id: z
+      .string({ required_error: "Product Image ID is required" })
+      .nonempty({ message: "Product Image ID is required" })
+      .trim(),
+  }),
+  slug: z
+    .string({ required_error: "Product Slug is required" })
+    .nonempty({ message: "Product Slug is required" })
+    .min(3, { message: "Product Slug must be at least 3 characters long" })
+    .trim(),
 });
 
 export default productSchema;

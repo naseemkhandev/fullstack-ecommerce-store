@@ -113,10 +113,12 @@ const AddNewUserPage = () => {
         <Label className="font-medium text-gray-500">Profile Picture</Label>
 
         <div className="relative">
-          {userData?.profilePic ? (
+          {userData.profilePic?.secure_url ||
+          (typeof userData.profilePic === "string" &&
+            userData.profilePic.includes("data:image")) ? (
             <div className="w-full h-[30rem] relative bg-gray-100">
               <img
-                src={userData.profilePic}
+                src={userData.profilePic?.secure_url || userData.profilePic}
                 alt="profilePic"
                 className="object-cover md:object-contain h-full w-full object-top rounded-lg mx-auto"
               />

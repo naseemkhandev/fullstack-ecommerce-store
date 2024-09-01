@@ -12,7 +12,7 @@ const ProductCard = ({
   layoutStyle,
   title,
   category,
-  images,
+  image,
   rating,
   actualPrice,
   discountedPrice,
@@ -44,17 +44,17 @@ const ProductCard = ({
         )}
       >
         <Link to={`/product/${id}`}>
-          {images?.length > 0 ? (
+          {image?.secure_url ? (
             <>
               <img
-                src={images[0]}
+                src={image?.secure_url}
                 className={cn(
-                  "w-full rounded-t-sm object-contain group-hover:opacity-0 group-hover:scale-90 scale-[.95] transition-all mix-blend-multiply duration-500 delay-150",
+                  "w-full rounded-t-sm object-cover h-full group-hover:opacity-0 group-hover:scale-90 scale-[.95] transition-all mix-blend-multiply duration-500 delay-150",
                   layoutStyle === "list" ? "aspect-square max-w-60" : "max-h-72"
                 )}
               />
               <img
-                src={images[1]}
+                src={image?.secure_url}
                 className={cn(
                   "w-full rounded-t-sm object-contain group-hover:opacity-100 opacity-0 group-hover:scale-100 scale-90 mix-blend-multiply transition-all duration-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
                   layoutStyle === "list" ? "aspect-square max-w-60" : "max-h-72"
@@ -91,7 +91,7 @@ const ProductCard = ({
                 id,
                 title,
                 discountedPrice,
-                image: images[0],
+                image: image?.secure_url,
                 stock,
                 createdAt,
               })
@@ -108,7 +108,7 @@ const ProductCard = ({
               id,
               title,
               category,
-              images,
+              image: image?.secure_url,
               rating,
               actualPrice,
               discountedPrice,
@@ -123,7 +123,7 @@ const ProductCard = ({
                 id,
                 title,
                 discountedPrice,
-                image: images[0],
+                image: image?.secure_url,
                 stock,
                 createdAt,
                 quantity: 1,
@@ -136,10 +136,10 @@ const ProductCard = ({
 
       <Link to={`/product/${id}`} className="p-3 flex flex-col gap-1">
         <Link
-          to={`/products?category=${category}`}
+          to={`/products?category=${category?.slug}`}
           className="block font-sans text-sm leading-normal antialiased"
         >
-          {category}
+          {category?.name}
         </Link>
 
         <h2

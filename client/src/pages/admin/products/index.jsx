@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -26,7 +27,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ImageOff, ListFilter, MoreHorizontal, PlusCircle } from "lucide-react";
 
 import { Link } from "react-router-dom";
@@ -37,6 +38,12 @@ import convertDate from "../../../utils/convertDate";
 const ProductsPage = () => {
   const { data: { products } = [], isLoading: isProductsLoading } =
     useGetAllProductsQuery();
+  const [selectedTab, setSelectedTab] = useState("all");
+
+  const filteredProducts = products?.filter((product) => {
+    if (selectedTab === "all") return true;
+    return product.status === selectedTab;
+  });
 
   return (
     <main className="grid flex-1 items-start gap-4 md:gap-8 h-full">
@@ -46,6 +53,7 @@ const ProductsPage = () => {
         <Tabs
           defaultValue="all"
           className="h-full overflow-auto whitespace-nowrap"
+          onValueChange={(value) => setSelectedTab(value)}
         >
           <div className="flex items-center">
             <TabsList>
@@ -86,12 +94,12 @@ const ProductsPage = () => {
             </div>
           </div>
 
-          <TabsContent value="all" className="mt-5 h-full">
+          <div className="mt-5 h-full">
             <Card x-chunk="dashboard-06-chunk-0">
               <div className="flex-between">
                 <CardHeader>
                   <CardTitle>Products</CardTitle>
-                  <CardDescription>
+                  <CardDescription className="text-wrap">
                     Manage your products and view their sales performance.
                   </CardDescription>
                 </CardHeader>
@@ -123,7 +131,7 @@ const ProductsPage = () => {
                   </TableHeader>
 
                   <TableBody>
-                    {products?.length === 0 && (
+                    {filteredProducts?.length === 0 && (
                       <TableRow>
                         <TableCell colSpan={7} className="text-center">
                           No products found
@@ -131,12 +139,12 @@ const ProductsPage = () => {
                       </TableRow>
                     )}
 
-                    {products?.map((product) => (
+                    {filteredProducts?.map((product) => (
                       <TableRow key={product?._id}>
                         <TableCell className="table-cell">
-                          {product?.profilePic ? (
+                          {product?.image?.secure_url ? (
                             <img
-                              src="/images/auth.jpg"
+                              src={product?.image?.secure_url}
                               alt="product img"
                               className="aspect-square w-[4.6rem] h-full rounded-md object-cover object-center"
                             />
@@ -202,12 +210,12 @@ const ProductsPage = () => {
 
               <CardFooter>
                 <div className="text-xs text-muted-foreground">
-                  Showing <strong>1-{products?.length}</strong> of{" "}
-                  <strong>{products?.length}</strong> categories
+                  Showing <strong>1-{filteredProducts?.length}</strong> of{" "}
+                  <strong>{filteredProducts?.length}</strong> products
                 </div>
               </CardFooter>
             </Card>
-          </TabsContent>
+          </div>
         </Tabs>
       )}
     </main>

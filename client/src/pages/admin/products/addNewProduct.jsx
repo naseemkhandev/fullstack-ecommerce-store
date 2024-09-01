@@ -1,11 +1,12 @@
 import { Loader2, Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 import { SlCloudUpload } from "react-icons/sl";
+import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Skeleton } from "@/components/ui/skeleton";
 import {
   Select,
   SelectContent,
@@ -14,35 +15,99 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Skeleton } from "@/components/ui/skeleton";
 
-import generateSlug from "../../../utils/generateSlug";
+import useHandleImageChange from "../../../hooks/useHandleImageChange";
 import { useGetAllCategoriesQuery } from "../../../store/api/categoryApiSlice";
+import { useAddNewProductMutation } from "../../../store/api/productApiSlice";
+import generateSlug from "../../../utils/generateSlug";
 
 const AddNewProductPage = () => {
+  const navigate = useNavigate();
   const [userData, setUserData] = useState({
     image: "",
     title: "",
     description: "",
-    price: "",
+    actualPrice: "",
+    discountedPrice: "",
     category: "",
     stock: "",
-    status: "",
+    status: "active",
     slug: "",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUserData({
-      ...userData,
+    setUserData((prevData) => ({
+      ...prevData,
       [name]: value,
-    });
+      slug: name === "title" ? generateSlug(value) : prevData.slug,
+    }));
   };
+
+  const { handleImageChange } = useHandleImageChange(
+    "image",
+    userData,
+    setUserData
+  );
 
   const { data: { categories } = [], isLoading: isCategoriesLoading } =
     useGetAllCategoriesQuery();
 
+  const [addNewProduct, { isLoading: isAddingProduct }] =
+    useAddNewProductMutation();
+
+  const handleAddNewProduct = async () => {
+    const loading = toast.loading("Adding product...");
+
+    try {
+      const productData = { ...userData, status: "active" };
+
+      await addNewProduct(productData).unwrap();
+      toast.success("Product added successfully");
+      navigate("/admin/products");
+    } catch (error) {
+      toast.error(error?.data?.message || "An error occurred");
+    } finally {
+      toast.dismiss(loading);
+    }
+  };
+
+  const handleAddNewProductToDraft = async () => {
+    const loading = toast.loading("Adding product...");
+
+    try {
+      const productData = { ...userData, status: "draft" };
+
+      await addNewProduct(productData).unwrap();
+      toast.success("Product added in draft successfully");
+      navigate("/admin/products");
+    } catch (error) {
+      toast.error(error?.data?.message || "An error occurred");
+    } finally {
+      toast.dismiss(loading);
+    }
+  };
+
+  useEffect(() => {
+    if (categories?.length > 0 && userData?.category) {
+      const selectedCategory = categories?.find(
+        (category) => category._id === userData.category
+      );
+      if (selectedCategory) {
+        setUserData((prevData) => ({
+          ...prevData,
+          category: selectedCategory._id,
+        }));
+      }
+    }
+  }, [categories, userData.category]);
+
   return (
-    <div className="overflow-auto h-full flex flex-col gap-5">
+    <form
+      encType="multipart/form-data"
+      className="overflow-auto h-full flex flex-col gap-5"
+    >
       <div className="flex flex-col gap-3">
         <Label className="font-medium text-gray-500">
           Image <span className="text-red-500">*</span>
@@ -55,7 +120,11 @@ const AddNewProductPage = () => {
               alt="image"
               className="w-full h-full object-cover object-center rounded-lg"
             />
-            <button className="bg-white text-primary absolute top-3 right-3 p-1.5 rounded-md">
+            <button
+              type="button"
+              className="bg-white text-primary absolute top-3 right-3 p-1.5 rounded-md"
+              onClick={() => setUserData({ ...userData, image: "" })}
+            >
               <Trash2 className="w-5" />
             </button>
           </div>
@@ -65,9 +134,9 @@ const AddNewProductPage = () => {
               type="file"
               id="image"
               name="image"
-              accept="image/png, image/jpg, image/jpeg"
+              accept="image/*"
               className="absolute w-full z-10 h-full opacity-0 top-0 left-0 cursor-pointer"
-              //   onChange={handleImageChange}
+              onChange={handleImageChange}
             />
             <SlCloudUpload className="size-14 stroke-[0.01px] text-gray-300 mb-3 group-hover:text-[#5BAE8F]/80" />
             <h4 className="font-medium text-lg text-gray-500">
@@ -75,7 +144,7 @@ const AddNewProductPage = () => {
               <span className="text-primary underline">Browse</span>
             </h4>
             <p className="text-primary text-sm">
-              Supported formates: JPEG, PNG, JPEG
+              Supported formats: JPEG, PNG, JPEG
             </p>
           </div>
         )}
@@ -89,8 +158,8 @@ const AddNewProductPage = () => {
         <Input
           placeholder="Enter name"
           type="text"
-          name="name"
-          value={userData.name}
+          name="title"
+          value={userData.title}
           onChange={handleChange}
         />
       </div>
@@ -99,8 +168,8 @@ const AddNewProductPage = () => {
         <Label htmlFor="slug">Slug</Label>
         <Input
           id="slug"
-          value={generateSlug(userData.name)}
-          placeholder="Category slug"
+          value={userData.slug}
+          placeholder="Your slug will be generated automatically"
           disabled
           className="disabled:bg-muted-foreground/10"
         />
@@ -124,18 +193,34 @@ const AddNewProductPage = () => {
       <div className="grid sm:grid-cols-2 gap-3">
         <div className="flex flex-col gap-3">
           <Label className="font-medium text-gray-500">
-            Price <span className="text-red-500">*</span>
+            Actual Price <span className="text-red-500">*</span>
           </Label>
 
           <Input
-            placeholder="Enter price"
+            placeholder="Enter Actual Price"
             type="number"
-            name="price"
-            value={userData.price}
+            name="actualPrice"
+            value={userData.actualPrice}
             onChange={handleChange}
           />
         </div>
 
+        <div className="flex flex-col gap-3">
+          <Label className="font-medium text-gray-500">
+            Discounted Price <span className="text-red-500">*</span>
+          </Label>
+
+          <Input
+            placeholder="Enter Discounted Price"
+            type="number"
+            name="discountedPrice"
+            value={userData.discountedPrice}
+            onChange={handleChange}
+          />
+        </div>
+      </div>
+
+      <div className="grid sm:grid-cols-2 gap-3">
         <div className="flex flex-col gap-3">
           <Label className="font-medium text-gray-500">
             Stock <span className="text-red-500">*</span>
@@ -149,51 +234,66 @@ const AddNewProductPage = () => {
             onChange={handleChange}
           />
         </div>
-      </div>
 
-      <div className="flex flex-col gap-3">
-        <Label className="font-medium text-gray-500">
-          Category <span className="text-red-500">*</span>
-        </Label>
+        <div className="flex flex-col gap-3">
+          <Label className="font-medium text-gray-500">
+            Category <span className="text-red-500">*</span>
+          </Label>
 
-        <Select>
-          <SelectTrigger className="w-full capitalize">
-            <SelectValue placeholder="Select category" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              {isCategoriesLoading ? (
-                <Skeleton className="h-11 flex-center gap-2 select-none text-muted-foreground bg-muted">
-                  <Loader2 className="animate-spin size-5" />
-                  Loading categories...
-                </Skeleton>
-              ) : (
-                <>
-                  {categories?.map((category) => (
-                    <SelectItem
-                      key={category._id}
-                      value={category.name}
-                      className="capitalize"
-                    >
-                      <span>{category.name}</span>
-                    </SelectItem>
-                  ))}
-                </>
-              )}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+          <Select
+            onValueChange={(value) =>
+              setUserData({ ...userData, category: value })
+            }
+          >
+            <SelectTrigger className="w-full capitalize">
+              <SelectValue placeholder="Select category" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                {isCategoriesLoading ? (
+                  <Skeleton className="h-11 flex-center gap-2 select-none text-muted-foreground bg-muted">
+                    <Loader2 className="animate-spin size-5" />
+                    Loading categories...
+                  </Skeleton>
+                ) : (
+                  <>
+                    {categories?.map((category) => (
+                      <SelectItem
+                        key={category._id}
+                        value={category._id}
+                        className="capitalize"
+                      >
+                        <span>{category.name}</span>
+                      </SelectItem>
+                    ))}
+                  </>
+                )}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
       <div className="flex items-center justify-end gap-3 pb-3">
-        <Button variant="outline" className="px-7 py-3.5">
+        <Button
+          type="submit"
+          isLoading={isAddingProduct}
+          onClick={handleAddNewProductToDraft}
+          variant="outline"
+          className="px-7 py-3.5"
+        >
           Save as Draft
         </Button>
-        <Button className="bg-primary text-white px-7 py-3.5">
+        <Button
+          type="submit"
+          isLoading={isAddingProduct}
+          onClick={handleAddNewProduct}
+          className="bg-primary text-white px-7 py-3.5"
+        >
           Add Product
         </Button>
       </div>
-    </div>
+    </form>
   );
 };
 

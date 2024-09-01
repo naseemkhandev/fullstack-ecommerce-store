@@ -5,6 +5,7 @@ import cors from "cors";
 import colors from "colors";
 import helmet from "helmet";
 import { v2 as cloudinary } from "cloudinary";
+import bodyParser from "body-parser";
 
 import { config } from "./config/config.js";
 import errorHandler from "./middlewares/errorHandler.js";
@@ -18,11 +19,13 @@ const app = express();
 // Middleware
 app.use(morgan("dev"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(
   cors({
     origin: config.clientUrl,
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
   })
 );

@@ -17,10 +17,17 @@ const productSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    price: {
+    actualPrice: {
       type: Number,
       required: true,
       trim: true,
+      default: 0,
+    },
+    discountedPrice: {
+      type: Number,
+      required: true,
+      trim: true,
+      default: 0,
     },
     category: {
       type: mongoose.Schema.Types.ObjectId,
@@ -30,19 +37,31 @@ const productSchema = new mongoose.Schema(
     stock: {
       type: Number,
       required: true,
+      default: 0,
     },
     sold: {
       type: Number,
       default: 0,
     },
-    images: {
-      type: Array,
-      required: true,
+    image: {
+      secure_url: {
+        type: String,
+        required: true,
+      },
+      public_id: {
+        type: String,
+        required: true,
+      },
     },
     status: {
       type: String,
       default: "active",
       enum: ["active", "draft"],
+    },
+    slug: {
+      type: String,
+      required: true,
+      unique: true,
     },
   },
   { timestamps: true }

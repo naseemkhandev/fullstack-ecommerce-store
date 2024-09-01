@@ -1,16 +1,15 @@
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import { CircleAlert, Heart, ShoppingBasket, Star } from "lucide-react";
-import { Carousel } from "react-responsive-carousel";
+import { useSelector } from "react-redux";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { useParams } from "react-router-dom";
 
 import ProductQuantityButton from "../../components/common/productQuantityButton";
 import ProductPreviewModal from "../../components/products/productPreviewModal";
+import ProductDetailsSkeleton from "../../components/skeletons/productDetailsSkeleton";
 import { Button } from "../../components/ui/button";
 import useHandleAddToCart from "../../hooks/useHandleAddToCart";
 import useHandleAddToFavorites from "../../hooks/useHandleAddToWishlist";
 import { useGetProductDetailsQuery } from "../../store/api/productApiSlice";
-import ProductDetailsSkeleton from "../../components/skeletons/productDetailsSkeleton";
 
 const ProductDetailsPage = () => {
   const params = useParams();
@@ -41,7 +40,7 @@ const ProductDetailsPage = () => {
   const {
     title,
     category,
-    images,
+    image: { secure_url: image },
     rating,
     actualPrice,
     discountedPrice,
@@ -52,45 +51,20 @@ const ProductDetailsPage = () => {
 
   return (
     <section className="py-10">
-      <div className="mx-auto">
-        <div className="flex gap-10">
-          <div className="flex-[.7] sticky top-0">
-            <Carousel
-              infiniteLoop
-              showThumbs={false}
-              showStatus={false}
-              showArrows={false}
-              showIndicators={false}
-              swipeable
-              emulateTouch
-            >
-              {images?.map((image, index) => (
-                <img
-                  key={index}
-                  src="https://pagedone.io/asset/uploads/1700472379.png"
-                  alt="Summer Travel Bag image"
-                  className="max-lg:mx-auto w-full aspect-square bg-slate-50 mix-blend-multiply rounded-2xl select-none max-h-[28rem] object-cover"
-                />
-              ))}
-            </Carousel>
-
-            <div className="flex items-center gap-5 mt-5 overflow-auto">
-              {images?.map((image, index) => (
-                <img
-                  key={index}
-                  src="https://pagedone.io/asset/uploads/1700472430.png"
-                  alt="Summer Travel Bag image"
-                  className="cursor-pointer rounded-xl transition-all duration-500 border border-transparent hover:border-primary"
-                />
-              ))}
-            </div>
+      <div className="container mx-auto">
+        <div className="flex gap-10 relative">
+          <div className="flex-[.7] sticky top-5 h-fit">
+            <img
+              src={image}
+              alt={title}
+              className="max-lg:mx-auto w-full min-h-[35rem] max-h-[40rem] h-full bg-slate-50 mix-blend-multiply rounded-2xl select-none object-cover"
+            />
           </div>
 
           <div className="flex-1">
             <div className="flex flex-col gap-3">
               <h2 className="font-manrope font-semibold text-2xl text-gray-600">
-                Potato Chips 52g, American Cream & Onion Flavour, Crunchy Chips
-                & Snacks.
+                {title}
               </h2>
 
               <div className="flex items-center gap-1">
@@ -113,7 +87,7 @@ const ProductDetailsPage = () => {
             <div className="flex flex-col mb-8 gap-y-3 mt-5">
               <div className="flex items-center">
                 <h5 className="font-manrope font-semibold text-2xl leading-9 text-dark-gray ">
-                  $ 199.00{" "}
+                  $ {discountedPrice}{" "}
                 </h5>
                 <span className="ml-3 font-medium text-xl text-primary">
                   -30%
@@ -123,23 +97,12 @@ const ProductDetailsPage = () => {
               <p className="text-base font-normal text-gray-500">
                 M.R.P :{" "}
                 <s>
-                  <span className="text-gray-500">$ 299.00</span>
+                  <span className="text-gray-500">$ {actualPrice}</span>
                 </s>
               </p>
             </div>
 
-            <p className="text-base font-normal text-gray-500">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-              malesuada, eros sed bibendum lacinia, magna turpis lacinia odio,
-              sit amet scelerisque ligula odio sit amet sem. Aliquam erat
-              volutpat. Nullam auctor, velit nec posuere tristique, turpis elit
-              sollicitudin turpis, vel lacinia elit risus nec nunc. In hac
-              habitasse platea dictumst. Sed nec nisl auctor, vehicula erat nec,
-              ultrices purus Lorem ipsum dolor sit amet consectetur adipisicing
-              elit. Alias magnam vero sapiente praesentium atque illum, aliquam
-              fugit reiciendis animi tenetur dolor sunt obcaecati voluptate
-              ipsum. Totam in repudiandae alias veniam!
-            </p>
+            <p className="text-base font-normal text-gray-500">{description}</p>
 
             <div className="flex items-center gap-3 mt-5">
               <ProductQuantityButton />
@@ -150,7 +113,7 @@ const ProductDetailsPage = () => {
                     id: params?.id,
                     title,
                     discountedPrice,
-                    image: images[0],
+                    image,
                     stock,
                     createdAt,
                     quantity: 1,
@@ -168,7 +131,7 @@ const ProductDetailsPage = () => {
                     id: params?.id,
                     title,
                     discountedPrice,
-                    image: images[0],
+                    image: image[0],
                     stock,
                     createdAt,
                   })
@@ -185,7 +148,7 @@ const ProductDetailsPage = () => {
                   id: params?.id,
                   title,
                   category,
-                  images,
+                  image,
                   rating,
                   actualPrice,
                   discountedPrice,

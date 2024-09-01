@@ -51,7 +51,9 @@ const AdminLayout = () => {
                     "flex items-center gap-3 rounded-lg px-4 py-3.5 text-base text-muted-foreground transition-all hover:text-primary hover:bg-[#00A3B3]/20 border hover:border-[#00A3B3]/50 border-transparent cursor-pointer",
                     {
                       "bg-primary hover:bg-primary hover:text-white text-white":
-                        location.pathname === `/admin${link.path}`,
+                        location.pathname === `/admin${link.path}` ||
+                        (link.path !== "" &&
+                          location.pathname.startsWith(`/admin${link.path}`)),
                     }
                   )}
                 >
@@ -112,7 +114,9 @@ const AdminLayout = () => {
                       "flex items-center gap-3 rounded-lg px-4 py-3.5 text-base text-muted-foreground transition-all hover:text-primary hover:bg-[#00A3B3]/20 border hover:border-[#00A3B3]/50 border-transparent cursor-pointer",
                       {
                         "bg-primary hover:bg-primary hover:text-white text-white":
-                          location.pathname === `/admin${link.path}`,
+                          location.pathname === `/admin${link.path}` ||
+                          (link.path !== "" &&
+                            location.pathname.startsWith(`/admin${link.path}`)),
                       }
                     )}
                   >
@@ -155,7 +159,7 @@ const AdminLayout = () => {
             <Breadcrumb>
               <BreadcrumbList>
                 {pathnames
-                  .filter((name) => !/\d+/.test(name)) // Step 2: Filter out pathnames with ids
+                  .filter((name) => !/\d+/.test(name))
                   .map((name, index, filteredPathnames) => {
                     const routeTo = `/${filteredPathnames
                       .slice(0, index + 1)
