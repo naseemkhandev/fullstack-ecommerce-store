@@ -42,7 +42,7 @@ export const addNewProduct = async (req, res, next) => {
       }
 
       const buffer = Buffer.from(matches[2], "base64");
-      const tempDir = path.join(__dirname, "../temp");
+      const tempDir = path.join(__dirname, "../../public/uploads");
 
       // Ensure the temp directory exists
       ensureTempDirExists(tempDir);
@@ -54,7 +54,8 @@ export const addNewProduct = async (req, res, next) => {
       const { secure_url, public_id } = await uploadImageToCloudinary(
         tempFilePath,
         "products"
-      );77
+      );
+      77;
 
       if (!secure_url || !public_id)
         return next(createError(500, "Failed to upload image"));
@@ -110,6 +111,24 @@ export const getProductDetails = async (req, res, next) => {
     }
 
     res.status(200).json({ message: "Product fetched successfully", product });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getActiveProducts = async (req, res, next) => {
+  try {
+    const products = await Product.find({ status: "active" })
+      .populate("user", "name")
+      .populate("category", "name slug");
+
+    if (!products || products.length === 0)
+      return next(createError(404, "No products found"));
+
+    res.status(200).json({
+      message: "Active products fetched successfully",
+      products,
+    });
   } catch (error) {
     next(error);
   }

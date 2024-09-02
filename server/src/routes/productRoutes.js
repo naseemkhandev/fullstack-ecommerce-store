@@ -5,6 +5,7 @@ import {
   addNewProduct,
   getAllProducts,
   getProductDetails,
+  getActiveProducts,
 } from "../controllers/productController.js";
 import validateSchema from "../middlewares/validateSchema.js";
 import productSchema from "../validations/productValidation.js";
@@ -15,11 +16,12 @@ const router = express.Router();
 router.post(
   "/",
   verifyAdmin,
-  // validateSchema(productSchema),
+  validateSchema(productSchema),
   uploadImage.single("image"),
   addNewProduct
 );
-router.get("/", getAllProducts);
+router.get("/", verifyAdmin, getAllProducts);
+router.get("/active-products", getActiveProducts);
 router.get("/:id", getProductDetails);
 
 export default router;

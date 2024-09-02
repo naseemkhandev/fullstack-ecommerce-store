@@ -46,6 +46,8 @@ const ProductsList = () => {
     return sorted;
   }, [products, sortOption]);
 
+  console.log(sortedProducts);
+
   return (
     <div className="md:ml-5 w-full">
       <div className="flex border items-center gap-4 p-1.5 rounded-lg justify-between w-full">
@@ -70,7 +72,7 @@ const ProductsList = () => {
           />
         </div>
 
-        <Select onValueChange={setSortOption}>
+        <Select value={sortOption} onValueChange={setSortOption}>
           <SelectTrigger className="min-w-[150px] w-fit h-11">
             <SelectValue placeholder="Sort By" />
           </SelectTrigger>
