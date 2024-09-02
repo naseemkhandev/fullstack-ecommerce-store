@@ -29,7 +29,7 @@ const ProductCard = ({
   return (
     <div
       className={cn(
-        "relative flex w-full gap-5 rounded-xl bg-white bg-clip-border border text-gray-600 border-gray-100 group cursor-pointer",
+        "relative flex w-full gap-5 rounded-sm bg-white bg-clip-border border text-gray-600 border-gray-100 group cursor-pointer",
         layoutStyle === "list"
           ? "sm:flex-row flex-col md:flex-col lg:flex-row"
           : "flex-col"
@@ -49,10 +49,15 @@ const ProductCard = ({
               <img
                 src={image?.secure_url}
                 className={cn(
-                  "w-full object-cover h-full",
-                  layoutStyle === "list"
-                    ? "aspect-square max-w-60 rounded-lg"
-                    : "w-full rounded-t-lg"
+                  "w-full rounded-t-sm object-cover h-full group-hover:opacity-0 group-hover:scale-90 scale-[.95] transition-all mix-blend-multiply duration-500 delay-150",
+                  layoutStyle === "list" ? "aspect-square max-w-60" : "max-h-72"
+                )}
+              />
+              <img
+                src={image?.secure_url}
+                className={cn(
+                  "w-full rounded-t-sm object-contain group-hover:opacity-100 opacity-0 group-hover:scale-100 scale-90 mix-blend-multiply transition-all duration-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
+                  layoutStyle === "list" ? "aspect-square max-w-60" : "max-h-72"
                 )}
               />
             </>

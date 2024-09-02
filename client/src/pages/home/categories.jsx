@@ -17,7 +17,7 @@ const Categories = () => {
           {categories?.map((category) => (
             <Link
               key={category._id}
-              to={`/products?cat=${category.name}`}
+              to={`/products?cat=${category.slug}`}
               className="flex-col flex-center rounded-md relative cursor-pointer transition-all duration-500 capitalize"
               style={{
                 background: `linear-gradient(to bottom, ${category?.bgColor}50, ${category?.bgColor}20 30%, transparent 70%)`,

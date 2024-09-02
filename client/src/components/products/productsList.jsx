@@ -1,4 +1,5 @@
-import { useState, useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { CiCircleList, CiGrid41 } from "react-icons/ci";
 
 import {
@@ -19,14 +20,27 @@ import ProductCardSkeleton from "../skeletons/productCardSkeleton";
 const ProductsList = () => {
   const [layoutStyle, setLayoutStyle] = useState("grid");
   const [sortOption, setSortOption] = useState("");
+  const [category, setCategory] = useState("");
+  const location = useLocation();
+
+  useEffect(() => {
+    const query = new URLSearchParams(location.search);
+    setCategory(query.get("cat") || "");
+  }, [location.search]);
 
   const { data: { products } = [], isLoading: isProductsLoading } =
     useGetAllProductsQuery();
 
-  const sortedProducts = useMemo(() => {
+  const filteredAndSortedProducts = useMemo(() => {
     if (!products) return [];
 
-    const sorted = [...products];
+    // Filter products by category
+    const filtered = category
+      ? products.filter((product) => product.category.slug === category)
+      : products;
+
+    // Sort the filtered products
+    const sorted = [...filtered];
     switch (sortOption) {
       case "name(asce)":
         sorted.sort((a, b) => a.title?.localeCompare(b.title));
@@ -44,9 +58,7 @@ const ProductsList = () => {
         break;
     }
     return sorted;
-  }, [products, sortOption]);
-
-  console.log(sortedProducts);
+  }, [products, sortOption, category]);
 
   return (
     <div className="md:ml-5 w-full">
@@ -96,6 +108,12 @@ const ProductsList = () => {
         </Select>
       </div>
 
+      {filteredAndSortedProducts.length === 0 && !isProductsLoading && (
+        <div className="flex-center w-full h-96">
+          <p className="text-lg text-gray-500">No products found</p>
+        </div>
+      )}
+
       {isProductsLoading ? (
         <div className="grid mt-5 gap-3 md:grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
           {[...Array(12)].map((_, i) => (
@@ -111,7 +129,7 @@ const ProductsList = () => {
               : "md:grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3"
           )}
         >
-          {sortedProducts.map((product) => (
+          {filteredAndSortedProducts.map((product) => (
             <ProductCard
               key={product?._id}
               layoutStyle={layoutStyle}
