@@ -17,7 +17,9 @@ import ProductCard from "../../components/products/productCard";
 import { useGetAllProductsQuery } from "../../store/api/productApiSlice";
 import ProductCardSkeleton from "../skeletons/productCardSkeleton";
 
-const ProductsList = () => {
+const ProductsList = ({
+  filters: { minPrice, maxPrice, search, categories, rating },
+}) => {
   const [layoutStyle, setLayoutStyle] = useState("grid");
   const [sortOption, setSortOption] = useState("");
   const [category, setCategory] = useState("");
@@ -34,10 +36,37 @@ const ProductsList = () => {
   const filteredAndSortedProducts = useMemo(() => {
     if (!products) return [];
 
-    // Filter products by category
-    const filtered = category
+    // Filter products by category from URL
+    let filtered = category
       ? products.filter((product) => product.category.slug === category)
       : products;
+
+    // Filter products by price range
+    filtered = filtered.filter(
+      (product) =>
+        product.discountedPrice >= minPrice && product.discountedPrice <= maxPrice
+    );
+
+    // Filter products by search term
+    if (search) {
+      filtered = filtered.filter(
+        (product) =>
+          product.title.toLowerCase().includes(search.toLowerCase()) ||
+          product.description.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
+    // Filter products by selected categories
+    if (categories.length > 0) {
+      filtered = filtered.filter((product) =>
+        categories.includes(product.category.name)
+      );
+    }
+
+    // Filter products by rating
+    if (rating.length > 0) {
+      filtered = filtered.filter((product) => rating.includes(product.rating));
+    }
 
     // Sort the filtered products
     const sorted = [...filtered];
@@ -58,7 +87,7 @@ const ProductsList = () => {
         break;
     }
     return sorted;
-  }, [products, sortOption, category]);
+  }, [products, sortOption, category, minPrice, maxPrice, search, categories, rating]);
 
   return (
     <div className="md:ml-5 w-full">

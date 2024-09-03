@@ -1,13 +1,9 @@
 import { Link } from "react-router-dom";
 
 import CategoriesSkeleton from "../../components/skeletons/categoriesSkeleton";
-import { useGetAllCategoriesQuery } from "../../store/api/categoryApiSlice";
 import renderIcon from "../../utils/renderIcon";
 
-const Categories = () => {
-  const { data: { categories } = [], isLoading: isCategoriesLoading } =
-    useGetAllCategoriesQuery();
-
+const Categories = ({ categories, isCategoriesLoading }) => {
   return (
     <div className="flex items-center gap-6 overflow-auto w-full">
       {isCategoriesLoading ? (
