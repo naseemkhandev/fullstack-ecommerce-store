@@ -5,16 +5,12 @@ const productSchema = z.object({
     .string({ required_error: "Product Name is required" })
     .nonempty({ message: "Product Name is required" })
     .min(3, { message: "Product Name must be at least 3 characters long" })
-    .max(20, { message: "Product Name must be at most 20 characters long" })
     .trim(),
   description: z
     .string({ required_error: "Product Description is required" })
     .nonempty({ message: "Product Description is required" })
     .min(10, {
       message: "Product Description must be at least 10 characters long",
-    })
-    .max(200, {
-      message: "Product Description must be at most 200 characters long",
     })
     .trim(),
   actualPrice: z

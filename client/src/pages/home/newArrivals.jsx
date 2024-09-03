@@ -51,7 +51,7 @@ const NewArrivals = () => {
           </>
         )}
 
-        {products?.map((product) => (
+        {products?.slice(0, 12)?.map((product) => (
           <ProductCard key={product?._id} {...product} />
         ))}
       </div>
