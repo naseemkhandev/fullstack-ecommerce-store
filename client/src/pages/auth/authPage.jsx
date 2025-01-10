@@ -16,16 +16,16 @@ import { addUser } from "../../store/slices/authSlice";
 import { auth } from "../../firebase";
 
 const AuthPage = () => {
+  const { pathname } = useLocation();
+  const path = pathname.split("/").pop();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     name: "" || "Demo User",
     email: "" || "demo@gmail.com",
     password: "" || "123456",
   });
 
-  const { pathname } = useLocation();
-  const path = pathname.split("/").pop();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [handleAuth, { isError, error, isLoading }] = useAuthMutation();
   const [
     signInWithGoogle,
@@ -39,10 +39,8 @@ const AuthPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const res = await handleAuth({ path, user }).unwrap();
-
       navigate("/");
       dispatch(addUser(res.user));
       toast.success(res?.message);
@@ -53,7 +51,6 @@ const AuthPage = () => {
 
   const handleSignInWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
-
     try {
       const { user } = await signInWithPopup(auth, provider);
       const res = await signInWithGoogle({
