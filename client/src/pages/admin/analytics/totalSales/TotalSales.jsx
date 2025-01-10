@@ -47,7 +47,7 @@ const chartConfig = {
 
 const TotalSales = () => {
   return (
-    <Card className='border-none shadow-lg rounded-2xl shadow-black/5'>
+    <Card className="border-none shadow-lg rounded-2xl shadow-black/5">
       <CardHeader>
         <CardTitle>Bar Chart - Custom Label</CardTitle>
         <CardDescription>January - June 2024</CardDescription>
